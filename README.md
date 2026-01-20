@@ -1,3 +1,5 @@
+This website is deployed with Netlify: https://iebs.netlify.app
+
 # Astro Starter Kit: Basics
 
 ```sh
