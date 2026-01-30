@@ -1,11 +1,17 @@
 ---
 import Welcome from '../components/Welcome.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageNav from '../components/PageNav.astro';
+import Intro from '../components/Intro.astro';
 
-const pageTitle = "Inicio"
+const pageTitle = "Iglesia Evangélica Bautista de Sevilla - Inicio";
 ---
 
-<BaseLayout>
-	<h1>{pageTitle}</h1>
+<BaseLayout 
+	pageTitle={pageTitle} 
+	description=`Una iglesia en Sevilla que hace discípulos que hacen discípulos.
+	Existimos para glorificar a Dios, expandir su Reino y hacer completamente Su voluntad.`
+>
+	<Intro />
 	<p>jeje esto es el inicio!! asi es</p>
 </BaseLayout>
