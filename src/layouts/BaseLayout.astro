@@ -4,6 +4,7 @@ import Footer from '../components/Footer.astro';
 import '../styles/global.css'
 
 import '@fontsource-variable/onest';
+import '@fontsource-variable/inter';
 
 
 
@@ -22,12 +23,10 @@ const {pageTitle, description} = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-		<!-- style? -->
-
 		<title>{pageTitle}</title>
 
 	</head>
-	<body class="mx-auto h-auto">
+	<body class="mx-auto min-h-full flex flex-col justify-between">
 
 		<MainHeader />
 		<slot />

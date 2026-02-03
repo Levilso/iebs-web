@@ -2,13 +2,18 @@
 const { section } = Astro.props;
 ---
 
-<a href={`/${section}`}>{section}</a>
+<div class="
+  inline-flex justify-center items-center align-middle
+  h-10 w-full bg-gray-700
+  p-1"
+>
+  <a href={`/`}>Page Nav</a>
+</div>
+
 
 <style>
-  a {
-    padding: 0.5rem 1rem;
+  div a {
     color: white;
-    background-color: #4c1d95;
     text-decoration: none;
   }
 </style>

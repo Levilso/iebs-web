@@ -1,5 +1,17 @@
-<section>
-    <h1 class="font-extrabold text-4xl">
-        IEBS
-    </h1>
-</section>
+---
+const {background} = Astro.props;
+---
+
+<div id="container"
+    class={`
+        w-full min-h-120 object-cover object-top
+        pt-25
+        bg-${background ? `[url('${background}')]` : "linear-to-r from-[#4cd1e9] to-[#0E889E]"}
+        bg-cover bg-top
+    `}
+>
+    <section id="hero">
+        <slot name="hero-content">
+        </slot>
+    </section>
+</div>

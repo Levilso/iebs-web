@@ -1,14 +1,17 @@
 ---
 const { platform, username } = Astro.props;
 ---
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<a href={`https://www.${platform}.com/${username}`}>{platform}</a>
+<a href={`https://www.${platform}.com/${username}`} 
+  class={
+    `text-white px-0.5 py-1
+    fa fa-${platform.toLowerCase()}`
+  }></a>
 
 <style>
   a {
     padding: 0.5rem 1rem;
     color: white;
-    background-color: #4c1d95;
-    text-decoration: none;
   }
 </style>

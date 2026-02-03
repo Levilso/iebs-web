@@ -1,9 +1,27 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageNav from '../components/PageNav.astro';
+import Intro from '../components/Intro.astro';
 
 const pageTitle = "Eventos"
 ---
 
-<BaseLayout>
-	<h1>{pageTitle}</h1>
+<BaseLayout 
+	pageTitle={pageTitle} 
+	description=`Una iglesia en Sevilla que hace discípulos que hacen discípulos.
+	Existimos para glorificar a Dios, expandir su Reino y hacer completamente Su voluntad.`
+>
+	<Intro>
+		<h1 slot="hero-content"
+			class="font-semibold text-white text-4xl p-5 text-center">
+		{pageTitle}
+        </h1>
+	</Intro>
+
+	<PageNav />
+	<div id="container"
+	class="min-h-80">
+
+	</div>
+
 </BaseLayout>

@@ -1,15 +1,18 @@
 ---
 import Social from "./Social.astro"
+
 ---
-<footer>
-    <Social platform="facebook" username="@iebsevilla"/>
-    <Social platform="instagram" username="iebsevilla"/>
-    <Social platform="youtube" username="iebsevilla"/>
-    <p>© 2026 Iglesia Evangelica Bautista de Sevilla. Todos los derechos reservados.</p>
+
+<footer class="
+    flex flex-col w-full
+    bg-[#0E889E] text-white 
+    justify-center align-middle p-4 gap-4
+    ">
+    <div class="flex flex-row gap-2 justify-center align-middle">
+        <Social platform="Facebook" username="@iebsevilla"/>
+        <Social platform="Instagram" username="iebsevilla"/>
+        <Social platform="YouTube" username="iebsevilla"/>
+    </div>
+    <p class="inline-flex justify-center align-middle font-light">
+        © 2026 Iglesia Evangélica Bautista de Sevilla | Todos los derechos reservados.</p>
 </footer>
-
-<style>
-    footer {
-
-    }
-</style>

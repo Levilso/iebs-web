@@ -4,62 +4,11 @@ import Navigation from "./Navigation.astro";
 ---
 
 <header class=`
-    w-full
-    inline-flex items-center justify-center-safe absolute top-2
-    py-3 px-3
+    w-full h-auto absolute top-0 left-0
+    inline-flex flex-row items-center
+    py-5 px-15
 `>
-    <div class="
-        w-auto h-auto object-center
-        inline-flex flex-row items-center
-        rounded-full
-        bg-[#0E889E] text-white
-        px-4
-
-    ">
-        <img src="../../Logo-IEBS-Nombre.png" alt="Iglesia Evangélica Bautista de Sevilla Logo" class="h-14 pr-4.5"/>
-        <!-- añadir logo, botón para modo oscuro, hamburger -->
-        <Navigation />
-    </div>
+    <!-- logo, botón para modo oscuro, hamburger -->
+    <!-- <img src="../../Logo-IEBS-Negro.png" alt="Iglesia Evangélica Bautista de Sevilla Logo" class="h-20 pr-4.5"/> -->
+    <Navigation />
 </header>
-
-<!-- quiero ver como hacer lo mismo pero en tailwind:
-<section>
-    <nav class="nav-links">
-        <a href="/jesus">Jesus</a>
-        <a href="/">Inicio</a>
-        <a href="/conocenos/iglesia">Conócenos</a>
-        <a href="/pgm/pgm">PGM</a>
-        <a href="/eventos">Eventos</a>
-        <a href="recursos">Recursos</a>
-    </nav>
-    <style>
-        .nav-links {
-            background-color: #0E889E;
-            color: white;
-
-            width: 100%;
-            top: 5rem;
-            left: 48px;
-            
-            margin: 0;
-
-            display: inline-flex;
-            flex-direction: row;
-            justify-content: flex-end
-        }
-        .nav-links a {
-            display: block;
-            text-align: center;
-            padding: 10px 5px;
-            text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .nav-links a:hover,
-        .nav-links a:focus {
-            background-color: #29b3cb;
-        }
-    </style>
-</section> -->
