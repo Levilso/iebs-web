@@ -2,6 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageNav from '../components/PageNav.astro';
 import Intro from '../components/Intro.astro';
+import EventCard from '../components/EventCard.astro';
+
+import { getCollection } from 'astro:content';
+
+const events = await getCollection('events');
 
 const pageTitle = "Eventos"
 ---
@@ -11,17 +16,19 @@ const pageTitle = "Eventos"
 	description=`Una iglesia en Sevilla que hace discípulos que hacen discípulos.
 	Existimos para glorificar a Dios, expandir su Reino y hacer completamente Su voluntad.`
 >
-	<Intro>
-		<h1 slot="hero-content"
-			class="font-semibold text-white text-4xl p-5 text-center">
-		{pageTitle}
-        </h1>
-	</Intro>
 
+	<!-- todo esto es el "slot" -->
+	<Intro h1={pageTitle} />
 	<PageNav />
-	<div id="container"
-	class="min-h-80">
+	
+	<!-- sección de eventos -->
+	<section id="container"
+		class="mx-12 py-5 min-h-80">
 
-	</div>
+		<div class="inline-flex flex-row flex-wrap gap-7 justify-center">
+			{events.map((e) => <EventCard event={e} />)}
+		</div>
+
+	</section>
 
 </BaseLayout>

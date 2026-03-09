@@ -3,3 +3,22 @@
 body {
   font-family: 'Inter Variable', sans-serif;
 }
+
+@layer components {
+  .card {
+    border: 2px solid var(--blue-1);
+    border-radius: var(--radius-2);
+    padding: var(--size-4) var(--size-6);
+    box-shadow: var(--shadow-3);
+    flex: 1 1 330px;
+    display: grid;
+    gap: var(--size-fluid-1);
+    align-items: start;
+    max-width: 600px;
+
+    /* > div {
+      display: grid;
+      gap: var(--size-1);
+    } */
+  }
+}
