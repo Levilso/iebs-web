@@ -1,13 +1,19 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { db, EventEntry } from 'astro:db';
 
 
 type Props = {
-    event: CollectionEntry<'events'>;
+    event?: CollectionEntry<'events'>;
+    eventData: {
+        title: string;
+        description: string;
+        date: Date;
+    };
 };
 
-const { event } = Astro.props;
-const { title, description, date } = event.data;
+const { eventData } = Astro.props;
+// const { title, description, date } = event.data;
 ---
 
 <article class="
@@ -17,27 +23,12 @@ const { title, description, date } = event.data;
     hover:bg-neutral-200 transition duration-300
 ">
   <div>
-    <h2 class="font-extrabold text-2xl">{title}</h2>
+    <h2 class="font-extrabold text-2xl">{eventData.title}</h2>
     <time 
     class="text-sm"
-    datetime={date.toISOString()}>
-      <strong>Fecha:</strong> {date.toLocaleDateString(undefined, {dateStyle: 'medium', timeZone: 'UTC'})}
+    datetime={eventData.date.toISOString()}>
+      <small>{eventData.date.toLocaleDateString(undefined, {dateStyle: 'medium', timeZone: 'UTC'})}</small>
     </time>
-    <p>{description}</p>
+    <p>{eventData.description}</p>
 </div>
 </article>
-
-<!-- 
-<li><a href={`content/${event.id}/`}>{title}</a></li>
-  
-  <a href="#" class="
-  bg-neutral-primary-soft block 
-  max-w-sm p-6 
-  border border-default rounded-base shadow-xs 
-  hover:bg-neutral-secondary-medium">
-    
-  <h5 class="mb-3 text-2xl font-semibold tracking-tight text-heading leading-8">Noteworthy technology acquisitions 2021</h5>
-    
-  <p class="text-body">Here are the biggest technology acquisitions of 2025 so far, in reverse chronological order.</p>
-</a>
--->
