@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -16,5 +16,24 @@ export default defineConfig({
   },
 
   integrations: [db()],
-  adapter: netlify()
+
+  adapter: netlify(),
+
+  fonts: [
+    {
+      provider: fontProviders.fontsource(),
+      name: "DM Serif Display",
+      cssVariable: "--font-DMSerifDisplay"
+    },
+    {
+      provider: fontProviders.fontsource(),
+      name: "Inter",
+      cssVariable: "--font-inter"
+    },
+    {
+      provider: fontProviders.fontsource(),
+      name: "Ostend",
+      cssVariable: "--font-onest"
+    }
+  ],
 });

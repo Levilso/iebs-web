@@ -1,29 +1,25 @@
 ---
+import type { EventEntryType } from '../types.ts';
 type Props = {
-    evento: {
-        title: string;
-        description: string;
-        date: Date;
-    };
+    event: EventEntryType;
 };
 
-const { evento } = Astro.props;
-// const { title, description, date } = event.data;
+const { event } = Astro.props;
 ---
 
 <article class="
     bg-neutral-50 block
-    w-100 p-6
+    w-80 h-50 p-6 
     border rounded-md shadow-sm
     hover:bg-neutral-200 transition duration-300"
     >
   <div>
-    <h2 class="font-extrabold text-2xl">{evento.title}</h2>
+    <h2 class="font-extrabold text-2xl">{event.title}</h2>
     <time 
     class="text-sm"
-    datetime={evento.date.toISOString()}>
-      <small>{evento.date.toLocaleDateString(undefined, {dateStyle: 'medium', timeZone: 'UTC'})}</small>
+    datetime={event.date.toISOString()}>
+      <small>{event.date.toLocaleDateString(undefined, {dateStyle: 'medium', timeZone: 'UTC'})}</small>
     </time>
-    <p>{evento.description}</p>
+    <p>{event.description}</p>
 </div>
 </article>

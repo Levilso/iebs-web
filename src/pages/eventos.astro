@@ -27,8 +27,7 @@ const pageTitle = "Eventos"
 		class="mx-12 py-5 h-auto">
 
 		<div class="inline-flex flex-row flex-wrap gap-7 justify-center">
-			{dbEvents.map((evento) => <EventCard evento={
-				{title: evento.title, description: evento.description, date: evento.date}} />)}
+			{dbEvents.map((evento) => <EventCard event={evento} />)}
 		</div>
 
 	</section>

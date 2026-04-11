@@ -1,0 +1,43 @@
+---
+---
+<style>
+    input, textarea {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+</style>
+
+<form method="POST"
+    class="grid grid-cols-1 justify-center mx-50"
+    id="create-event-form"
+    >
+
+        <label for="title">Título del evento:</label>
+        <input type="text" name="title" required>
+
+        <label for="description">Descripción:</label>
+        <textarea name="description" required></textarea>
+
+        <label for="info">Información:</label>
+        <textarea name="info" required></textarea>
+
+        <label for="date">Fecha:</label>
+        <input type="date" name="date" required>
+
+        <label for="location">Ubicación:</label>
+        <input type="text" name="location" required>
+
+        <label for="price">Precio:</label>
+        <input type="number" name="price" required>
+
+        <label for="hidden">Ocultar evento:</label>
+        <input type="checkbox" name="hidden">
+
+        <button type="submit" 
+        class="w-auto rounded-md px-4 py-2 bg-blue-400 text-white hover:bg-blue-500 transition-colors duration-300">
+            Crear Evento</button>
+
+</form>

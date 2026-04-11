@@ -3,14 +3,12 @@ import MainHeader from '../components/MainHeader.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css'
 
-import '@fontsource-variable/onest';
-import '@fontsource-variable/inter';
-
+import { Font } from "astro:assets";
 
 
 interface Props {
 	pageTitle: string;
-	description: string;
+	description?: string;
 }
 const {pageTitle, description} = Astro.props;
 ---
@@ -21,10 +19,11 @@ const {pageTitle, description} = Astro.props;
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} /> <!-- SEO -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<Font cssVariable="--font-DMSerifDisplay" />
 
 		<title>{pageTitle}</title>
-
 	</head>
 	<body class="mx-auto min-h-full flex flex-col justify-between">
 

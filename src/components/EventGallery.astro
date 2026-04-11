@@ -1,0 +1,21 @@
+---
+import { EventEntry, db } from 'astro:db';
+import EventCard from './EventCard.astro';
+
+export const prerender = false;
+
+const events = await db.select().from(EventEntry);
+---
+
+<section id="container"
+    class="mx-20 py-10 h-auto">
+
+    <h2 class="font-semibold text-black text-3xl py-5 mx-12 text-start">
+    Eventos existentes:
+    </h2>
+    
+    <div class="inline-flex flex-row flex-wrap gap-7 mx-12">
+        {events.map((e) => <EventCard event={e} />)}
+    </div>
+
+</section>
