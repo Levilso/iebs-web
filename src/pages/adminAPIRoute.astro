@@ -1,0 +1,67 @@
+---
+// en esta página, se podrán crear nuevos eventos
+import { db, EventEntry } from 'astro:db';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EventCard from '../components/EventCard.astro';
+
+
+// renderizar la nueva lista de eventos en cada petición:
+const events = await db.select().from(EventEntry);
+---
+<BaseLayout pageTitle="Admin" description="Panel de administración para crear nuevos eventos y gestionar los existentes.">
+
+    <style>
+        input, textarea {
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+
+    <h1 class="font-semibold text-black text-4xl p-5 text-center">
+    Crear nuevo evento</h1>
+
+    <form method="POST" action="/api/events"
+    class="grid grid-cols-1"
+    >
+
+        <label for="title">Título del evento:</label>
+        <input type="text" name="title" required>
+
+        <label for="description">Descripción:</label>
+        <textarea name="description" required></textarea>
+
+        <label for="info">Información:</label>
+        <textarea name="info" required></textarea>
+
+        <label for="date">Fecha:</label>
+        <input type="date" name="date" required>
+
+        <label for="location">Ubicación:</label>
+        <input type="text" name="location" required>
+
+        <label for="price">Precio:</label>
+        <input type="number" name="price" required>
+
+        <label for="hidden">Ocultar evento:</label>
+        <input type="checkbox" name="hidden">
+
+        <button type="submit" class="w-auto hover:font-bold">Crear Evento</button>
+
+    </form>
+
+    <br>
+    <h2>Eventos existentes:</h2>
+    <!-- AQUÍ LOS EVENTOS -->
+    <section id="container"
+		class="mx-12 py-5 h-auto">
+
+		<div class="inline-flex flex-row flex-wrap gap-7 justify-center">
+			{events.map((evento) => <EventCard evento={
+				{title: evento.title, description: evento.description, date: evento.date}} />)}
+		</div>
+
+	</section>
+
+</BaseLayout>

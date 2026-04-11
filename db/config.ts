@@ -2,21 +2,17 @@ import { column, defineDb, defineTable, NOW } from 'astro:db';
 
 const EventEntry = defineTable({
   columns: {
-    id: column.number({ primaryKey: true }),
     title: column.text(),
     description: column.text(),
-    content: column.text(),
+    info: column.text(),
 
     date: column.date(),
-    published: column.date({ default: NOW }),
     hidden: column.boolean({ default: false }),
     
     location: column.text(),
     price: column.number(),
-    
     // organizerName: column.text(),
     // organizerBio: column.text(),
-    metadata: column.json({ optional: true }),
 
     // ideas de columnas adicionales:
     // tags: column.text({ enum: ['Jóvenes', '...']})

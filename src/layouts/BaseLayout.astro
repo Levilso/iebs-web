@@ -29,8 +29,9 @@ const {pageTitle, description} = Astro.props;
 	<body class="mx-auto min-h-full flex flex-col justify-between">
 
 		<MainHeader />
-		<slot />
-
+		<section class="">
+			<slot />
+		</section>
 		<Footer />
 	</body>
 </html>

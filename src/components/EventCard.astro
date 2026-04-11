@@ -1,18 +1,13 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import { db, EventEntry } from 'astro:db';
-
-
 type Props = {
-    event?: CollectionEntry<'events'>;
-    eventData: {
+    evento: {
         title: string;
         description: string;
         date: Date;
     };
 };
 
-const { eventData } = Astro.props;
+const { evento } = Astro.props;
 // const { title, description, date } = event.data;
 ---
 
@@ -20,15 +15,15 @@ const { eventData } = Astro.props;
     bg-neutral-50 block
     w-100 p-6
     border rounded-md shadow-sm
-    hover:bg-neutral-200 transition duration-300
-">
+    hover:bg-neutral-200 transition duration-300"
+    >
   <div>
-    <h2 class="font-extrabold text-2xl">{eventData.title}</h2>
+    <h2 class="font-extrabold text-2xl">{evento.title}</h2>
     <time 
     class="text-sm"
-    datetime={eventData.date.toISOString()}>
-      <small>{eventData.date.toLocaleDateString(undefined, {dateStyle: 'medium', timeZone: 'UTC'})}</small>
+    datetime={evento.date.toISOString()}>
+      <small>{evento.date.toLocaleDateString(undefined, {dateStyle: 'medium', timeZone: 'UTC'})}</small>
     </time>
-    <p>{eventData.description}</p>
+    <p>{evento.description}</p>
 </div>
 </article>

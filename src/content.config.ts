@@ -5,31 +5,25 @@ import { glob } from "astro/loaders";
 // importar zod para validación de esquemas
 import { z } from "astro/zod";
 
-export const collections = {
-    posts: defineCollection({
-        type: "content",
-        schema: z.object({
-            title: z.string(),
-            description: z.string(),
-            date: z.date()
-        })
-    }),
-
-    events: defineCollection({
-        type: "content",
-        schema: z.object({
-            title: z.string(),
-            description: z.string(),
-            date: z.date()
-        })
+const posts = defineCollection({
+    type: "content",
+    schema: z.object({
+        title: z.string(),
+        description: z.string(),
+        date: z.date()
     })
-    // ,
-    // authors: defineCollection({
-    //     type: "data",
-    //     schema: ({image}) => z.object({
-    //         name: z.string(),
-    //         bio: z.string(),
-    //         avatar: image()
-    //     })
-    // })
+})
+
+const events = defineCollection({
+    type: "content",
+    schema: z.object({
+        title: z.string(),
+        description: z.string(),
+        date: z.date()
+        })
+})
+
+export const collections = {
+    "posts": posts,
+    "events": events
 };

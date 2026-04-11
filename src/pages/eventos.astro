@@ -4,10 +4,9 @@ import PageNav from '../components/PageNav.astro';
 import Intro from '../components/Intro.astro';
 import EventCard from '../components/EventCard.astro';
 
-import { getCollection } from 'astro:content';
 import { db, EventEntry } from 'astro:db';
 
-const events = await getCollection('events');
+export const prerender = false
 const dbEvents = await db.select().from(EventEntry);
 
 const pageTitle = "Eventos"
@@ -28,9 +27,8 @@ const pageTitle = "Eventos"
 		class="mx-12 py-5 h-auto">
 
 		<div class="inline-flex flex-row flex-wrap gap-7 justify-center">
-			{dbEvents.map((evento) => (
-				<EventCard eventData={evento} />
-			))}
+			{dbEvents.map((evento) => <EventCard evento={
+				{title: evento.title, description: evento.description, date: evento.date}} />)}
 		</div>
 
 	</section>
