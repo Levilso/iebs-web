@@ -32,7 +32,7 @@ export default defineConfig({
     },
     {
       provider: fontProviders.fontsource(),
-      name: "Ostend",
+      name: "Onest",
       cssVariable: "--font-onest"
     }
   ],

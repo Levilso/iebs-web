@@ -2,6 +2,7 @@ import { column, defineDb, defineTable, NOW } from 'astro:db';
 
 const EventEntry = defineTable({
   columns: {
+    id: column.number({ primaryKey: true }), // se traduce como INTEGER PRIMARY KEY AUTOINCREMENT
     title: column.text(),
     description: column.text(),
     info: column.text(),

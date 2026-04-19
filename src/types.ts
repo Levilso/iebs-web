@@ -1,4 +1,5 @@
 export type EventEntryType = {
+  id: number;
   title: string;
   description: string;
   info: string;

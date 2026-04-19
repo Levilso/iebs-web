@@ -1,0 +1,61 @@
+---
+// en esta página, se podrán crear nuevos eventos
+import { db, EventEntry } from 'astro:db';
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import EventForm from '../../components/EventForm.astro';
+import EventGallery from '../../components/EventGallery.astro';
+
+---
+
+<script> 
+    // Manejo del formulario para crear un nuevo evento.
+    // Lo que se hace dentro del script se implementa en el cliente, no en el servidor. Es decir, se ejecuta en el navegador del usuario.
+
+    // Importar las acciones definidas en src/actions/event.ts
+    import { actions } from 'astro:actions';
+
+    // Elementos del DOM
+    const form = document.getElementById('create-event-form') as HTMLFormElement;
+    const feedback = document.getElementById('feedback') as HTMLDivElement;
+    const btnGuardar = document.getElementById('btn-guardar') as HTMLButtonElement;
+
+    // escuchar el evento submit del formulario
+    form?.addEventListener('submit', async (e) => {
+        
+        e.preventDefault();
+        
+        btnGuardar.disabled = true; // Deshabilitar el botón para evitar múltiples envíos
+        btnGuardar.textContent = 'Guardando...'; // Cambiar el texto del botón para indicar que se está procesando
+
+        feedback.textContent = ''; // Limpiar mensajes anteriores
+
+        const formData = new FormData(form);
+        const {data, error} = await actions.event.createEventEntry(formData);
+
+        if (error) { // error al crear el evento
+            feedback.classList.add('text-red-500');
+            feedback.textContent = 'Error al crear el evento: ' + error.message;
+            throw new Error(error.message);
+
+        } else { // éxito al crear el evento
+            feedback.classList.remove('text-red-500');
+            feedback.classList.add('text-green-500');
+            feedback.textContent = 'Evento creado exitosamente';
+
+            form.reset(); // Limpiar el formulario para permitir la creación de otro evento
+        }
+
+        btnGuardar.disabled = false; // Rehabilitar el botón para permitir reintentos
+        btnGuardar.textContent = 'Guardar Evento'; // Restaurar el texto del botón
+    });
+</script>
+
+<AdminLayout pageTitle="Crear Evento">
+
+    <h1 class="font-semibold text-black text-4xl p-5 text-center">
+    Crear nuevo evento</h1>
+
+    <EventForm />
+    <EventGallery />
+
+</AdminLayout>

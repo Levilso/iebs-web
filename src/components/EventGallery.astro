@@ -14,7 +14,8 @@ const events = await db.select().from(EventEntry);
     Eventos existentes:
     </h2>
     
-    <div class="inline-flex flex-row flex-wrap gap-7 mx-12">
+    <div class="inline-flex flex-row flex-wrap gap-7 mx-12"
+    id="galeria-eventos">
         {events.map((e) => <EventCard event={e} />)}
     </div>
 

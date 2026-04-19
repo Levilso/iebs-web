@@ -1,43 +1,154 @@
 ---
+const { event } = Astro.props;
+import type { EventEntryType } from '../types.ts';
+type Props = {
+    event?: EventEntryType;
+};
+
+// definir modo edición o creación
+const isEditMode = !!event;
+let parseDate = "";
+if (isEditMode) {
+    console.log("Modo edición activado. Evento recibido en EventForm:", event);
+
+    //tengo mis dudas sobre esto 
+    parseDate = new Date(event.date).toISOString().split('T')[0];
+
+} else {
+    console.log("Modo creación activado. No se recibió ningún evento.");
+}
+
+
 ---
 <style>
+    label {
+        font-size: 0.875rem
+        line-height: calc(1.25 / 0.875)
+        display: block;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
     input, textarea {
         width: 100%;
-        padding: 8px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
+        margin-top: 0.25rem;
+        padding: 0.5rem;
+        border: 1px solid #d1d5dc; /* Tailwind gray-300 */
         border-radius: 4px;
+        transition: border-color 0.2s;
     }
 </style>
 
-<form method="POST"
-    class="grid grid-cols-1 justify-center mx-50"
-    id="create-event-form"
-    >
+<div>
+    <h1 class="font-semibold text-black text-4xl p-5 text-center">
+        {isEditMode ? 'Editar Evento' : 'Añadir Nuevo Evento'}
+    </h1>
+
+    <div id="feedback" class="mb-4 font-medium rounded p-3 hidden"></div>
+
+    <form method="POST"
+        class="grid grid-cols-1 justify-center mx-50 space-y-5"
+        id="event-form"
+        data-edicion={isEditMode.toString()} 
+        >
+
+        {isEditMode && <input type="hidden" name="id" value={event.id} />}
+
 
         <label for="title">Título del evento:</label>
-        <input type="text" name="title" required>
+        <input type="text" id="title" name="title" 
+        class="focus:ring-blue-500 focus:border-blue-500"
+        value={event?.title || ''} required>
 
         <label for="description">Descripción:</label>
-        <textarea name="description" required></textarea>
+        <textarea id="description" name="description" 
+        class="focus:ring-blue-500 focus:border-blue-500"
+        required>{event?.description || ''}</textarea>
 
-        <label for="info">Información:</label>
-        <textarea name="info" required></textarea>
+        <label for="info">Información detallada:</label>
+        <textarea id="info" name="info" 
+        class="focus:ring-blue-500 focus:border-blue-500"
+        required>{event?.info || ''}</textarea>
 
         <label for="date">Fecha:</label>
-        <input type="date" name="date" required>
+        <input type="date" id="date" name="date" value={parseDate}
+        class="focus:ring-blue-500 focus:border-blue-500"
+        required>
 
         <label for="location">Ubicación:</label>
-        <input type="text" name="location" required>
+        <input type="text" id="location" name="location" value={event?.location || 'Iglesia Evangélica Bautista de Sevilla'}
+        class="focus:ring-blue-500 focus:border-blue-500"
+        required>
 
-        <label for="price">Precio:</label>
-        <input type="number" name="price" required>
+        <label for="price">Precio (€):</label>
+        <input type="number" id="price" name="price" step="0.5" value={event?.price || 0}
+        class="focus:ring-blue-500 focus:border-blue-500"
+        required>
 
-        <label for="hidden">Ocultar evento:</label>
-        <input type="checkbox" name="hidden">
+        <input type="checkbox" name="hidden" id="hidden" checked={event?.hidden} value="true"
+        class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+        <label for="hidden"
+        class="ml-2 block text-sm text-gray-700">
+        Ocultar evento:</label>
 
-        <button type="submit" 
-        class="w-auto rounded-md px-4 py-2 bg-blue-400 text-white hover:bg-blue-500 transition-colors duration-300">
-            Crear Evento</button>
+        <button type="submit" id="btn-guardar"
+        class="w-full rounded-md px-4 py-2 bg-blue-400 text-white font-bold hover:bg-blue-700 transition-colors duration-300">
+            Guardar Evento</button>
 
-</form>
+    </form>
+</div>
+
+<!-- <script> 
+    // Manejo del formulario para crear un nuevo evento.
+    // Lo que se hace dentro del script se implementa en el cliente, no en el servidor. Es decir, se ejecuta en el navegador del usuario.
+
+    // Importar las acciones definidas en src/actions/event.ts
+    import { actions } from 'astro:actions';
+
+    // Elementos del DOM
+    const form = document.getElementById('create-event-form') as HTMLFormElement;
+    const feedback = document.getElementById('feedback') as HTMLDivElement;
+    const btnGuardar = document.getElementById('btn-guardar') as HTMLButtonElement;
+
+
+    // SUBMIT
+    form?.addEventListener('submit', async (e) => {
+        
+        e.preventDefault();
+        
+        const isEditMode = form.dataset.edicion === 'true'; // se accede al atributo data-edicion del form
+        
+        // BOTÓN
+        btnGuardar.disabled = true; // Deshabilitar el botón para evitar múltiples envíos
+        btnGuardar.textContent = 'Guardando...'; // Cambiar el texto del botón para indicar que se está procesando
+        
+        // FEEDBACK
+        feedback.classList.add('hidden');
+        feedback.textContent = ''; // Limpiar mensajes anteriores
+        
+        // EJECUTAR ACCIÓN
+        const formData = new FormData(form);
+        const accion = isEditMode ? actions.event.updateEventEntry : actions.event.createEventEntry;
+        console.log(accion);
+        const {data, error} = await accion(formData);
+        console.log("Respuesta de la acción:", {data, error});
+        feedback.classList.remove('hidden');
+
+        if (error) { // error al crear el evento
+            feedback.classList.remove('text-green-500');
+            feedback.classList.add('text-red-500');
+            feedback.textContent = `ERROR: ${error.message}`;
+
+        } else { // éxito al crear el evento
+            feedback.classList.remove('text-red-500');
+            feedback.classList.add('text-green-500');
+            feedback.textContent = `Evento ${data.id} - ${data.title} ${isEditMode ? "actualizado" : "creado"} exitosamente`;
+
+            // TO DO: redirigir a la página del evento con un popup
+
+            // if (!isEditMode) form.reset(); // Limpiar el formulario para permitir la creación de otro evento
+            // window.location.reload(); // Recargar la página para mostrar el nuevo evento en la galería
+        }
+
+        btnGuardar.disabled = false; // Rehabilitar el botón para permitir reintentos
+    });
+</script> -->
