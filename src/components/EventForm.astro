@@ -35,7 +35,14 @@ if (isEditMode) {
         border: 1px solid #d1d5dc; /* Tailwind gray-300 */
         border-radius: 4px;
         transition: border-color 0.2s;
+        &:focus {
+            border-color: oklch(62.3% 0.214 259.815); /* Tailwind blue-500 */
+            outline: none; 
+            --tw-ring-color: oklch(62.3% 0.214 259.815); /* Tailwind blue-500 */
+        }
     }
+
+    /* "focus:ring-blue-500 focus:border-blue-500" */
 </style>
 
 <div>
@@ -56,32 +63,26 @@ if (isEditMode) {
 
         <label for="title">Título del evento:</label>
         <input type="text" id="title" name="title" 
-        class="focus:ring-blue-500 focus:border-blue-500"
         value={event?.title || ''} required>
 
         <label for="description">Descripción:</label>
         <textarea id="description" name="description" 
-        class="focus:ring-blue-500 focus:border-blue-500"
         required>{event?.description || ''}</textarea>
 
         <label for="info">Información detallada:</label>
         <textarea id="info" name="info" 
-        class="focus:ring-blue-500 focus:border-blue-500"
         required>{event?.info || ''}</textarea>
 
         <label for="date">Fecha:</label>
         <input type="date" id="date" name="date" value={parseDate}
-        class="focus:ring-blue-500 focus:border-blue-500"
         required>
 
         <label for="location">Ubicación:</label>
         <input type="text" id="location" name="location" value={event?.location || 'Iglesia Evangélica Bautista de Sevilla'}
-        class="focus:ring-blue-500 focus:border-blue-500"
         required>
 
         <label for="price">Precio (€):</label>
         <input type="number" id="price" name="price" step="0.5" value={event?.price || 0}
-        class="focus:ring-blue-500 focus:border-blue-500"
         required>
 
         <input type="checkbox" name="hidden" id="hidden" checked={event?.hidden} value="true"
@@ -97,7 +98,7 @@ if (isEditMode) {
     </form>
 </div>
 
-<!-- <script> 
+<script> 
     // Manejo del formulario para crear un nuevo evento.
     // Lo que se hace dentro del script se implementa en el cliente, no en el servidor. Es decir, se ejecuta en el navegador del usuario.
 
@@ -105,7 +106,7 @@ if (isEditMode) {
     import { actions } from 'astro:actions';
 
     // Elementos del DOM
-    const form = document.getElementById('create-event-form') as HTMLFormElement;
+    const form = document.getElementById('event-form') as HTMLFormElement;
     const feedback = document.getElementById('feedback') as HTMLDivElement;
     const btnGuardar = document.getElementById('btn-guardar') as HTMLButtonElement;
 
@@ -145,10 +146,10 @@ if (isEditMode) {
 
             // TO DO: redirigir a la página del evento con un popup
 
-            // if (!isEditMode) form.reset(); // Limpiar el formulario para permitir la creación de otro evento
-            // window.location.reload(); // Recargar la página para mostrar el nuevo evento en la galería
+            if (!isEditMode) form.reset(); // Limpiar el formulario para permitir la creación de otro evento
+            window.location.reload(); // Recargar la página para mostrar el nuevo evento en la galería
         }
 
         btnGuardar.disabled = false; // Rehabilitar el botón para permitir reintentos
     });
-</script> -->
+</script>

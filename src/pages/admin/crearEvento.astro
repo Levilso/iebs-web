@@ -4,10 +4,12 @@ import { db, EventEntry } from 'astro:db';
 import AdminLayout from '../../layouts/AdminLayout.astro';
 import EventForm from '../../components/EventForm.astro';
 import EventGallery from '../../components/EventGallery.astro';
+export const prerender = false;
+
 
 ---
 
-<script> 
+<!-- <script> 
     // Manejo del formulario para crear un nuevo evento.
     // Lo que se hace dentro del script se implementa en el cliente, no en el servidor. Es decir, se ejecuta en el navegador del usuario.
 
@@ -48,14 +50,13 @@ import EventGallery from '../../components/EventGallery.astro';
         btnGuardar.disabled = false; // Rehabilitar el botón para permitir reintentos
         btnGuardar.textContent = 'Guardar Evento'; // Restaurar el texto del botón
     });
-</script>
+</script> -->
 
 <AdminLayout pageTitle="Crear Evento">
-
-    <h1 class="font-semibold text-black text-4xl p-5 text-center">
-    Crear nuevo evento</h1>
-
+    <nav class="mb-8">
+        <a href="/admin" class="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-2 transition-colors">
+          &larr; Volver al Panel de Control
+        </a>
+    </nav>
     <EventForm />
-    <EventGallery />
-
 </AdminLayout>

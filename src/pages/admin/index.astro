@@ -1,11 +1,29 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro"
+export const prerender = false;
+
+import EventGallery from "../../components/EventGallery.astro"
+import AdminLayout from "../../layouts/AdminLayout.astro"
+
+import { db, EventEntry, desc } from "astro:db";
+const nextEvents = await db.select().from(EventEntry).orderBy(desc(EventEntry.date));
 
 ---
-<BaseLayout pageTitle="Admin Dashboard" description="Panel de administración para crear nuevos eventos y gestionar los existentes.">
+<AdminLayout pageTitle="Admin Dashboard">
     <section class="px-5 py-10">
-        <a class="hover:font-bold" href="/admin/crearEvento">crear evento</a>
+        <div class="card">
+            <h2 class="text-xl font-bold mb-4">Panel de Administración</h2>
+            <p class="text-gray-600 mb-4">Bienvenido al panel de administración. Aquí puedes gestionar los eventos.</p>
+            <a href="/admin/crearEvento" 
+            class="w-40 rounded-md px-4 py-2
+            bg-blue-400 text-white font-bold 
+            hover:bg-blue-700 hover:font-bold transition-colors duration-300">
+                + Nuevo evento
+            </a>
+        </div>
 
     </section>
 
-</BaseLayout>
+    <EventGallery />
+
+
+</AdminLayout>

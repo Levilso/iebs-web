@@ -1,0 +1,25 @@
+---
+export const prerender = false;
+
+import { db, EventEntry, eq } from 'astro:db';
+import EventForm from '../../../components/EventForm.astro';
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+
+const { id } = Astro.params;
+
+if (!id || isNaN(Number(id))) {
+    return Astro.redirect('/admin');
+}
+
+const event = await db.select().from(EventEntry).where(eq(EventEntry.id, Number(id)));
+---
+
+<AdminLayout pageTitle={`Editar Evento ${id}`}>
+    <nav class="mb-8">
+        <a href="/admin" class="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-2 transition-colors">
+          &larr; Volver al Panel de Control
+        </a>
+    </nav>
+    <EventForm event={event[0]} />
+
+</AdminLayout>

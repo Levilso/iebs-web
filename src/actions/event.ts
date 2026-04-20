@@ -86,6 +86,32 @@ export const event = {
         }
     }),
 
-    // remember to use ActionError for missing database entries, etc. }),
-    // deleteEventEntry: defineAction({
+    deleteEventEntry: defineAction({
+        accept: 'json',
+        input: z.object({
+            id: z.coerce.number(),
+        }),
+        handler: async (input) => {
+            try {
+                const del = await db.delete(EventEntry).where(eq(EventEntry.id, input.id)).returning();
+            
+                if (del.length === 0) {
+                    throw new ActionError({
+                        code: 'NOT_FOUND',
+                        message: `El evento no existe o ya fue eliminado (ID: ${input.id}).`
+                    })
+                }
+
+                return { success: true };
+
+            } catch (error) {
+                if (error instanceof ActionError) throw error;
+                console.error('Error inesperado en la base de datos:', error);
+                throw new ActionError({
+                    code: 'INTERNAL_SERVER_ERROR',
+                    message: 'Error inesperado durante la eliminación del evento.'
+                });
+            }
+        }
+    })
 };
