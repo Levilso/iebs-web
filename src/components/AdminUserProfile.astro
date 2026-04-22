@@ -1,0 +1,23 @@
+---
+// AdminUserProfile.astro - User profile section component
+interface Props {
+	name?: string;
+	role?: string;
+}
+
+const { name = 'Admin', role = 'Administrador' } = Astro.props;
+---
+
+<div class="p-4 border-t border-gray-700">
+	<div class="flex items-center">
+		<div class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center">
+			<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+			</svg>
+		</div>
+		<div class="ml-3">
+			<p class="text-sm font-semibold">{name}</p>
+			<p class="text-xs text-gray-400">{role}</p>
+		</div>
+	</div>
+</div>
