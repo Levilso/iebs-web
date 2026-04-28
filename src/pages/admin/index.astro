@@ -1,10 +1,12 @@
 ---
 export const prerender = false;
 
+import AdminLayout from "../../layouts/AdminLayout.astro"
+
 import EventGallery from "../../components/EventGallery.astro"
 import EventTable from "../../components/EventTable.astro"
 
-import AdminLayout from "../../layouts/AdminLayout.astro"
+import Plus from "../../assets/svg/plus-white.svg"
 
 import { db, EventEntry, desc } from "astro:db";
 const nextEvents = await db.select().from(EventEntry).orderBy(desc(EventEntry.date));
@@ -20,9 +22,7 @@ const nextEvents = await db.select().from(EventEntry).orderBy(desc(EventEntry.da
             class="rounded-lg px-4 py-2 flex flex-nowrap items-center
             bg-blue-600 text-white font-semibold shadow-
             hover:bg-blue-700 hover:font-bold transition-colors">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"></path>
-                </svg>    
+                <Plus class="w-5 h-5 mr-1" stroke-width="2.5"/>
                 Crear evento
             </a>
         </div>
