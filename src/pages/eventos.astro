@@ -5,6 +5,7 @@ import Intro from '../components/ui/Intro.astro';
 import EventCard from '../components/events/EventCard.astro';
 
 import { db, EventEntry } from 'astro:db';
+import EventGallery from '../components/events/EventGallery.astro';
 
 export const prerender = false
 const dbEvents = await db.select().from(EventEntry);
@@ -23,13 +24,6 @@ const pageTitle = "Eventos"
 	<PageNav />
 	
 	<!-- sección de eventos -->
-	<section id="container"
-		class="mx-12 py-5 h-auto">
-
-		<div class="inline-flex flex-row flex-wrap gap-7 justify-center">
-			{dbEvents.map((evento) => <EventCard event={evento} />)}
-		</div>
-
-	</section>
+	 <EventGallery />
 
 </BaseLayout>

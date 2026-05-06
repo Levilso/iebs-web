@@ -2,6 +2,7 @@ import { defineAction, ActionError } from 'astro:actions';
 
 import { z } from 'zod';
 import { db, eq, EventEntry } from 'astro:db'
+import { uploadImage } from '../lib/cloudinary';
 
 const eventEntrySchema = z.object({
     // coerce: forzar la conversión de tipos (los formularios envían todo como string)
@@ -16,7 +17,8 @@ const eventEntrySchema = z.object({
     date: z.string().transform((str) => new Date(str)),
     hidden: z.boolean().optional().default(false),
     location: z.string(),
-    price: z.coerce.number().min(0, "El precio no puede ser negativo")
+    price: z.coerce.number().min(0, "El precio no puede ser negativo"),
+    coverImage: z.string().optional(),
 });
 
 export const event = {
@@ -28,10 +30,12 @@ export const event = {
         input: eventEntrySchema,
 
         handler: async (input) => {
+
             const updatedEvents = await db
                 .insert(EventEntry)
                 .values(input)
                 .returning();
+
             return updatedEvents[0];
         },
     }),
@@ -50,7 +54,7 @@ export const event = {
                 });
             }
 
-            try {
+              try {
                 const updatedEvents = await db
                     .update(EventEntry)
                     .set(input)

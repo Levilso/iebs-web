@@ -12,9 +12,8 @@ const EventEntry = defineTable({
     
     location: column.text(),
     price: column.number(),
-    // organizerName: column.text(),
-    // organizerBio: column.text(),
 
+    coverImage: column.text({ optional: true }),
     // ideas de columnas adicionales:
     // tags: column.text({ enum: ['Jóvenes', '...']})
     // availability, capacity

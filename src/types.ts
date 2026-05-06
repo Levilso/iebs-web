@@ -7,4 +7,5 @@ export type EventEntryType = {
   hidden: boolean;
   location: string;
   price: number;
+  coverImage?: string;
 };

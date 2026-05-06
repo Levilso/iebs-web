@@ -9,13 +9,9 @@ type Props = {
 const isEditMode = !!event;
 let parseDate = "";
 if (isEditMode) {
-    console.log("Modo edición activado. Evento recibido en EventForm:", event);
-
-    //tengo mis dudas sobre esto 
     parseDate = new Date(event.date).toISOString().split('T')[0];
-
 } else {
-    console.log("Modo creación activado. No se recibió ningún evento.");
+    console.log("Modo creación. No se recibió ningún evento.");
 }
 
 
@@ -85,11 +81,41 @@ if (isEditMode) {
         <input type="number" id="price" name="price" step="0.5" value={event?.price || 0}
         required>
 
-        <input type="checkbox" name="hidden" id="hidden" checked={event?.hidden} value="true"
-        class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
-        <label for="hidden"
-        class="ml-2 block text-sm text-gray-700">
-        Ocultar evento:</label>
+        <div class="inline-flex flex-row">
+            <label for="hidden"
+            class="w-auto block text-sm text-gray-700">
+            Ocultar evento:</label>
+            
+            <input type="checkbox" name="hidden" id="hidden" checked={event?.hidden} value="true"
+            class="text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+        </div>
+
+        {isEditMode && event.coverImage && (
+            <div id="current-image-container" class="mb-2">
+                <p class="text-sm text-grayl-500 mb-1">Imagen de portada actual:</p>
+                <img src={event.coverImage} alt="Portada actual" 
+                class="w-48 h-32 object-cover rounded-md border"
+                />
+            </div>
+        )}
+
+        <!-- imagen nueva -->
+        <div id="image-preview-container" class="hidden">
+            <p class="text-sm text-gray-500 mb-1">Nueva imagen:</p>
+            <img id="image-preview" src="" alt="Preview" 
+            class="w-48 h-32 object-cover rounded-md border"/>
+            <p id="upload-status" class="text-xs mt-1"></p>
+        </div>
+
+        <input type="file" id="coverImageFile" accept="image/*"
+        class="
+            w-full mt-1 text-sm text-gray-500
+            file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 
+            file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+        />
+
+        <!-- input oculto para la URL de la imagen de portada -->
+        <input type="hidden" name="coverImage" id="coverImageURL" value={event?.coverImage || ''} />
 
         <button type="submit" id="btn-guardar"
         class="w-full rounded-md px-4 py-2 bg-blue-400 text-white font-bold hover:bg-blue-700 transition-colors duration-300">
@@ -103,6 +129,48 @@ if (isEditMode) {
     // Lo que se hace dentro del script se implementa en el cliente, no en el servidor. Es decir, se ejecuta en el navegador del usuario.
 
     import { actions } from 'astro:actions';
+
+    // SUBIDA DE IMAGEN
+    const fileInput = document.getElementById('coverImageFile') as HTMLInputElement;
+    const previewContainer = document.getElementById('image-preview-container') as HTMLDivElement;
+    const previewImage = document.getElementById('image-preview') as HTMLImageElement;
+    const uploadStatus = document.getElementById('upload-status') as HTMLParagraphElement;
+    const coverImageURL = document.getElementById('coverImageURL') as HTMLInputElement;
+
+    fileInput.addEventListener('change', async () => {
+        const file = fileInput.files?.[0];
+        if (!file) return;
+
+        // preview local inmediato antes de subir
+        previewImage.src = URL.createObjectURL(file);
+        previewContainer.classList.remove('hidden');
+        uploadStatus.textContent = 'Subiendo imagen...';
+        uploadStatus.className = 'text-xs mt-1 text-gray-400';
+
+        // subida a cloudinary via endpoint
+        const data = new FormData();
+        data.append('coverImage', file);
+        try {
+            const response = await fetch('/api/upload-image', {
+                method: 'POST',
+                body: data,
+            });
+            const result = await response.json();
+
+            if (!response.ok) throw new Error(result.error || 'Error al subir la imagen');
+
+            coverImageURL.value = result.url; // actualizar el input oculto con la URL de la imagen subida
+            console.log('Imagen subida con éxito. URL:', result.url);
+            uploadStatus.textContent = '✓ Imagen subida exitosamente';
+            uploadStatus.className = 'text-xs mt-1 text-green-600';
+
+        } catch (error) {
+            console.error('Error en la subida de imagen:', error);
+            uploadStatus.textContent = 'Error al subir la imagen';
+            uploadStatus.className = 'text-xs mt-1 text-red-500';
+            coverImageURL.value = ''; // limpiar el input oculto en caso de error
+        }
+    });
 
     // Elementos del DOM
     const form = document.getElementById('event-form') as HTMLFormElement;
