@@ -13,17 +13,11 @@ const EventEntry = defineTable({
     location: column.text(),
     price: column.number(),
 
-    coverImage: column.text({ optional: true }),
+    coverImage: column.text({ default: "https://res.cloudinary.com/iebs-cloudinary/image/upload/q_auto/f_auto/v1778586225/LOGO_IEBS_ahwncj.png" }),
     // ideas de columnas adicionales:
     // tags: column.text({ enum: ['Jóvenes', '...']})
     // availability, capacity
   },
-  // foreignKeys: [
-  //   {
-  //     columns: ['organizerName', 'organizerBio'],
-  //     references: () => [Organizer.columns.name, Organizer.columns.bio]
-  //   }
-  // ]
 })
 
 const Organizer = defineTable({

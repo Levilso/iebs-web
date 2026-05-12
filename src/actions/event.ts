@@ -18,7 +18,7 @@ const eventEntrySchema = z.object({
     hidden: z.boolean().optional().default(false),
     location: z.string(),
     price: z.coerce.number().min(0, "El precio no puede ser negativo"),
-    coverImage: z.string().optional(),
+    coverImage: z.string(),
 });
 
 export const event = {
