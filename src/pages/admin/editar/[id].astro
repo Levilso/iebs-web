@@ -1,25 +1,105 @@
 ---
+// src/pages/admin/editar/[id].astro
 export const prerender = false;
 
-import { db, EventEntry, eq } from 'astro:db';
+import { db, EventEntry, Registration, eq } from 'astro:db';
 import EventForm from '../../../components/events/EventForm.astro';
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 
 const { id } = Astro.params;
 
-if (!id || isNaN(Number(id))) {
-    return Astro.redirect('/admin');
-}
+if (!id || isNaN(Number(id))) return Astro.redirect('/admin');
 
-const event = await db.select().from(EventEntry).where(eq(EventEntry.id, Number(id)));
+const [event, registrations] = await Promise.all([
+    db.select().from(EventEntry).where(eq(EventEntry.id, Number(id))),
+    db.select().from(Registration).where(eq(Registration.eventId, Number(id))),
+]);
+
+console.log('Evento:', event);
+console.log('Inscripciones:', registrations);
+const totalPersonas = registrations.reduce((sum, r) => sum + r.num, 0);
 ---
 
-<AdminLayout pageTitle={`Editar Evento ${id}`}>
+<AdminLayout pageTitle={`Evento: ${event[0]?.title}`}>
     <nav class="mb-8">
-        <a href="/admin" class="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-2 transition-colors">
-          &larr; Volver al Panel de Control
+        <a href="/admin" class="text-blue-600 hover:text-blue-800 font-medium">
+            &larr; Volver al Panel
         </a>
     </nav>
-    <EventForm event={event[0]} />
 
+    <!-- Pestañas -->
+    <div class="bg-white rounded-xl shadow">
+        <div class="flex border-b border-gray-200">
+            <button data-tab="editar"
+                class="tab-btn px-6 py-3 text-sm font-medium border-b-2 border-blue-600 text-blue-600">
+                Editar evento
+            </button>
+            <button data-tab="inscritos"
+                class="tab-btn px-6 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700">
+                Inscritos ({registrations.length} personas · {totalPersonas} asistentes)
+            </button>
+        </div>
+
+        <!-- Panel: Editar -->
+        <div id="tab-editar" class="p-6">
+            <EventForm event={event[0]} />
+        </div>
+
+        <!-- Panel: Inscritos -->
+        <div id="tab-inscritos" class="p-6 hidden">
+            {registrations.length === 0 ? (
+                <p class="text-gray-500 text-center py-10">
+                    Aún no hay inscripciones para este evento.
+                </p>
+            ) : (
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-200">
+                            <th class="px-4 py-3 text-sm font-medium text-gray-500 uppercase">Nombre</th>
+                            <th class="px-4 py-3 text-sm font-medium text-gray-500 uppercase">Email</th>
+                            <th class="px-4 py-3 text-sm font-medium text-gray-500 uppercase text-center">Personas</th>
+                            <th class="px-4 py-3 text-sm font-medium text-gray-500 uppercase">Fecha inscripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {registrations.map(r => (
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="px-4 py-3 text-sm font-medium text-gray-800">{r.name}</td>
+                                <td class="px-4 py-3 text-sm text-gray-500">{r.email}</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">{r.num}</td>
+                                <td class="px-4 py-3 text-sm text-gray-500">
+                                    {new Date(r.createdAt).toLocaleDateString('es-ES', {
+                                        day: '2-digit', month: 'short', year: 'numeric'
+                                    })}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </div>
+    </div>
 </AdminLayout>
+
+<script>
+    const tabs = document.querySelectorAll('.tab-btn');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = tab.getAttribute('data-tab');
+            
+            // Actualizar botones
+            tabs.forEach(t => {
+                t.classList.remove('border-blue-600', 'text-blue-600');
+                t.classList.add('border-transparent', 'text-gray-500');
+            });
+            tab.classList.add('border-blue-600', 'text-blue-600');
+            tab.classList.remove('border-transparent', 'text-gray-500');
+
+            // Mostrar panel correspondiente
+            document.getElementById('tab-editar')?.classList.add('hidden');
+            document.getElementById('tab-inscritos')?.classList.add('hidden');
+            document.getElementById(`tab-${target}`)?.classList.remove('hidden');
+        });
+    });
+</script>

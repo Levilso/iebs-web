@@ -1,10 +1,9 @@
-import { defineAction } from 'astro:actions';
-import { z } from 'zod';
-import { db, EventEntry } from 'astro:db'
 import { event } from './event';
 import { auth } from './auth';
+import { registration } from './registration';
 
 export const server = {
     event,
-    auth
+    auth,
+    registration,
 };

@@ -1,0 +1,85 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { EventEntryType } from '../types';
+
+interface Props {
+    event: EventEntryType;
+    infoHTML: string;
+}
+
+const { event, infoHTML } = Astro.props;
+
+const dateFormatted = new Date(event.date).toLocaleDateString('es-ES', {
+    weekday: 'long',
+    year:    'numeric',
+    month:   'long',
+    day:     'numeric',
+    timeZone: 'UTC',
+});
+
+const priceLabel = event.price === 0
+    ? 'Entrada gratuita'
+    : `${event.price.toFixed(2)} €`;
+---
+
+<BaseLayout pageTitle={event.title} description={event.description}>
+
+    <article class="px-40">
+        <!-- Hero: imagen de portada a ancho completo -->
+        {event.coverImage && (
+            <div class="w-full h-72 md:h-96 overflow-hidden">
+                <img
+                    src={event.coverImage}
+                    alt={event.title}
+                    class="w-full h-full object-cover object-center"
+                    fetchpriority="high"
+                />
+            </div>
+        )}
+
+        <div class="max-w-3xl mx-auto px-6 py-12">
+
+            <!-- Cabecera del evento -->
+            <header class="mb-8">
+                <h1 class="text-4xl font-bold text-gray-900 leading-tight mb-3">
+                    {event.title}
+                </h1>
+                <!-- description: subtítulo breve -->
+                <p class="text-xl text-gray-500 leading-relaxed">
+                    {event.description}
+                </p>
+            </header>
+
+            <!-- Metadatos: fecha, lugar, precio -->
+            <div class="flex flex-col gap-3 mb-10 py-5 border-y border-gray-200 text-sm text-gray-600">
+                <div class="flex items-center gap-2">
+                    <span aria-hidden="true">📅</span>
+                    <!-- Capitalizar primera letra porque toLocaleDateString devuelve minúsculas en es-ES -->
+                    <time datetime={new Date(event.date).toISOString()}>
+                        {dateFormatted.charAt(0).toUpperCase() + dateFormatted.slice(1)}
+                    </time>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span aria-hidden="true">📍</span>
+                    <span>{event.location}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span aria-hidden="true">💶</span>
+                    <span>{priceLabel}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span aria-hidden="true">👥</span>
+                    <span>{event.capacity !== null ? `${event.capacity} lugares disponibles` : 'Sin límite de capacidad'}</span>
+                </div>
+            </div>
+
+            <!-- Contenido principal: Markdown renderizado -->
+            <!-- set:html es seguro aquí: el contenido viene del admin, no de input externo -->
+            <article class="prose prose-gray max-w-none" set:html={infoHTML} />
+
+            <!-- Slot para contenido adicional específico de cada página -->
+            <slot />
+
+        </div>
+    </article>
+</BaseLayout>

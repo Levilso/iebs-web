@@ -8,24 +8,28 @@ const { event } = Astro.props;
     bg-neutral-50 block
     w-80 border rounded-md shadow-sm
     hover:bg-neutral-200 transition duration-300 overflow-hidden">
+    <!-- Imagen de portada -->
+  <a 
+    href={`/eventos/${event.id}`}
+    aria-label={`Ver detalles de ${event.title}`}
+  >
+    <div class="w-full h-44 bg-gray-200 overflow-hidden">
+      {event.coverImage 
+        ? <img src={event.coverImage} alt={event.title} 
+              class="w-full h-full object-cover"/>
+        : <div class="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+              Sin imagen
+          </div>
+      }
+    </div>
 
-  <!-- Imagen de portada -->
-  <div class="w-full h-44 bg-gray-200 overflow-hidden">
-    {event.coverImage 
-      ? <img src={event.coverImage} alt={event.title} 
-             class="w-full h-full object-cover"/>
-      : <div class="w-full h-full flex items-center justify-center text-gray-400 text-sm">
-            Sin imagen
-        </div>
-    }
-  </div>
+    <div class="p-6">
+      <h2 class="font-extrabold text-2xl">{event.title}</h2>
+      <time class="text-sm" datetime={event.date.toISOString()}>
+        <small>{event.date.toLocaleDateString(undefined, {dateStyle: 'medium', timeZone: 'UTC'})}</small>
+      </time>
+      <p class="mt-1">{event.description}</p>
+    </div>
 
-  <div class="p-6">
-    <h2 class="font-extrabold text-2xl">{event.title}</h2>
-    <time class="text-sm" datetime={event.date.toISOString()}>
-      <small>{event.date.toLocaleDateString(undefined, {dateStyle: 'medium', timeZone: 'UTC'})}</small>
-    </time>
-    <p class="mt-1">{event.description}</p>
-  </div>
-
+  </a>
 </article>

@@ -4,12 +4,13 @@ import { z } from 'zod';
 import { db, eq, EventEntry } from 'astro:db'
 import { uploadImage } from '../lib/cloudinary';
 
-const eventEntrySchema = z.object({
+const eventEntrySchema = z.object({    
     // coerce: forzar la conversión de tipos (los formularios envían todo como string)
 
     // aunque el ID es necesario para editar un evento existente, todavía no está definido
     // en el momento de creación de un nuevo evento, por eso lo hacemos opcional.
     // se genera en la BD automáticamente (INTEGER PRIMARY KEY AUTOINCREMENT)
+    // EDITAR
     id: z.coerce.number().optional(),
     title: z.string().min(2, "El título debe tener al menos 2 caracteres"),
     description: z.string(),
@@ -18,7 +19,8 @@ const eventEntrySchema = z.object({
     hidden: z.boolean().optional().default(false),
     location: z.string(),
     price: z.coerce.number().min(0, "El precio no puede ser negativo"),
-    coverImage: z.string(),
+    coverImage: z.string().optional(),
+    capacity: z.coerce.number().min(1).optional().nullable(),
 });
 
 export const event = {
@@ -30,8 +32,7 @@ export const event = {
         input: eventEntrySchema,
 
         handler: async (input) => {
-
-            const updatedEvents = await db
+                const updatedEvents = await db
                 .insert(EventEntry)
                 .values(input)
                 .returning();
@@ -40,7 +41,6 @@ export const event = {
         },
     }),
 
-    // EDITAR
     updateEventEntry: defineAction({
         accept: 'form',
         input: eventEntrySchema,
@@ -54,7 +54,7 @@ export const event = {
                 });
             }
 
-              try {
+            try {
                 const updatedEvents = await db
                     .update(EventEntry)
                     .set(input)

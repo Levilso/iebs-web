@@ -8,4 +8,5 @@ export type EventEntryType = {
   location: string;
   price: number;
   coverImage: string;
+  capacity?: number | null;
 };

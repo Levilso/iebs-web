@@ -1,6 +1,7 @@
 ---
 const { event } = Astro.props;
 import type { EventEntryType } from '../../types.ts';
+import TextEditor from '../ui/TextEditor.astro';
 type Props = {
     event?: EventEntryType;
 };
@@ -10,10 +11,7 @@ const isEditMode = !!event;
 let parseDate = "";
 if (isEditMode) {
     parseDate = new Date(event.date).toISOString().split('T')[0];
-} else {
-    console.log("Modo creación. No se recibió ningún evento.");
 }
-
 
 ---
 <style>
@@ -37,8 +35,6 @@ if (isEditMode) {
             --tw-ring-color: oklch(62.3% 0.214 259.815); /* Tailwind blue-500 */
         }
     }
-
-    /* "focus:ring-blue-500 focus:border-blue-500" */
 </style>
 
 <div>
@@ -65,9 +61,17 @@ if (isEditMode) {
         <textarea id="description" name="description" 
         required>{event?.description || ''}</textarea>
 
-        <label for="info">Información detallada:</label>
-        <textarea id="info" name="info" 
-        required>{event?.info || ''}</textarea>
+        <!-- textarea completa para el contenido del evento -->
+        
+        <label for="info" class="block text-sm font-semibold mb-1">
+            Información detallada:
+        </label>
+        <textarea name="info" id="info">{event?.info || ''}</textarea>
+        <!-- TODO: <TextEditor
+            name="info"
+            value={event?.info || ''}
+            required
+        /> -->
 
         <label for="date">Fecha:</label>
         <input type="date" id="date" name="date" value={parseDate}
@@ -81,6 +85,9 @@ if (isEditMode) {
         <input type="number" id="price" name="price" step="0.5" value={event?.price || 0}
         required>
 
+        <label for="capacity">Limite de capacidad de personas:</label>
+        <input type="number" id="capacity" name="capacity" step="1" value={event?.capacity || ''} placeholder="Dejálo vacío si no hay límite.">
+
         <div class="inline-flex flex-row">
             <label for="hidden"
             class="w-auto block text-sm text-gray-700">
@@ -90,7 +97,7 @@ if (isEditMode) {
             class="text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
         </div>
 
-        {isEditMode && event.coverImage && (
+        {isEditMode && (
             <div id="current-image-container" class="mb-2">
                 <p class="text-sm text-grayl-500 mb-1">Imagen de portada actual:</p>
                 <img src={event.coverImage} alt="Portada actual" 
@@ -130,7 +137,7 @@ if (isEditMode) {
 
     import { actions } from 'astro:actions';
 
-    // SUBIDA DE IMAGEN
+    // ---- SUBIDA DE IMAGEN
     const fileInput = document.getElementById('coverImageFile') as HTMLInputElement;
     const previewContainer = document.getElementById('image-preview-container') as HTMLDivElement;
     const previewImage = document.getElementById('image-preview') as HTMLImageElement;
@@ -178,7 +185,7 @@ if (isEditMode) {
     const btnGuardar = document.getElementById('btn-guardar') as HTMLButtonElement;
 
 
-    // SUBMIT
+    // ---- SUBMIT
     form?.addEventListener('submit', async (e) => {
         
         e.preventDefault();
@@ -210,6 +217,7 @@ if (isEditMode) {
             feedback.classList.remove('text-red-500');
             feedback.classList.add('text-green-500');
             feedback.textContent = `Evento ${data.id} - ${data.title} ${isEditMode ? "actualizado" : "creado"} exitosamente`;
+            form.classList.add('hidden'); // Ocultar el formulario tras éxito
 
             // TO DO: redirigir a la página del evento con un popup
 

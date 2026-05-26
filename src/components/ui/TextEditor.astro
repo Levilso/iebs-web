@@ -1,0 +1,77 @@
+---
+// Recibe props para configurar el editor de texto enriquecido:
+interface Props {
+    name:         string;       // nombre del campo para FormData
+    value?:       string;       // contenido inicial (modo edición)
+    required?:    boolean;      // si el campo es obligatorio
+    rows?:        number;       // altura del textarea (opcional, default 14)
+}
+
+const {
+    name,
+    value    = '',
+    required = false,
+    rows     = 14,
+} = Astro.props;
+
+// ID único para que EasyMDE pueda encontrar el textarea por getElementById
+const editorId = `${name}`;
+---
+
+<!-- CSS de EasyMDE -->
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css"
+/>
+
+<div class="text-editor-wrapper">
+    <textarea 
+    id={editorId}
+    name={name}
+    data-editor
+    rows={rows}
+    required={required || undefined}
+    >{value}</textarea>
+</div>
+
+<!-- EasyMDE Script UMD
+'is: inline' asegura que el script no se cargará en el header, 
+sino en el lugar donde está puesto (en window) -->
+<script
+    src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"
+    is:inline 
+></script>
+
+<!-- Configuración del editor -->
+ <script define:vars={{ editorId }}>
+    // define:vars accede a la variable del frontmatter
+
+    function initEditor() {
+        const el = document.getElementById(editorId);
+        if (!el) return;    // confirma que el textarea existe antes de inicializar EasyMDE
+
+        new EasyMDE({
+            element: el,
+
+            toolbar: [
+                'bold', 'italic', 'strikethrough', '|',
+                'heading-2', 'heading-3', '|',
+                'unordered-list', 'ordered-list', '|',
+                'link', 'horizontal-rule', '|',
+                'preview', 'guide',
+            ],
+
+            spellChecker: false,
+            nativeSpellcheck: true,
+
+            placeholder: 'Escribe aquí el contenido del evento...',
+            status: ['lines', 'words'],
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initEditor);
+    } else {
+        initEditor();
+    }
+ </script>

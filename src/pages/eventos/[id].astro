@@ -1,0 +1,47 @@
+---
+export const prerender = false;
+
+import { db, EventEntry, Registration, eq } from 'astro:db';
+import { marked } from 'marked';
+import EventLayout from '../../layouts/EventLayout.astro';
+import type { EventEntryType } from '../../types';
+import RegistrationForm from '../../components/events/RegistrationForm.astro';
+
+const { id } = Astro.params;
+
+// Guardia 1: el parámetro debe ser un número válido
+if (!id || isNaN(Number(id))) {
+    return new Response(null, { status: 404 });
+}
+
+const results = await db
+    .select()
+    .from(EventEntry)
+    .where(eq(EventEntry.id, Number(id)));
+
+const event = results[0] as EventEntryType;
+
+// Guardia 2: el evento debe existir y estar publicado
+// hidden = true devuelve 404 para el público — el admin puede tenerlo en borrador
+if (!event || event.hidden) {
+    console.log('Evento no encontrado o no publicado.'); // Solo para depuración, no se muestra al usuario final
+    return new Response(null, { status: 404 });
+}
+
+const registrations = await db.select().from(Registration)
+    .where(eq(Registration.eventId, Number(id)));
+
+const ocupados = registrations.reduce((sum, r) => sum + r.num, 0);
+
+// Markdown → HTML ocurre en servidor, nunca llega raw al cliente
+const infoHTML = await marked(event.info);
+---
+
+<EventLayout event={event} infoHTML={infoHTML}>
+
+    <RegistrationForm
+        eventId={event.id}
+        capacity={event.capacity}
+        registered={ocupados}
+    />
+</EventLayout>

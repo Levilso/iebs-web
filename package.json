@@ -17,9 +17,15 @@
     "astro": "^6.1.7",
     "cloudinary": "^2.10.0",
     "drizzle-orm": "^0.45.2",
+    "easymde": "^2.21.0",
+    "marked": "^18.0.3",
     "tailwindcss": "^4.2.2"
   },
   "overrides": {
     "vite": "^7"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19",
+    "@types/marked": "^5.0.2"
   }
 }
