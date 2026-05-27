@@ -3,7 +3,7 @@ import { db, EventEntry, desc } from "astro:db";
 
 export const prerender = false;
 
-const events = await db.select().from(EventEntry);
+const events = await db.select().from(EventEntry).orderBy(desc(EventEntry.date));
 ---
 <div class="bg-white rounded-xl overflow-hidden">
     <table class="w-full text-left border-collapse">
@@ -42,7 +42,7 @@ const events = await db.select().from(EventEntry);
                             data-id={event.id}
                             data-title={event.title}
                             class="text-red-500 hover:text-red-700 
-                            font-medium text-sm transition-colors cursor-pointer"
+                            btn-eliminar font-medium text-sm transition-colors cursor-pointer"
                         >
                             Eliminar
                         </button>
@@ -81,8 +81,8 @@ const events = await db.select().from(EventEntry);
                             alert(`Evento "${eventTitle}" eliminado correctamente.`);
                             window.location.reload();
                         }
-                    } catch (error) {
-                        console.error("Error al eliminar el evento:", error);
+                    } catch (err) {
+                        console.error("Error al eliminar el evento:", err);
                         alert("Ocurrió un error inesperado al eliminar el evento. Por favor, inténtalo de nuevo.");
                     }
                 }

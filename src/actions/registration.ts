@@ -2,6 +2,7 @@
 import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'zod';
 import { db, eq, and, sql, EventEntry, Registration } from 'astro:db';
+import { success } from 'astro:schema';
 
 export const registration = {
 
@@ -77,4 +78,36 @@ export const registration = {
             };
         },
     }),
+
+    // ELIMINAR INSCRIPCIÓN
+    delete: defineAction({
+        accept: 'json',
+        input: z.object({
+            id: z.coerce.number(),
+        }),
+        handler: async (input) => {
+            try {
+                const del = await db
+                    .delete(Registration)
+                    .where(eq(Registration.id, input.id))
+                    .returning();
+                
+                if (del.length == 0) {
+                    throw new ActionError ({
+                        code: 'NOT_FOUND',
+                        message: `Inscripción no encontrada. (ID: ${input.id})`
+                    })
+                }
+                return { success: true }
+            } catch (error) {
+                if (error instanceof ActionError) throw error;
+
+                console.error('Error inesperado en la base de datos: ', error);
+                throw new ActionError({
+                    code: 'INTERNAL_SERVER_ERROR',
+                    message: 'Error inesperado durante la eliminación de la inscripción al evento.'
+                });
+            }
+        }
+    })
 };

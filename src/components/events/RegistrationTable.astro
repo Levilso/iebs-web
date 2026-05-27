@@ -1,0 +1,80 @@
+---
+import type { RegistrationType } from '../../types';
+type Props = { registrations: RegistrationType[] };
+const { registrations } = Astro.props;
+
+import Delete from '../../assets/svg/delete.svg';
+---
+
+{registrations.length === 0 ? (
+    <p class="text-gray-500 text-center py-10">
+        Aún no hay inscripciones para este evento.
+    </p>
+) : (    
+    <table class="w-full text-left border-collapse">
+        <thead>
+            <tr class="bg-gray-50 border-b border-gray-200">
+                <th class="px-4 py-3 text-sm font-medium text-gray-500 uppercase">Nombre</th>
+                <th class="px-4 py-3 text-sm font-medium text-gray-500 uppercase">Email</th>
+                <th class="px-4 py-3 text-sm font-medium text-gray-500 uppercase text-center">Personas</th>
+                <th class="px-4 py-3 text-sm font-medium text-gray-500 uppercase">Fecha inscripción</th>
+                <th class="py-3 text-sm font-medium text-gray-500 uppercase"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {
+            registrations.map((reg) => (
+                <tr class="border-b border-gray-100 hover:bg-gray-50">
+                    <td class="px-4 py-3 text-sm font-medium text-gray-800">{reg.name}</td>
+                    <td class="px-4 py-3 text-sm text-gray-500">{reg.email}</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 text-center">{reg.num}</td>
+                    <td class="px-4 py-3 text-sm text-gray-500">
+                        {new Date(reg.createdAt).toLocaleDateString('es-ES', {
+                        day: '2-digit', month: 'short', year: 'numeric'
+                        })}
+                </td>
+                <td class="px-4 py-3 text-sm text-gray-500 text-center">
+                    <button 
+                        data-id={reg.id}
+                        class="text-red-500 hover:text-red-700 btn-eliminar font-medium cursor-pointer"
+                    >
+                        <Delete />
+                    </button>
+                </td>
+            </tr>))
+            }
+        </tbody>
+    </table>
+)}
+
+<script>
+    import { actions } from 'astro:actions';
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const deleteButtons = document.querySelectorAll('.btn-eliminar');
+        
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', async () => {
+                const regId = button.getAttribute('data-id');
+                if (!regId) return;
+
+                if (confirm('¿Estás seguro de que quieres eliminar esta inscripción?')) {
+                    try {
+                        const {data, error} = await actions.registration.delete({id: regId});
+                        
+                        if (error) {
+                            alert(`ERROR al borrar la inscripción: ${error.message}`);
+                        } else {
+                            alert(`Inscripción eliminada con éxito.`);
+                            window.location.reload();
+                        }
+                    } catch (err) {
+                        console.error('Error:', err);
+                        alert('Error al eliminar la inscripción.');
+                    }
+                }
+            });
+        });
+    });
+
+</script>

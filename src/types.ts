@@ -10,3 +10,12 @@ export type EventEntryType = {
   coverImage: string;
   capacity?: number | null;
 };
+
+export type RegistrationType = {
+  id: number;
+  eventId: number;
+  email: string;
+  name: string;
+  num: number;
+  createdAt: Date;
+}

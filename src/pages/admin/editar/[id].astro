@@ -1,13 +1,12 @@
 ---
-// src/pages/admin/editar/[id].astro
 export const prerender = false;
 
 import { db, EventEntry, Registration, eq } from 'astro:db';
 import EventForm from '../../../components/events/EventForm.astro';
 import AdminLayout from '../../../layouts/AdminLayout.astro';
+import RegistrationTable from '../../../components/events/RegistrationTable.astro';
 
 const { id } = Astro.params;
-
 if (!id || isNaN(Number(id))) return Astro.redirect('/admin');
 
 const [event, registrations] = await Promise.all([
@@ -15,8 +14,6 @@ const [event, registrations] = await Promise.all([
     db.select().from(Registration).where(eq(Registration.eventId, Number(id))),
 ]);
 
-console.log('Evento:', event);
-console.log('Inscripciones:', registrations);
 const totalPersonas = registrations.reduce((sum, r) => sum + r.num, 0);
 ---
 
@@ -47,36 +44,7 @@ const totalPersonas = registrations.reduce((sum, r) => sum + r.num, 0);
 
         <!-- Panel: Inscritos -->
         <div id="tab-inscritos" class="p-6 hidden">
-            {registrations.length === 0 ? (
-                <p class="text-gray-500 text-center py-10">
-                    Aún no hay inscripciones para este evento.
-                </p>
-            ) : (
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-gray-50 border-b border-gray-200">
-                            <th class="px-4 py-3 text-sm font-medium text-gray-500 uppercase">Nombre</th>
-                            <th class="px-4 py-3 text-sm font-medium text-gray-500 uppercase">Email</th>
-                            <th class="px-4 py-3 text-sm font-medium text-gray-500 uppercase text-center">Personas</th>
-                            <th class="px-4 py-3 text-sm font-medium text-gray-500 uppercase">Fecha inscripción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {registrations.map(r => (
-                            <tr class="border-b border-gray-100 hover:bg-gray-50">
-                                <td class="px-4 py-3 text-sm font-medium text-gray-800">{r.name}</td>
-                                <td class="px-4 py-3 text-sm text-gray-500">{r.email}</td>
-                                <td class="px-4 py-3 text-sm text-gray-500 text-center">{r.num}</td>
-                                <td class="px-4 py-3 text-sm text-gray-500">
-                                    {new Date(r.createdAt).toLocaleDateString('es-ES', {
-                                        day: '2-digit', month: 'short', year: 'numeric'
-                                    })}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
+            <RegistrationTable registrations={registrations} />
         </div>
     </div>
 </AdminLayout>
