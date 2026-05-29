@@ -1,0 +1,74 @@
+---
+export const prerender = true;
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Intro from '../../components/ui/Intro.astro';
+import PageNav from '../../components/ui/PageNav.astro';
+
+const posts = await getCollection('posts');
+const sermons = await getCollection('sermons');
+const guides = await getCollection('guides');
+
+const sortByDateDesc = (a: any, b: any) => b.data.date.getTime() - a.data.date.getTime();
+posts.sort(sortByDateDesc);
+sermons.sort(sortByDateDesc);
+guides.sort(sortByDateDesc);
+
+const pageTitle = "Recursos"
+---
+<BaseLayout 
+	pageTitle={pageTitle} 
+	description=`Artículos, sermones y guiones de PGM de la IEBS.`
+>
+	<Intro h1={pageTitle} />
+	<PageNav />
+	<main class="max-w-5xl mx-auto px-6 py-12 space-y-16">
+		<!-- sermones -->
+		<section>
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Sermones</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {sermons.map((s) => (
+                    <a href={`/recursos/sermons/${s.id}`}
+                        class="block bg-white rounded-xl shadow-sm border hover:shadow-md transition p-5">
+                        {s.data.series && (
+                            <p class="text-xs font-semibold text-[#0E889E] uppercase mb-1">{s.data.series}</p>
+                        )}
+                        <h3 class="font-bold text-gray-900 mb-1">{s.data.title}</h3>
+                        <p class="text-sm text-gray-500">{s.data.preacher}</p>
+                    </a>
+                ))}
+            </div>
+		</section>
+
+		<!-- posts -->
+		<section>
+			<h2 class="text-2xl font-bold text-gray-800 mb-6">Nuestros Artículos</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {posts.map((p) => (
+                    <a href={`/recursos/posts/${p.id}`}
+                        class="block bg-white rounded-xl shadow-sm border hover:shadow-md transition p-5">
+                        <h3 class="font-bold text-gray-900 mb-1">{p.data.title}</h3>
+                        <p class="text-sm text-gray-500 mb-2">{p.data.description}</p>
+                        <p class="text-xs text-gray-400">{p.data.author}</p>
+					</a>
+				))}
+			</div>
+		</section>
+
+		<!-- guiones -->
+		<section>
+			<h2 class="text-2xl font-bold text-gray-800 mb-6">Guiones de Pequeños Grupos</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {guides.map((g) => (
+                    <a href={`/recursos/guides/${g.id}`}
+                        class="block bg-white rounded-xl shadow-sm border hover:shadow-md transition p-5">
+                        <h3 class="font-bold text-gray-900 mb-1">{g.data.title}</h3>
+                        <p class="text-sm text-gray-500">{g.data.scripture}</p>
+                    </a>
+                ))}
+            </div>
+		</section>
+	</main>
+
+</BaseLayout>

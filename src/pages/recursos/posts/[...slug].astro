@@ -1,0 +1,47 @@
+---
+export const prerender = true;
+
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+    const posts = await getCollection("posts");
+    return posts.map((post) => ({
+        params: { slug: post.id }, 
+        props: { post },
+    }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+---
+
+<BaseLayout pageTitle={post.data.title} description={post.data.description}>
+    <article class="max-w-3xl mx-auto px-6 py-12">
+        <header class="mb-8">
+            <p class="text-sm text-gray-500 mb-2">
+                {post.data.date.toLocaleDateString('es-ES', { dateStyle: 'long' })}
+                · {post.data.author}
+            </p>
+            <h1 class="text-4xl font-bold text-gray-900 mb-3">{post.data.title}</h1>
+            <p class="text-xl text-gray-500">{post.data.description}</p>
+ 
+            {post.data.tags && (
+                <div class="flex gap-2 mt-4">
+                    {post.data.tags.map(tag => (
+                        <span 
+                        class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">
+                            {tag}
+                        </span>
+                    ))}
+                </div>
+            )}
+        </header>
+ 
+        <!-- contenido markdown renderizado -->
+        <div class="prose prose-gray max-w-none">
+            <Content />
+        </div>
+    </article>
+</BaseLayout>

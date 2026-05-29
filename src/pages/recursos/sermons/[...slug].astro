@@ -1,0 +1,46 @@
+---
+export const prerender = true;
+
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+    const sermones = await getCollection('sermons');
+    return sermones.map((sermon) => ({
+        params: { slug: sermon.id },
+        props: { sermon },
+    }));
+}
+
+const { sermon } = Astro.props;
+// youtubeId nos permite construir la URL de embed sin almacenar la URL completa
+const embedUrl = `https://www.youtube.com/embed/${sermon.data.youtubeId}`;
+---
+
+<BaseLayout pageTitle={sermon.data.title}>
+    <article class="max-w-3xl mx-auto px-6 py-12">
+        <header class="mb-6">
+            {sermon.data.series && (
+                <p class="text-sm font-semibold text-[#0E889E] uppercase tracking-wide mb-1">
+                    {sermon.data.series}
+                </p>
+            )}
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">{sermon.data.title}</h1>
+            <p class="text-sm text-gray-500">
+                {sermon.data.date.toLocaleDateString('es-ES', { dateStyle: 'long' })}
+                · {sermon.data.preacher}
+            </p>
+        </header>
+
+        <!-- Embed responsivo de YouTube -->
+        <div class="aspect-video w-full rounded-xl overflow-hidden shadow-lg">
+            <iframe
+                src={embedUrl}
+                title={sermon.data.title}
+                class="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+            />
+        </div>
+    </article>
+</BaseLayout>
