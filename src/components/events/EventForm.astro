@@ -67,11 +67,11 @@ if (isEditMode) {
             Información detallada:
         </label>
         <textarea name="info" id="info">{event?.info || ''}</textarea>
-        <!-- TODO: <TextEditor
+        <TextEditor
             name="info"
             value={event?.info || ''}
             required
-        /> -->
+        />
 
         <label for="date">Fecha:</label>
         <input type="date" id="date" name="date" value={parseDate}
