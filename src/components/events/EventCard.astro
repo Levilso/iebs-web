@@ -16,7 +16,7 @@ const { event } = Astro.props;
     <div class="w-full h-44 bg-gray-200 overflow-hidden">
       {event.coverImage 
         ? <img src={event.coverImage} alt={event.title} 
-              class="w-full h-full object-cover"/>
+              class="w-full h-full object-cover" transition:name="hero"/>
         : <div class="w-full h-full flex items-center justify-center text-gray-400 text-sm">
               Sin imagen
           </div>

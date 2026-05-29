@@ -1,7 +1,7 @@
 ---
 type Props = {
     eventId: number;
-    capacity: number | undefined;
+    capacity: number | null | undefined;
     registered: number; // plazas ya ocupadas. se pasa como prop para evitar accesos innecesarios a la DB
 };
 const { eventId, capacity, registered } = Astro.props;
