@@ -7,6 +7,8 @@ import db from '@astrojs/db';
 
 import netlify from '@astrojs/netlify';
 
+import preact from "@astrojs/preact";
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
@@ -15,7 +17,7 @@ export default defineConfig({
     ],
   },
 
-  integrations: [db()],
+  integrations: [db(), preact()],
 
   adapter: netlify(),
 
