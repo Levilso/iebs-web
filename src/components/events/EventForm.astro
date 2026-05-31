@@ -63,10 +63,9 @@ if (isEditMode) {
 
         <!-- textarea completa para el contenido del evento -->
         
-        <label for="info" class="block text-sm font-semibold mb-1">
+        <label for="editor-info" class="block text-sm font-semibold mb-1">
             Información detallada:
         </label>
-        <textarea name="info" id="info">{event?.info || ''}</textarea>
         <TextEditor
             name="info"
             value={event?.info || ''}
@@ -121,6 +120,15 @@ if (isEditMode) {
             file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
         />
 
+        <label for="category">Categoría:</label>
+        <select name="category" id="category">
+            <option value="">— No category —</option>
+            <option value="Jóvenes"        selected={event?.category === 'Jóvenes'}>Jóvenes</option>
+            <option value="Toda la iglesia" selected={event?.category === 'Toda la iglesia'}>Toda la iglesia</option>
+            <option value="Parejas"        selected={event?.category === 'Parejas'}>Parejas</option>
+            <option value="Líderes"        selected={event?.category === 'Líderes'}>Líderes</option>
+        </select>
+        
         <!-- input oculto para la URL de la imagen de portada -->
         <input type="hidden" name="coverImage" id="coverImageURL" value={event?.coverImage || ''} />
 

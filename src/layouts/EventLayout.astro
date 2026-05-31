@@ -33,7 +33,7 @@ const priceLabel = event.price === 0
                     alt={event.title}
                     class="w-full h-full object-cover object-center"
                     fetchpriority="high"
-                    transition:name="hero"
+                    transition:name={`hero-${event.id}`}
                 />
             </div>
         )}

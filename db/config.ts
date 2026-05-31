@@ -15,6 +15,8 @@ const EventEntry = defineTable({
 
     coverImage: column.text({ default: "https://res.cloudinary.com/iebs-cloudinary/image/upload/q_auto/f_auto/v1778772122/iebs/events/hrm0nupg3xntmge7oo3j.jpg" }),
     capacity: column.number({ optional: true }),
+
+    category: column.text({optional: true}),
   },
 });
 

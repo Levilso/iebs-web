@@ -1,5 +1,7 @@
 ---
 import { db, EventEntry, desc } from "astro:db";
+import Delete from '../../assets/svg/delete.svg';
+import Edit from '../../assets/svg/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
 
 export const prerender = false;
 
@@ -14,7 +16,8 @@ const events = await db.select().from(EventEntry).orderBy(desc(EventEntry.date))
                 <th class="px-6 py-3 text-sm font-medium text-gray-500 uppercase tracking-wider">Ubicación</th>
                 <th class="px-6 py-3 text-sm font-medium text-gray-500 uppercase tracking-wider text-center">Precio</th>
                 <th class="px-6 py-3 text-sm font-medium text-gray-500 uppercase tracking-wider text-center">Estado</th>
-                <th class="px-6 py-3 text-sm font-medium text-gray-500 uppercase tracking-wider text-center">Acciones</th>
+                <th class="px-6 py-3 text-sm font-medium text-gray-500 uppercase tracking-wider text-center">Categoría</th>
+                <th class="px-6 py-3 text-sm font-medium text-gray-500 text-center"></th>
             </tr>
         </thead>
         <tbody>
@@ -31,11 +34,12 @@ const events = await db.select().from(EventEntry).orderBy(desc(EventEntry.date))
                             <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">Público</span>
                         )}
                     </td>
-                    
+                    <td class="px-6 py-4 text-sm text-gray-500 justify-center text-center">
+                        {event.category || 'Sin categoría'}</td>
                     <td class="p-4 flex justify-center gap-3">
                         <a href={`/admin/editar/${event.id}`} 
                             class="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors">
-                            Editar
+                            <Edit />
                         </a>
                     
                         <button 
@@ -44,7 +48,7 @@ const events = await db.select().from(EventEntry).orderBy(desc(EventEntry.date))
                             class="text-red-500 hover:text-red-700 
                             btn-eliminar font-medium text-sm transition-colors cursor-pointer"
                         >
-                            Eliminar
+                            <Delete />
                         </button>
                     </td>
                 </tr>))}

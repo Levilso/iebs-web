@@ -10,12 +10,12 @@ interface Props {
 const {
     name,
     value    = '',
-    required = false,
+    required = true,
     rows     = 14,
 } = Astro.props;
 
 // ID único para que EasyMDE pueda encontrar el textarea por getElementById
-const editorId = `${name}`;
+const editorId = `editor-${name}`;
 ---
 
 <!-- CSS de EasyMDE -->
@@ -52,7 +52,7 @@ sino en el lugar donde está puesto (en window) -->
 
         new EasyMDE({
             element: el,
-
+            forceSync: true,
             toolbar: [
                 'bold', 'italic', 'strikethrough', '|',
                 'heading-2', 'heading-3', '|',

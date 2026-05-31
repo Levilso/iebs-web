@@ -9,6 +9,7 @@ export type EventEntryType = {
   price: number;
   coverImage: string;
   capacity?: number | null;
+  category?: string;
 };
 
 export type RegistrationType = {

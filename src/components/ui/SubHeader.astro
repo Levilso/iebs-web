@@ -1,3 +1,56 @@
-<!-- coger automaticamente todas las
- páginas de la sección / carpeta  y 
- mostrarlas en un nav secundario-->
+---
+const pathname = Astro.url.pathname;
+const section = pathname.split('/').filter(Boolean)[0];
+
+// glob eager, para cargar todas las páginas y sus navTitle sin necesidad de importarlas manualmente
+const modules = import.meta.glob(`/src/pages/**/*.astro`, { eager: true });
+
+// Sacar los nombres de las páginas y sus href dentro de una sección
+const allItems = Object.entries(modules)
+    .filter(([path]) => {
+        const parts = path.replace('/src/pages/', '').split('/');
+        return (
+            parts[0] === section &&
+            parts.length === 2 &&
+            !parts[1].startsWith('[') &&   // exclude dynamic routes
+            !parts[1].startsWith('_')      // exclude _old, etc.
+        );
+    })
+    .map(([path, mod]: [string, any]) => {
+        const filename = path.split('/').pop()!.replace('.astro', '');
+        const isIndex = filename === 'index';
+        return {
+            href: isIndex ? `/${section}/` : `/${section}/${filename}`,
+            label: mod.navTitle as string | undefined,
+            isIndex
+        };
+    })
+    .filter(item => item.label)            // solo las páginas con navTitle
+    .sort((a, b) => a.label!.localeCompare(b.label!))
+
+const indexItem = allItems.find(item => item.isIndex);
+const navItems = indexItem ?
+    [indexItem, ...allItems.filter(item => !item.isIndex)] :
+    allItems;
+
+---
+
+{navItems.length > 0 && (
+    <nav class="w-full bg-white border-b border-gray-200">
+        <div class="max-w-5xl mx-auto px-6 flex gap-6 overflow-x-auto">
+            {navItems.map(({ href, label }) => (
+                <a
+                    href={href}
+                    class:list={[
+                        'py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors',
+                        pathname === href
+                            ? 'border-[#0E889E] text-[#0E889E]'
+                            : 'border-transparent text-gray-500 hover:text-gray-800'
+                    ]}
+                >
+                    {label}
+                </a>
+            ))}
+        </div>
+    </nav>
+)}
