@@ -49,6 +49,11 @@ const priceLabel = event.price === 0
                 <p class="text-xl text-gray-500 leading-relaxed">
                     {event.description}
                 </p>
+                {event.category && (
+                    <span class="text-sm font-semibold uppercase rounded-full p-2 bg-[#0E889E] text-white mt-4 inline-block">
+                        {event.category}
+                    </span>
+                )}
             </header>
 
             <!-- Metadatos: fecha, lugar, precio -->

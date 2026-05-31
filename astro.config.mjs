@@ -12,9 +12,13 @@ import preact from "@astrojs/preact";
 // https://astro.build/config
 export default defineConfig({
   vite: {
-    plugins: [
-      tailwindcss(),
-    ],
+    plugins: [tailwindcss()],
+    resolve: {
+      dedupe: ["preact"] // Evita múltiples instancias de Preact
+    },
+    optimizeDeps: {
+      include: ["preact", "preact/hooks"] // Asegura que Preact se optimice correctamente
+    }
   },
 
   integrations: [db(), preact()],

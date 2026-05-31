@@ -6,6 +6,9 @@ type Props = {
     event?: EventEntryType;
 };
 
+import { EVENT_CATEGORIES } from '../../lib/constants.ts';
+import { options } from 'marked';
+
 // definir modo edición o creación
 const isEditMode = !!event;
 let parseDate = "";
@@ -122,11 +125,11 @@ if (isEditMode) {
 
         <label for="category">Categoría:</label>
         <select name="category" id="category">
-            <option value="">— No category —</option>
-            <option value="Jóvenes"        selected={event?.category === 'Jóvenes'}>Jóvenes</option>
-            <option value="Toda la iglesia" selected={event?.category === 'Toda la iglesia'}>Toda la iglesia</option>
-            <option value="Parejas"        selected={event?.category === 'Parejas'}>Parejas</option>
-            <option value="Líderes"        selected={event?.category === 'Líderes'}>Líderes</option>
+            {EVENT_CATEGORIES.map(cat => (
+                <option value={cat} selected={event?.category === cat}>
+                    {cat}
+                </option>
+            ))}
         </select>
         
         <!-- input oculto para la URL de la imagen de portada -->

@@ -3,6 +3,7 @@ import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'zod';
 import { db, eq, EventEntry } from 'astro:db'
 import { uploadImage } from '../lib/cloudinary';
+import { EVENT_CATEGORIES } from '../lib/constants';
 
 const eventEntrySchema = z.object({    
     // coerce: forzar la conversión de tipos (los formularios envían todo como string)
@@ -21,7 +22,7 @@ const eventEntrySchema = z.object({
     price: z.coerce.number().min(0, "El precio no puede ser negativo"),
     coverImage: z.string().optional(),
     capacity: z.coerce.number().min(1).optional().nullable(),
-    category: z.string().optional(),
+    category: z.enum(EVENT_CATEGORIES).optional(),
 });
 
 export const event = {

@@ -1,29 +1,38 @@
 ---
+export const prerender = false;
+
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageNav from '../components/ui/PageNav.astro';
 import Intro from '../components/ui/Intro.astro';
-import EventCard from '../components/events/EventCard.astro';
+import EventsFilter from '../components/events/EventsFilter.tsx';
 
-import { db, EventEntry } from 'astro:db';
-import EventGallery from '../components/events/EventGallery.astro';
+import { db, eq, EventEntry } from 'astro:db';
 
-export const prerender = false
-const dbEvents = await db.select().from(EventEntry);
+const dbEvents = await db.select().from(EventEntry)
+    .where(/* hidden = false */ eq(EventEntry.hidden, false));
 
-const pageTitle = "Eventos"
+// hay que serializar la fecha
+const events = dbEvents.map(e => ({
+    ...e,
+    date: e.date.toISOString(),
+}));
+
+const pageTitle = "Próximos Eventos";
 ---
 
-<BaseLayout 
-	pageTitle={pageTitle} 
-	description=`Una iglesia en Sevilla que hace discípulos que hacen discípulos.
-	Existimos para glorificar a Dios, expandir su Reino y hacer completamente Su voluntad.`
+<BaseLayout
+    pageTitle={pageTitle}
+    description="Próximos eventos en la Iglesia Evangélica Bautista de Sevilla."
 >
+    <Intro h1="Events" />
 
-	<!-- todo esto es el "slot" -->
-	<Intro h1={pageTitle} />
-	<PageNav />
-	
-	<!-- sección de eventos -->
-	 <EventGallery />
-
+    <section class="mx-20 py-10">
+        <h2 class="font-semibold text-black text-3xl py-5 mx-12">Upcoming Events</h2>
+        <div class="mx-12">
+            <!--
+                client:load → hydrates immediately on page load.
+                The island receives events as a serialized prop.
+            -->
+            <EventsFilter events={events} client:load />
+        </div>
+    </section>
 </BaseLayout>
