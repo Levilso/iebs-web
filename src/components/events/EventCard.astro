@@ -2,17 +2,15 @@
 import type { EventEntryType } from '../../types.ts';
 type Props = { event: EventEntryType };
 const { event } = Astro.props;
+import Edit from '../../assets/svg/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg'
 ---
 
 <article class="
-    bg-neutral-50 block
-    w-80 border rounded-md shadow-sm
-    hover:bg-neutral-200 transition duration-300 overflow-hidden">
+    flex flex-col
+    bg-neutral-50
+    w-80 rounded-md drop-shadow-md
+    transition duration-300 overflow-hidden hover:drop-shadow-xs">
     <!-- Imagen de portada -->
-  <a 
-    href={`/eventos/${event.id}`}
-    aria-label={`Ver detalles de ${event.title}`}
-  >
     <div class="w-full h-44 bg-gray-200 overflow-hidden">
       {event.coverImage 
         ? <img src={event.coverImage} alt={event.title} 
@@ -31,5 +29,11 @@ const { event } = Astro.props;
       <p class="mt-1">{event.description}</p>
     </div>
 
-  </a>
+    <a 
+    class="p-4"
+    href={`/admin/editar/${event.id}`}
+    aria-label={`Ver detalles de ${event.title}`}
+    >
+      <Edit />
+    </a>
 </article>

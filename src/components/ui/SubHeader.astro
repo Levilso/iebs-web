@@ -30,7 +30,9 @@ const allItems = Object.entries(modules)
 
 const indexItem = allItems.find(item => item.isIndex);
 const navItems = indexItem ?
-    [indexItem, ...allItems.filter(item => !item.isIndex)] :
+    [indexItem, 
+    ...allItems.filter(item => !item.isIndex)] 
+    :
     allItems;
 
 ---

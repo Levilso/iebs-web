@@ -35,17 +35,8 @@ const Registration = defineTable({
   ]
 });
 
-const Organizer = defineTable({
-  columns: {
-    name: column.text(),
-    bio: column.text(),
-    
-    avatar: column.text()
-  }
-});
-
 export default defineDb({
   tables: { 
-    EventEntry, Registration, Organizer,
+    EventEntry, Registration,
   },
 });

@@ -49,9 +49,9 @@ export default function EventsFilter({ events }: Props) {
                         type="button"
                         key={cat}
                         onClick={() => setCategory(cat)}
-                        class={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors cursor-pointer
+                        class={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors cursor-pointer duration-400
                             ${category === cat
-                                ? 'bg-[#0E889E] text-white border-[#0E889E]'
+                                ? 'bg-[#0E889E] text-white border-none'
                                 : 'bg-white text-gray-600 border-gray-300 hover:border-[#0E889E] hover:text-[#0E889E]'
                             }`}
                     >
@@ -84,7 +84,7 @@ function EventCard({ event }: { event: EventItem }) {
     });
 
     return (
-        <article class="bg-neutral-50 block w-80 border rounded-md shadow-sm hover:bg-neutral-200 transition duration-300 overflow-hidden">
+        <article class="bg-neutral-50 block w-80 rounded-md drop-shadow-md hover:drop-shadow-none hover:bg-neutral-100 transition duration-300 overflow-hidden">
             <a href={`/eventos/${event.id}`} aria-label={`Ver detalles de ${event.title}`}>
                 <div class="w-full h-44 bg-gray-200 overflow-hidden">
                     {event.coverImage

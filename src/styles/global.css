@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+:root {
+  --brand-color: #60E5E7;
+  --low-opacity-brand: rgba(14, 136, 158, 0.1);
+}
+
 body {
   font-family: 'Inter Variable', sans-serif;
 }
