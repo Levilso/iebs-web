@@ -55,7 +55,7 @@ const mainNav = [
     <nav class="hidden md:flex flex-row items-center gap-4 text-md uppercase text-black">
         {mainNav.map(link => (
             <a
-                href={link.href} transition:name="selected"
+                href={link.href}
                 class:list={[
                     'px-2 py-1 transition-colors hover:text-(--brand-color)',
                     (pathname === link.href || `/${section}/` === link.href) ? 'border-b-(--brand-color) border-b-2' : ''

@@ -15,7 +15,7 @@ export default async function() {
 			location: 'Iglesia Evangélica Bautista de Sevilla | Calle Casiodoro de Reina, 1 Sevilla',
 			price: 10,
 			capacity: 100,
-			coverImage: './iebs-biblia-1.jpg',
+			coverImage: '../iebs-biblia-1.jpg',
 			category: "Toda la iglesia"
 		}
 	]);

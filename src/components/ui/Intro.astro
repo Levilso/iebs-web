@@ -1,19 +1,36 @@
 ---
 const {background, h1} = Astro.props;
 ---
-
-<div id="container"
-    class={`
+<!-- 
+<div id="hero-section">
+    <div id="bg"
+    class=`
         -z-10
-        w-full h-screen object-cover object-top
-        pt-25
-        bg-linear-to-r from-[#4cd1e9] to-(--brand-color)
-        bg-cover bg-top
-    `}
->
-    <section id="hero">
-		<h1 class="font-semibold text-white text-4xl p-5 text-center">
-		{h1}
-        </h1>
-    </section>
+        w-screen h-200
+        p-5`
+    >
+        <div class="bg-linear-to-r from-[#4cd1e9] to-(--brand-color) bg-cover bg-center rounded-2xl">
+            <div id="content" class="ml-50 p-4 absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <h1 class="font-semibold text-white text-4xl p-5 text-center">
+                {h1}
+                </h1>
+                <p class="text-white text-lg text-center px-5">
+                    <slot name="intro-text" />
+                </p>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div id="hero-container">
+    <div id="bg" class="bg-white p-5 md:px-25 md:py-10">
+        <div id="content" class="flex w-auto h-50 md:h-150 bg-linear-to-r from-[#4cd1e9] to-(--brand-color) bg-cover bg-center rounded-4xl">
+            <div class="flex flex-col justify-center mx-auto md:mt-40 md:ml-10">
+                <h1 class="flex font-semibold text-white text-4xl p-5 md:text-4xl">
+                {h1}
+                </h1>
+            </div>
+        </div>    
+    </div>
+
 </div>
