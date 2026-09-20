@@ -1,19 +1,93 @@
 ---
-import Social from "./Social.astro"
+import Icono from '../../assets/svg/icono-simple.svg';
+import Logo from '../../assets/svg/logotipo.svg';
 
+import Facebook from '../../assets/svg/social-facebook.svg';
+import Youtube from '../../assets/svg/social-youtube.svg';
+import Whatsapp from '../../assets/svg/social-whatsapp.svg';
+import Instagram from '../../assets/svg/social-instagram.svg';
+
+const mainNav = [
+    { href: '/jesus',      label: 'Jesús' },
+    { href: '/nosotros/',  label: 'Nosotros' },
+    { href: '/visitanos',  label: 'Visítanos' },
+    { href: '/pgm/',       label: 'PGM' },
+    { href: '/recursos',   label: 'Recursos' },
+    { href: '/eventos',    label: 'Eventos' },
+];
 ---
 
 <footer class="
-    flex flex-col w-full
+    flex flex-col justify-center items-start
+    w-full h-auto
     bottom-0 left-0
-    bg-[#0E889E] text-white 
-    justify-center align-middle p-4 gap-4
+    bg-brand text-white 
+    p-10 gap-6
     ">
-    <div class="flex flex-row gap-2 justify-center align-middle">
-        <Social platform="Facebook" username="@iebsevilla"/>
-        <Social platform="Instagram" username="iebsevilla"/>
-        <Social platform="YouTube" username="iebsevilla"/>
+
+    <!-- Top -->
+    <div class="flex flex-col w-full h-auto lg:flex-row lg:justify-between
+                gap-10 items-center justify-center">
+        
+                <!-- Logo -->
+        <a href="/" class="w-full lg:w-auto">
+        <div class="flex flex-row justify-center items-center gap-4">
+            <Icono />
+            <span class="w-px h-8 bg-white"></span>
+            <Logo fill="white" />
+        </div>
+        </a>      
+
+        <!-- Social Media Links -->
+        <div class="flex flex-row w-full gap-6 justify-center items-center lg:justify-start lg:w-auto">
+            <a href="https://www.facebook.com/iebsevilla" target="_blank">
+                <Facebook />
+            </a>
+            <a href="https://www.youtube.com/iebsevilla" target="_blank">
+                <Youtube />
+            </a>
+            <a href="https://wa.me/34650778610" target="_blank">
+                <Whatsapp />
+            </a>
+            <a href="https://www.instagram.com/iebsevilla" target="_blank">
+                <Instagram />
+            </a>
+        </div>
+
+        <!-- UEBE -->
+        <img src="../../public/uebe.png" alt="Unión Evangélica Bautista Española" 
+        width="240" height="85" />
     </div>
+  
+    <span class="w-full h-1 bg-white"></span>
+
+    <!-- Bottom -->
+    <div class="font-heading items-start justify-start
+                w-full h-auto gap-10 
+                flex flex-col md:flex-row">
+        <!-- Menu -->
+        <div class="flex flex-col w-full gap-2">
+            {mainNav.map(link => (
+                <a
+                    href={link.href}
+                    class="font-bold transition-opacity duration-150 hover:opacity-75"
+                >
+                    {link.label}
+                </a>
+            ))}
+        </div>
+
+        <!-- Información -->
+        <div class="w-full">
+            <p>
+                Iglesia Evangélica Bautista de Sevilla<br />
+                Calle Casiodoro de Reina, 1 - 41020 Sevilla, España<br />
+                Teléfono: +34 650 778 610<br />
+                Email: <a href="mailto:secretaria.iebs@gmail.com">secretaria.iebs@gmail.com</a>
+            </p>
+        </div>
+    </div>
+
     <p class="inline-flex justify-center align-middle font-light">
-        © 2026 Iglesia Evangélica Bautista de Sevilla | Todos los derechos reservados.</p>
+        © 2026 Iglesia Evangélica Bautista de Sevilla</p>
 </footer>

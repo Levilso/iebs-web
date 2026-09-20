@@ -1,13 +1,19 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-:root {
-  --brand-color: #60E5E7;
-  --low-opacity-brand: rgba(14, 136, 158, 0.1);
+@theme {
+  --color-brand: #4EC3D0;
+  --color-brand-dark: #20355A;
+  --color-alternative: #4CD1E9;
+  --color-ivory: #EDFCF6;
+  --color-contrast: #D5E25F;
 }
 
-body {
-  font-family: 'Inter Variable', sans-serif;
+@theme inline {
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+  --font-reading: var(--font-reading);
+  --font-admin: var(--font-admin);
 }
 
 @layer components {
@@ -21,10 +27,55 @@ body {
     gap: var(--size-fluid-1);
     align-items: start;
     max-width: 600px;
-
-    /* > div {
-      display: grid;
-      gap: var(--size-1);
-    } */
   }
 }
+
+@layer base {
+  h1 {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    font-size: 32px;
+    line-height: 36px;
+  }
+  h2 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    font-size: 24px;
+  }
+  h3 {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    font-size: 20px;
+  }
+  body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 16px;
+  }
+
+  .nav-text {
+    font-family: var(--font-heading);
+    font-weight: bold;
+    font-size: 32px;
+  }
+
+  .prose-reading {
+    font-family: var(--font-reading);
+    font-weight: 400;
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  h1 { font-size: 40px; line-height: 46px; }
+  h2 { font-size: 36px; }
+  h3 { font-size: 32px; }
+  body { font-size: 20px; }
+  .nav-text { font-size: 24px; }
+}
+
+
+

@@ -1,64 +1,46 @@
 ---
-import Hamburger from '../../assets/svg/dehaze_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
-import CloseIcon from '../../assets/svg/close_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg';
+import Hamburger from '../../assets/svg/burger-menu.svg';
+import CloseIcon from '../../assets/svg/close-button.svg';
+
+import Icono from '../../assets/svg/icono.svg';
+import Logo from '../../assets/svg/logotipo.svg';
 
 const pathname = Astro.url.pathname;
 const section = pathname.split('/').filter(Boolean)[0];
 
-// glob eager, para cargar todas las páginas y sus navTitle sin necesidad de importarlas manualmente
-const modules = import.meta.glob(`/src/pages/**/*.astro`, { eager: true });
-
-// Sacar los nombres de las páginas y sus href dentro de una sección
-const allItems = Object.entries(modules)
-    .filter(([path]) => {
-        const parts = path.replace('/src/pages/', '').split('/');
-        return (
-            parts[0] === section &&
-            parts.length === 2 &&
-            !parts[1].startsWith('[') &&   // exclude dynamic routes
-            !parts[1].startsWith('_')      // exclude _old, etc.
-        );
-    })
-    .map(([path, mod]: [string, any]) => {
-        const filename = path.split('/').pop()!.replace('.astro', '');
-        const isIndex = filename === 'index';
-        return {
-            href: isIndex ? `/${section}/` : `/${section}/${filename}`,
-            label: mod.navTitle as string | undefined,
-            isIndex
-        };
-    })
-    .filter(item => item.label);            // solo las páginas con navTitle
-
-const indexItem = allItems.find(item => item.isIndex);
-const rest = allItems.filter(item => !item.isIndex).sort((a, b) => a.label!.localeCompare(b.label!));
-const sectionNav = indexItem ? [indexItem, ...rest] : allItems;
-
 const mainNav = [
     { href: '/jesus',      label: 'Jesús' },
-    { href: '/',           label: 'Inicio' },
-    { href: '/conocenos/', label: 'Conócenos' },
+    { href: '/nosotros/',  label: 'Nosotros' },
+    { href: '/visitanos',  label: 'Visítanos' },
     { href: '/pgm/',       label: 'PGM' },
-    { href: '/eventos',    label: 'Eventos' },
     { href: '/recursos',   label: 'Recursos' },
+    { href: '/eventos',    label: 'Eventos' },
 ];
 ---
-<header class="relative w-full flex flex-row items-center justify-between
-    py-4 px-4 md:px-16
-    bg-white drop-shadow-md
-    z-10">
+<header class="
+    w-full flex flex-row items-center justify-between
+    p-4 gap-6 lg:px-16">
 
     <!-- Logo -->
-    <a href="/" class="font-extrabold text-3xl text-black">IEBS</a>
+    <a href="/">
+    <div class="flex flex-row items-center gap-4">
+        <Icono />
+        <span class="w-px h-8 bg-brand hidden lg:block"></span>
+        <Logo class="hidden lg:block" />
+    </div>
+    </a>
 
     <!-- Desktop nav -->
-    <nav class="hidden md:flex flex-row items-center gap-4 text-md uppercase text-black">
+    <nav class="
+        hidden lg:flex flex-row 
+        justify-center items-center 
+        gap-4 text-md text-brand-dark nav-text">
         {mainNav.map(link => (
             <a
                 href={link.href}
                 class:list={[
-                    'px-2 py-1 transition-colors hover:text-(--brand-color)',
-                    (pathname === link.href || `/${section}/` === link.href) ? 'border-b-(--brand-color) border-b-2' : ''
+                    'transition-opacity duration-150 hover:opacity-75',
+                    (pathname === link.href || `/${section}/` === link.href) ? 'border-b-brand-dark border-b-3' : ''
                 ]}
             >
                 {link.label}
@@ -68,76 +50,64 @@ const mainNav = [
 
     <!-- HAMBURGER (mobile only) -->
     <button id="hamburger-btn"
-        class="md:hidden p-2 text-gray-800 flex flex-col gap-1.5 cursor-pointer"
+        class="lg:hidden p-2 text-gray-800 flex flex-col gap-1.5 cursor-pointer"
         aria-label="Abrir menú"
         aria-expanded="false"
         aria-controls="mobile-overlay"
     >
         <!-- <Hamburger /> -->
-        <span class="block w-6 h-0.5 bg-gray-800 transition-all duration-300 origin-center"></span>
-        <span class="block w-6 h-0.5 bg-gray-800 transition-all duration-300"></span>
-        <span class="block w-6 h-0.5 bg-gray-800 transition-all duration-300 origin-center"></span>
+        <Hamburger />
     </button>
 </header>
 
-<!-- SUBHEADER -->
-{sectionNav.length > 0 && (
-    <nav class="hidden md:block w-full bg-white border-b border-gray-200 uppercase" 
-        id="section-subnav" aria-label="Navegación de sección">
-        <div class="max-w-5xl mx-auto px-6 flex gap-6 overflow-x-auto justify-center">
-            {sectionNav.map(({ href, label }) => (
-                <a
-                    href={href}
-                    class:list={[
-                        'py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors',
-                        pathname === href
-                            ? 'border-(--brand-color)'
-                            : 'border-transparent text-gray-500 hover:text-gray-800'
-                    ]}
-                >
-                    {label}
-                </a>
-            ))}
-        </div>
-    </nav>
-)}
-
 <!-- OVERLAY (mobile) -->
 <div id="mobile-overlay"
-    class="fixed inset-0 bg-(--brand-color) z-20
-            flex-col items-center justify-center gap-10 w-screen h-screen hidden"
+    class="fixed inset-0 bg-brand-dark
+            flex-col items-end justify-between
+            w-screen h-screen hidden
+            py-6 px-8"
             aria-hidden="true">
 
-    <!-- Close button -->
-    <button id="close-menu-btn"
-        class="absolute top-5 right-5 p-2 text-white cursor-pointer"
-        aria-label="Cerrar menú"
-    >
-        <CloseIcon />
-    </button>
+    <!-- top -->
+    <div class="flex flex-col items-end justify-between w-full h-auto gap-12">
+        <!-- icons -->
+        <div class="flex flex-row items-center justify-between w-full h-auto">
+            <!-- Logo -->
+            <Logo fill="white" width="190" height="36" />
 
-    <!-- Main Nav -->
-    <nav class="
-        flex flex-col items-center gap-7 text-white text-xl 
-        uppercase font-semibold tracking-wide">
-        {mainNav.map(link => (
-            <a href={link.href} class="hover:opacity-70 transition-opacity">
-                {link.label}
-            </a>
-        ))}
-    </nav>
+            <!-- Close button -->
+            <button id="close-menu-btn"
+                class="cursor-pointer"
+                aria-label="Cerrar menú"
+            >
+                <CloseIcon />
+            </button>
 
-    <!-- Nav de las secciones (mostrar subpáginas) -->
-    {sectionNav.length > 0 && (
-        <div class="flex flex-col items-center gap-4 border-t border-white/30 pt-8 w-48">
-            <p class="text-white/60 text-xs uppercase tracking-widest">Esta sección</p>
-            {sectionNav.map(item => (
-                <a href={item.href} class="text-white text-base hover:opacity-70 transition-opacity">
-                    {item.label}
-                </a>
-            ))}
         </div>
-    )}
+
+        <!-- menu -->
+        <div>
+            <!-- Main Nav -->
+            <nav class="
+                flex flex-col items-end gap-4 text-white nav-text">
+                {mainNav.map(link => (
+                    <a href={link.href} class="hover:opacity-70 transition-opacity">
+                        {link.label}
+                    </a>
+                ))}
+            </nav>
+        </div>
+    </div>
+
+    <!-- bottom -->
+    <div>
+        <!-- log-in -->
+        <button class="bg-white text-brand-dark font-heading cursor-pointer
+                        text-xl font-bold 
+                        px-6 py-4 rounded-4xl">
+            Iniciar sesión
+        </button>
+    </div>
 </div>
 
 <script>
@@ -146,8 +116,6 @@ const mainNav = [
         const hamburgerBtn = document.getElementById('hamburger-btn');
         const closeBtn     = document.getElementById('close-menu-btn');
         const overlay      = document.getElementById('mobile-overlay');
-        const subnav       = document.getElementById('section-subnav');
-        const header       = document.querySelector('header');
 
         function openMenu() {
             overlay?.classList.replace('hidden', 'flex');

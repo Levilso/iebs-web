@@ -4,7 +4,6 @@ export const prerender = true;
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Intro from '../../components/ui/Intro.astro';
-import PageNav from '../../components/ui/PageNav.astro';
 
 const posts = await getCollection('posts');
 const sermons = await getCollection('sermons');
@@ -22,7 +21,6 @@ const pageTitle = "Recursos"
 	description=`Artículos, sermones y guiones de PGM de la IEBS.`
 >
 	<Intro h1={pageTitle} />
-	<PageNav />
 	<main class="max-w-5xl mx-auto px-6 py-12 space-y-16">
 		<!-- sermones -->
 		<section>

@@ -1,7 +1,6 @@
 ---
 import Welcome from '../components/Welcome.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageNav from '../components/ui/PageNav.astro';
 import Intro from '../components/ui/Intro.astro';
 import EventGallery from '../components/events/EventGallery.astro';
 import EventsFilter from '../components/events/EventsFilter';
@@ -14,13 +13,36 @@ const pageTitle = "Iglesia Evangélica Bautista de Sevilla - Inicio";
 	description=`Una iglesia en Sevilla que hace discípulos que hacen discípulos.
 	Existimos para glorificar a Dios, expandir su Reino y hacer completamente Su voluntad.`
 >
-<!-- background="/iebs-conversacion-1.jpg" -->
-	<Intro h1 = "¡Bienvenido!"/>
+	<!-- hero -->
+	<div class="flex flex-col lg:flex-row 
+				items-center justify-center 
+				w-full
+				px-4 py-6">
+		<img
+			class="rounded-[40px] lg:w-190"
+			src="../../public/iebs-conversacion-1.jpg" alt="Iglesia Evangélica Bautista de Sevilla"
+		>
 
-	<PageNav />
-	<div id="container"
-	class="min-h-80">
-
+		<div class="flex flex-col bg-alternative
+					rounded-[40px] -mt-18 px-6 py-8 gap-4 lg:mt-0 lg:-ml-18
+					w-100 h-auto">
+			<h1 class="w-full">Somos la Iglesia Evangélica Bautista de Sevilla</h1>
+			<p class="w-full">Nuestra misión es glorificar a Dios, expandir su Reino y hacer su voluntad.</p>
+			<div class="flex flex-row gap-4 w-full justify-center lg:justify-start">
+				<button class="bg-brand-dark text-ivory font-heading cursor-pointer
+								text-xl font-bold 
+								px-7 py-2 rounded-xl">
+					Visítanos
+				</button>
+				
+				<button class="bg-ivory text-brand-dark font-heading cursor-pointer
+								text-xl font-bold 
+								px-7 py-2 rounded-xl">
+					Conoce más
+				</button>
+			</div>
+		</div>
 	</div>
+
 
 </BaseLayout>

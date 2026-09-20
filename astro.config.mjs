@@ -25,21 +25,11 @@ export default defineConfig({
 
   adapter: netlify(),
 
+  // astro.config.mjs
   fonts: [
-    {
-      provider: fontProviders.fontsource(),
-      name: "DM Serif Display",
-      cssVariable: "--font-DMSerifDisplay"
-    },
-    {
-      provider: fontProviders.fontsource(),
-      name: "Inter",
-      cssVariable: "--font-inter"
-    },
-    {
-      provider: fontProviders.fontsource(),
-      name: "Onest",
-      cssVariable: "--font-onest"
-    }
+    { provider: fontProviders.fontshare(), name: "Satoshi", cssVariable: "--font-heading", weights: ["300 800"] },
+    { provider: fontProviders.fontshare(), name: "General Sans", cssVariable: "--font-body" },
+    { provider: fontProviders.fontsource(), name: "Libre Baskerville", cssVariable: "--font-reading" },
+    { provider: fontProviders.fontsource(), name: "Inter", cssVariable: "--font-admin" },
   ],
 });
