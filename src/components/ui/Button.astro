@@ -1,0 +1,24 @@
+---
+interface Props {
+    bg: string;
+    textColor: string;
+    size?: "sm" | "md" | "lg";
+}
+
+const {
+    bg,
+    textColor,
+    size = "md",
+} = Astro.props;
+
+const sizeClasses = {
+    sm: "text-base px-5 py-1.5",
+    md: "text-xl px-7 py-2",
+    lg: "text-2xl px-8 py-3",
+};
+---
+
+<button class={`bg-${bg} text-${textColor} ${sizeClasses[size]} 
+            font-heading cursor-pointer rounded-xl font-bold`}>
+    <slot />
+</button>

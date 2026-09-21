@@ -1,9 +1,10 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import Welcome from '../components/ui/Welcome.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Intro from '../components/ui/Intro.astro';
+import IndexBento from '../components/sections/IndexBento.astro';
 import EventGallery from '../components/events/EventGallery.astro';
 import EventsFilter from '../components/events/EventsFilter';
+import Button from '../components/ui/Button.astro';
 
 const pageTitle = "Iglesia Evangélica Bautista de Sevilla - Inicio";
 ---
@@ -13,36 +14,36 @@ const pageTitle = "Iglesia Evangélica Bautista de Sevilla - Inicio";
 	description=`Una iglesia en Sevilla que hace discípulos que hacen discípulos.
 	Existimos para glorificar a Dios, expandir su Reino y hacer completamente Su voluntad.`
 >
-	<!-- hero -->
-	<div class="flex flex-col lg:flex-row 
-				items-center justify-center 
-				w-full
-				px-4 py-6">
-		<img
-			class="rounded-[40px] lg:w-190"
-			src="/iebs-conversacion-1.jpg" alt="Iglesia Evangélica Bautista de Sevilla"
-		>
+	<!-- hero de introducción -->
+	<Welcome />
 
-		<div class="flex flex-col bg-alternative
-					rounded-[40px] -mt-18 px-6 py-8 gap-4 lg:mt-0 lg:-ml-18
-					w-100 h-auto">
-			<h1 class="w-full">Somos la Iglesia Evangélica Bautista de Sevilla</h1>
-			<p class="w-full">Nuestra misión es glorificar a Dios, expandir su Reino y hacer su voluntad.</p>
-			<div class="flex flex-row gap-4 w-full justify-center lg:justify-start">
-				<button class="bg-brand-dark text-ivory font-heading cursor-pointer
-								text-xl font-bold 
-								px-7 py-2 rounded-xl">
-					Visítanos
-				</button>
-				
-				<button class="bg-ivory text-brand-dark font-heading cursor-pointer
-								text-xl font-bold 
-								px-7 py-2 rounded-xl">
-					Conoce más
-				</button>
+	<span class="h-6"/>
+
+	<!-- presentación -->
+	<section
+	class="w-full max-w-160 h-auto lg:px-8 lg:max-w-400">
+		
+		<!-- bento -->
+		<div
+		class=" w-full p-4
+				flex flex-col
+				rounded-t-[40px] bg-brand">
+
+			<IndexBento />
+		</div>
+		<!-- historia -->
+		<div class="flex flex-col p-6 w-full h-90 lg:h-100 bg-right
+					rounded-b-[40px] bg-[url(/cristalera-edit.jpg)] bg-cover
+					">
+
+			<div class="flex flex-col gap-4 items-end justify-center text-right text-white">
+				<h1>Conoce nuestra <br> historia</h1>
+				<Button bg="ivory" textColor="brand-dark">¿Quiénes somos?</Button>
 			</div>
 		</div>
-	</div>
 
+	</section>
+	
 
+	<span class="block h-40"></span>
 </BaseLayout>

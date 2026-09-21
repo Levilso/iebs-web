@@ -1,0 +1,39 @@
+---
+import Button from "./Button.astro";
+---
+
+<section class="flex flex-col lg:flex-row 
+                items-center justify-center 
+                w-full h-200
+                px-4 py-6">
+
+    <div class="w-full max-w-200 lg:w-190 rounded-[40px] overflow-hidden">
+        <img
+            class="w-full transition-transform duration-700 ease-out hover:scale-102"
+            src="/iebs-conversacion-1.jpg" alt="Iglesia Evangélica Bautista de Sevilla"
+        >
+    </div>
+
+    <div class="flex flex-col bg-alternative z-10
+                rounded-[40px] px-6 py-8 gap-4
+                -mt-18 lg:mt-0 lg:-ml-18
+                w-auto max-w-100 h-auto
+                hover:mb-2 duration-300">
+
+        <h1 class="w-full">Somos la Iglesia Evangélica Bautista de Sevilla</h1>
+        <p class="w-full">Nuestra misión es glorificar a Dios, expandir su Reino y hacer su voluntad.</p>
+
+        <div class="flex flex-row gap-4 w-full justify-center lg:justify-start">
+
+            <Button bg="brand-dark" textColor="ivory" size="md">
+                ¡Visítanos!
+            </Button>
+
+            <Button bg="ivory" textColor="brand-dark" size="md">
+                Lee más
+            </Button>
+        </div>
+        
+    </div>
+
+</section>

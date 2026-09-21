@@ -33,22 +33,22 @@
 @layer base {
   h1 {
     font-family: var(--font-heading);
-    font-weight: 800;
+    font-weight: 700;
     letter-spacing: -0.05em;
-    font-size: 32px;
-    line-height: 36px;
+    font-size: 36px;
+    line-height: 38px;
   }
   h2 {
     font-family: var(--font-heading);
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: -0.02em;
-    font-size: 24px;
+    font-size: 28px;
   }
   h3 {
     font-family: var(--font-heading);
     font-weight: 400;
     letter-spacing: -0.02em;
-    font-size: 20px;
+    font-size: 24px;
   }
   body {
     font-family: var(--font-body);

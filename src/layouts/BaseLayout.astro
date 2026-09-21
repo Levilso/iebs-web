@@ -31,12 +31,10 @@ const {pageTitle, description} = Astro.props;
 		<ClientRouter />
 		<title>{pageTitle}</title>
 	</head>
-	<body class="min-h-screen flex flex-col justify-start items-center">
+	<body class="w-full min-h-screen flex flex-col justify-start items-center">
 
 		<MainHeader />
-		<section class="">
-			<slot />
-		</section>
+		<slot />
 		<Footer />
 		
 	</body>
