@@ -1,22 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+// sections
 import Welcome from '../components/sections/Welcome.astro';
 import MinSection from '../components/sections/MinSection.astro';
 import IndexBento from '../components/sections/IndexBento.astro';
+import Calendar from '../components/sections/Calendar.astro';
+import LinkGallery from '../components/sections/LinkGallery.astro';
 
-import EventGallery from '../components/events/EventGallery.astro';
-import EventsFilter from '../components/events/EventsFilter';
-
+// ui
 import Button from '../components/ui/Button.astro';
 import Link from '../components/ui/Link.astro';
 import LinkCard from '../components/ui/LinkCard.astro';
 
+// svg
 import Facebook from '../assets/svg/social-facebook.svg';
 import Youtube from '../assets/svg/social-youtube.svg';
 import Whatsapp from '../assets/svg/social-whatsapp.svg';
 import Instagram from '../assets/svg/social-instagram.svg';
-import LinkGallery from '../components/sections/LinkGallery.astro';
 
 const pageTitle = "Iglesia Evangélica Bautista de Sevilla - Inicio";
 ---
@@ -62,9 +63,9 @@ const pageTitle = "Iglesia Evangélica Bautista de Sevilla - Inicio";
 	
 	<span class="h-16"/>
 	<!-- Contacto -->
-	<section class="flex flex-col w-full max-w-160 lg:max-w-400 px-10 lg:px-20 gap-8">
+	<section class="flex flex-col w-full max-w-160 lg:max-w-400 px-10 lg:px-20 gap-8 text-brand-dark">
 		<!-- address -->
-		<div class="flex flex-col gap-2 lg:gap-4 w-full">
+		<div class="flex flex-col gap-2 lg:gap-4 w-full ">
 			<h1>¡Acércate!</h1>
 			<h3>
 				Calle Casiodoro de Reina, 1, Sevilla Este <br>
@@ -78,10 +79,10 @@ const pageTitle = "Iglesia Evangélica Bautista de Sevilla - Inicio";
 			<div class="flex flex-row gap-2 justify-end items-center">
 				<h3>@iebsevilla</h3>
 				<a href="https://www.facebook.com/iebsevilla" target="_blank">
-					<Facebook fill="0866FF"/>
+					<Facebook fill="#0866FF"/>
 				</a>
 				<a href="https://www.youtube.com/iebsevilla" target="_blank">
-					<Youtube fill="FF0302"/>
+					<Youtube fill="#FF0302"/>
 				</a>
 				<a href="https://www.instagram.com/iebsevilla" target="_blank">
 					<Instagram fill="black" />
@@ -91,7 +92,7 @@ const pageTitle = "Iglesia Evangélica Bautista de Sevilla - Inicio";
 			<a href="https://wa.me/34650778610" target="_blank">
 				<div class="flex flex-row w-full justify-end items-center gap-2">
 					<div class="flex flex-row flex-wrap justify-end"><h3>Secretaría:</h3><h3>+34 650 778 610</h3></div>
-					<Whatsapp fill="25D366" />
+					<Whatsapp fill="#25D366" />
 				</div>
 			</a>
 		</div>
@@ -101,17 +102,15 @@ const pageTitle = "Iglesia Evangélica Bautista de Sevilla - Inicio";
 	<span class="h-16"/>
 
 	<!-- Calendario -->
-	<section>
-
-	</section>
+	<Calendar />
 
 	<!-- Enlace a eventos -->
-	<section class="w-full h-fit flex flex-col gap-6 p-10 lg:max-w-400 items-center">
-		<div class="w-full flex flex-col gap-6">
+	<section class="w-full h-fit flex flex-col gap-6 p-10 lg:px-20 lg:py-24 lg:max-w-400 items-center">
+		<div class="w-full flex flex-col gap-6 lg:max-w-300">
 			<h1>Apúntate a nuestros eventos</h1>
-			<h2>Consulta nuestra galería de eventos para que veas todos los que están disponibles para inscripción.</h2>
+			<h3>Consulta nuestra galería de eventos para que veas todos los que están disponibles para inscripción.</h3>
 		</div>
-		<div class="w-full h-fit lg:max-h-140 rounded-[40px] overflow-hidden">
+		<div class="w-full max-h-150 lg:max-w-300 rounded-[40px] overflow-hidden">
 			<img src="/bautismos.jpg" alt="Imagen promocional de bautismos" 
 				class="w-full object-cover transition-transform duration-700 ease-out hover:scale-102">
 		</div>
@@ -124,7 +123,10 @@ const pageTitle = "Iglesia Evangélica Bautista de Sevilla - Inicio";
 	</section>
 
 	<!-- Recursos -->
-	<LinkGallery h1='Recursos' h2='Queremos daros herramientas para ser y hacer discípulos de Jesús.'>
+	<LinkGallery 
+		h1='Recursos' 
+		h2='Queremos daros herramientas para ser y hacer discípulos de Jesús.'
+	>
 		<LinkCard 
             title="¿Quién es Jesús?"
             desc="Fuimos creados para conocer a Cristo."
@@ -133,7 +135,7 @@ const pageTitle = "Iglesia Evangélica Bautista de Sevilla - Inicio";
         />
         <LinkCard 
             title="Sermones"
-            desc="Aquí puedes consultar las prédicas de domingos anteriores."
+            desc="Aquí están las prédicas de domingos anteriores."
             href="/recursos"
             linkTxt='¡No te pierdas ninguno!'
         />

@@ -6,14 +6,14 @@ type Props = {
 
 const { h1, h2 } = Astro.props;
 ---
-<section class="w-full h-fit flex flex-col bg-brand-dark p-9 gap-6 lg:p-12">
+<section class="w-full h-fit flex flex-col items-center bg-brand-dark p-12 lg:py-24 gap-6">
     <!-- Título y descripción -->
-    <div class="flex flex-col text-white gap-6">
+    <div class="flex flex-col text-white gap-6 w-full max-w-160 lg:max-w-400">
         <h1>{h1}</h1>
         <h2>{h2}</h2>
     </div>
     <!-- link cards -->
-    <div class="flex flex-col lg:flex-row gap-0.5">
+    <div class="flex flex-col lg:flex-row gap-0.5 lg:max-w-400">
         <slot />
     </div>
 </section>
