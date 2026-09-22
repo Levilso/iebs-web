@@ -1,10 +1,22 @@
 ---
-import Welcome from '../components/ui/Welcome.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+import Welcome from '../components/sections/Welcome.astro';
+import MinSection from '../components/sections/MinSection.astro';
 import IndexBento from '../components/sections/IndexBento.astro';
+
 import EventGallery from '../components/events/EventGallery.astro';
 import EventsFilter from '../components/events/EventsFilter';
+
 import Button from '../components/ui/Button.astro';
+import Link from '../components/ui/Link.astro';
+import LinkCard from '../components/ui/LinkCard.astro';
+
+import Facebook from '../assets/svg/social-facebook.svg';
+import Youtube from '../assets/svg/social-youtube.svg';
+import Whatsapp from '../assets/svg/social-whatsapp.svg';
+import Instagram from '../assets/svg/social-instagram.svg';
+import LinkGallery from '../components/sections/LinkGallery.astro';
 
 const pageTitle = "Iglesia Evangélica Bautista de Sevilla - Inicio";
 ---
@@ -24,26 +36,119 @@ const pageTitle = "Iglesia Evangélica Bautista de Sevilla - Inicio";
 	class="w-full max-w-160 h-auto lg:px-8 lg:max-w-400">
 		
 		<!-- bento -->
-		<div
-		class=" w-full p-4
-				flex flex-col
-				rounded-t-[40px] bg-brand">
-
+		<div class=" w-full p-4 flex flex-col rounded-t-[40px] bg-brand">
 			<IndexBento />
 		</div>
+
 		<!-- historia -->
 		<div class="flex flex-col p-6 w-full h-90 lg:h-100 bg-right
-					rounded-b-[40px] bg-[url(/cristalera-edit.jpg)] bg-cover
-					">
+					group relative overflow-hidden rounded-b-[40px]">
 
-			<div class="flex flex-col gap-4 items-end justify-center text-right text-white">
-				<h1>Conoce nuestra <br> historia</h1>
-				<Button bg="ivory" textColor="brand-dark">¿Quiénes somos?</Button>
+			<div class="absolute inset-0 bg-[url(/cristalera-edit.jpg)] bg-cover bg-center
+            	        transition-transform duration-800 ease-out delay-75
+                	    group-hover:scale-102"></div>
+
+			<div class="flex flex-col relative z-10 gap-4 items-end justify-center text-right text-white">
+				<h1 class="group-hover:pr-2 duration-600">Conoce nuestra <br> historia</h1>
+				<div class="group-hover:pr-2 duration-600 delay-150"><Button bg="ivory" textColor="brand-dark">¿Quiénes somos?</Button></div>
 			</div>
+		</div>
+	</section>
+	
+	
+	<span class="h-16"/>
+	<!-- Presentación de ministerios -->
+	<MinSection />
+	
+	<span class="h-16"/>
+	<!-- Contacto -->
+	<section class="flex flex-col w-full max-w-160 lg:max-w-400 px-10 lg:px-20 gap-8">
+		<!-- address -->
+		<div class="flex flex-col gap-2 lg:gap-4 w-full">
+			<h1>¡Acércate!</h1>
+			<h3>
+				Calle Casiodoro de Reina, 1, Sevilla Este <br>
+				Lunes a Viernes | 9:00 - 13:00
+				Domingos | 11:00
+			</h3>
+		</div>
+
+		<!-- social media + whatsapp -->
+		<div class="flex flex-col justify-center items-end gap-2 w-full text-end">
+			<div class="flex flex-row gap-2 justify-end items-center">
+				<h3>@iebsevilla</h3>
+				<a href="https://www.facebook.com/iebsevilla" target="_blank">
+					<Facebook fill="0866FF"/>
+				</a>
+				<a href="https://www.youtube.com/iebsevilla" target="_blank">
+					<Youtube fill="FF0302"/>
+				</a>
+				<a href="https://www.instagram.com/iebsevilla" target="_blank">
+					<Instagram fill="black" />
+				</a>
+			</div>
+		
+			<a href="https://wa.me/34650778610" target="_blank">
+				<div class="flex flex-row w-full justify-end items-center gap-2">
+					<div class="flex flex-row flex-wrap justify-end"><h3>Secretaría:</h3><h3>+34 650 778 610</h3></div>
+					<Whatsapp fill="25D366" />
+				</div>
+			</a>
+		</div>
+		
+	</section>
+	
+	<span class="h-16"/>
+
+	<!-- Calendario -->
+	<section>
+
+	</section>
+
+	<!-- Enlace a eventos -->
+	<section class="w-full h-fit flex flex-col gap-6 p-10 lg:max-w-400 items-center">
+		<div class="w-full flex flex-col gap-6">
+			<h1>Apúntate a nuestros eventos</h1>
+			<h2>Consulta nuestra galería de eventos para que veas todos los que están disponibles para inscripción.</h2>
+		</div>
+		<div class="w-full h-fit lg:h-[30em] rounded-[40px] overflow-hidden">
+			<img src="/bautismos.jpg" alt="Imagen promocional de bautismos" 
+				class="w-full object-cover transition-transform duration-700 ease-out hover:scale-102">
+		</div>
+		<div class="w-full flex justify-center hover:ml-1 hover:-mr-1 duration-600">
+			<Link href='/eventos' simple>
+				<h2>Ver todos los eventos</h2>
+			</Link>
 		</div>
 
 	</section>
-	
 
-	<span class="block h-40"></span>
+	<!-- Recursos -->
+	<LinkGallery h1='Recursos' h2='Queremos daros herramientas para ser y hacer discípulos de Jesús.'>
+		<LinkCard 
+            title="¿Quién es Jesús?"
+            desc="Fuimos creados para conocer a Cristo."
+            href="/jesus"
+            linkTxt='¿Ya lo conoces?'
+        />
+        <LinkCard 
+            title="Sermones"
+            desc="Aquí puedes consultar las prédicas de domingos anteriores."
+            href="/recursos"
+            linkTxt='¡No te pierdas ninguno!'
+        />
+        <LinkCard 
+            title="Artículos"
+            desc="Queremos bendecir tu vida con la Palabra de Dios"
+            href="/recursos"
+            linkTxt='Lee aquí'
+        />
+        <LinkCard 
+            title="Ejemplo de título"
+            desc="Aquí va una breve descripción del enlace."
+            href="/"
+            linkTxt='¡Llamada a la acción!'
+        />
+	</LinkGallery>
+
 </BaseLayout>

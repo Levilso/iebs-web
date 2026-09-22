@@ -1,0 +1,32 @@
+---
+import Link from './Link.astro';
+
+type Props = {
+    title: string;
+    desc: string;
+    linkTxt: string;
+    href: string;
+};
+
+const { title, desc, linkTxt, href } = Astro.props;
+---
+<!-- link card -->
+<div class="flex flex-col gap-3 
+            justify-start lg:justify-between 
+            w-full h-auto lg:min-h-80 
+            bg-white
+            p-6 lg:px-8">
+    <h1>
+        {title}
+    </h1>
+    <div class="flex flex-col gap-4">
+        <h3>
+            {desc}
+        </h3>
+        <div class="hover:pl-1 hover:-mr-1 duration-500">
+            <Link href={href}> 
+                <p class="text-2xl font-light font-heading italic">{linkTxt}</p>
+            </Link>
+        </div>
+    </div>
+</div>

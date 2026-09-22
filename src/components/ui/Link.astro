@@ -1,0 +1,37 @@
+---
+import LinkIcon from '../../assets/svg/link-icon.svg';
+import LinkSimple from '../../assets/svg/link-icon-simple.svg';
+
+type Props = {
+    href: string;
+    size?: "sm" | "md" | "lg";
+    simple?: boolean;
+};
+
+const { href, size = "md", simple = false } = Astro.props;
+
+const sizeClasses = {
+    sm: "32px",
+    md: "40px",
+    lg: "48px",
+};
+
+---
+{
+    simple ? 
+    (<a href={href} class="hover:underline">
+        <button class="cursor-pointer flex items-center gap-2 text-left"> 
+            <LinkSimple height={sizeClasses[size]} width={sizeClasses[size]} /> 
+            <slot />
+        </button>
+    </a>) 
+    : 
+    (<a href={href} class="hover:underline">
+        <button class="cursor-pointer flex items-center gap-2 text-left"> 
+            <LinkIcon height={sizeClasses[size]} width={sizeClasses[size]} /> 
+            <slot />
+        </button>
+    </a>)
+}
+
+

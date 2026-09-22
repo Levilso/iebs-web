@@ -1,0 +1,63 @@
+---
+import Link from '../ui/Link.astro';
+---
+
+<!-- presentación ministerios -->
+<section class="w-full h-auto max-w-160 lg:max-w-400
+                lg:px-8 ">
+
+    <div class="flex flex-col lg:grid lg:grid-cols-7 w-full rounded-[40px] overflow-hidden text-white">
+
+        <!-- misiones -->
+        <div class="group relative w-full h-80 lg:h-140 overflow-hidden col-span-2">
+
+            <div class="absolute inset-0 
+                        bg-[url(/iebs-biblia-1.jpg)] bg-cover bg-center
+                        transition-transform duration-700 ease-out group-hover:scale-110"></div>
+
+            <div class="flex flex-col w-full h-full justify-end gap-8
+                        px-6 py-8 group-hover:pl-8 duration-700
+                        bg-linear-to-r from-black via-black/25 to-black/0
+                        relative z-10">
+                <h1>Misiones</h1>
+                <h3 class="w-80 max-w-full">Pellentesque quis posuere neque. Sed placerat fringilla augue pellentesque feugiat.</h3>
+            </div>
+        </div>
+
+        <!-- escuela de música -->
+        <div class="group relative w-full h-80 lg:h-140 overflow-hidden col-span-2">
+
+            <div class="absolute inset-0 
+                        bg-[url(/cantante.jpg)] bg-cover bg-position-[center_top_30%]
+                        transition-transform duration-700 ease-out group-hover:scale-110"></div>
+
+            <div class="flex flex-col w-full h-full justify-end gap-8   
+                        px-6 py-8 group-hover:pl-8 duration-700
+                        bg-linear-to-r from-black via-black/25 to-black/0
+                        relative z-10">
+                <h1>Escuela de Música</h1>
+                <h3 class="w-80 max-w-full">Pellentesque quis posuere neque. Sed placerat fringilla augue pellentesque feugiat.</h3>
+            </div>
+        </div>
+
+        <!-- descubre más -->
+        <div class="group relative w-full h-fit lg:h-140 overflow-hidden col-span-3">
+
+            <div class="absolute inset-0 
+                        bg-[url(/patio_interior.jpeg)] bg-cover bg-center
+                        transition-transform duration-700 ease-out group-hover:scale-110"></div>
+
+            <div class="flex flex-col w-full h-full justify-center items-center
+                        p-10 py-15
+                        bg-black/20
+                        relative z-10">
+                <div class="flex flex-col gap-6 bg-white lg:bg-white/70 p-6 h-auto w-70 max-w-full lg:w-100 text-black group-hover:bg-white lg:hover:p-8 transition-all duration-700">
+                    <h1>Descubre más de todo lo que hacemos</h1>
+                    <Link href='/nosotros/ministerios'><p class="text-2xl font-light font-heading italic text-left">Ver todos los ministerios</p></Link>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>

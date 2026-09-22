@@ -1,0 +1,19 @@
+---
+type Props = {
+    h1?: string;
+    h2?: string;
+}
+
+const { h1, h2 } = Astro.props;
+---
+<section class="w-full h-fit flex flex-col bg-brand-dark p-9 gap-6 lg:p-12">
+    <!-- Título y descripción -->
+    <div class="flex flex-col text-white gap-6">
+        <h1>{h1}</h1>
+        <h2>{h2}</h2>
+    </div>
+    <!-- link cards -->
+    <div class="flex flex-col lg:flex-row gap-0.5">
+        <slot />
+    </div>
+</section>
