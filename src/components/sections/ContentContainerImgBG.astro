@@ -1,0 +1,36 @@
+---
+type Props = {
+    imgSrc: string,
+    imgAlt?: string,
+    bgColor?: string,
+    txtColor?: string,
+}
+
+const { imgSrc, imgAlt, bgColor = "white", txtColor = "black"} = Astro.props;
+const customColors = "bg-"+bgColor+" text-"+txtColor;
+---
+<section class="flex justify-center
+                w-full h-fit group relative overflow-hidden px-4 py-16 lg:p-32">
+    
+    <!-- imagen -->
+    <div class=`absolute inset-0 bg-[url(${imgSrc})] bg-cover bg-center
+    transition-transform duration-600 ease-out
+    group-hover:scale-105 -z-10`></div>
+
+    <!-- texto -->
+    <article class=`flex flex-col w-fit lg:max-w-[80%] h-fit items-center 
+                    gap-5 p-12
+                    ${customColors} group`>
+
+        <div class="w-full ease-out transition-all duration-200 
+                    lg:group-hover:-mr-1.5 lg:group-hover:ml-1.5 
+                    lg:opacity-75 lg:group-hover:opacity-100">
+            <slot name="title"/>
+        </div>
+
+        <div class="w-full lg:opacity-50 lg:group-hover:opacity-100 ease-out transition-opacity duration-500 ">
+            <slot name="text"/>
+        </div>
+        
+    </article>
+</section>

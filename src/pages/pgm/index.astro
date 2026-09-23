@@ -1,6 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Intro from '../../components/ui/Intro.astro';
+import ContentContainerText from '../../components/sections/ContentContainerText.astro';
+import ContentContainerTextFull from '../../components/sections/ContentContainerTextFull.astro';
+import ContentContainerImgBG from '../../components/sections/ContentContainerImgBG.astro';
 
 const pageTitle = "PGM";
 export const navTitle = "¿Qué es un PGM?";
@@ -15,7 +18,25 @@ export const navTitle = "¿Qué es un PGM?";
 
 	<div id="container"
 	class="min-h-80">
+		<ContentContainerText imgSrc="/iebs-conversacion-2.jpg" bgColor="ivory" txtColor="brand-dark">
+			<h2 slot="title">Una familia que se reúne</h2>
+			<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ullamcorper, sapien sed dignissim aliquet, lectus mauris egestas nisl, vitae posuere enim purus in neque. Donec tempus sapien vel arcu feugiat, in malesuada arcu tincidunt.</p>
+		</ContentContainerText>
 
+		<ContentContainerTextFull imgSrc="/iebs-familia-1.jpg" align="right" bgColor="brand-dark" txtColor="white">
+			<h2 slot="title">Pequeños grupos, grandes vínculos</h2>
+			<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras nec ligula sed massa sodales tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed vitae nibh eu erat tincidunt.</p>
+		</ContentContainerTextFull>
+
+		<ContentContainerImgBG imgSrc="/patio_interior.jpeg" bgColor="white" txtColor="black">
+			<h2 slot="title">Compartir la vida</h2>
+			<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce luctus, nibh quis commodo sagittis, quam odio finibus libero, quis hendrerit sem sapien vitae massa. Donec convallis libero id lectus suscipit.</p>
+		</ContentContainerImgBG>
+
+		<ContentContainerText imgSrc="/iebs-conversacion-1 editada.png" align="right" bgColor="contrast" txtColor="black">
+			<h2 slot="title">Da el primer paso</h2>
+			<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis lectus at lacus feugiat tempor. Donec blandit, urna quis eleifend viverra, sapien eros aliquet erat, sed tincidunt nisl arcu non magna.</p>
+		</ContentContainerText>
 	</div>
 
 </BaseLayout>

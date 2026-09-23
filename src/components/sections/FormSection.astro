@@ -1,0 +1,43 @@
+---
+import Button from '../ui/Button.astro';
+
+const { title, desc, href, formButton } = Astro.props;
+
+type Props = {
+    title: string,
+    desc: string,
+    href: string,
+    formButton: string,
+}
+---
+
+<section class="bg-brand-dark w-full">
+    <div class="w-full h-full 
+                bg-linear-to-b lg:bg-linear-to-r from-brand/60 to-brand/0
+                lg:hover:from-brand/70 transition-colors duration-500 delay-50">
+        <div class="flex flex-col lg:flex-row items-center justify-center
+                    w-full lg:max-w-[90%] min-h-100
+                    gap-6 lg:gap-10 p-8 lg:p-20 hover:gap-2 duration-700">
+
+            <!-- texto -->
+            <div class="flex flex-col w-fit items-center lg:items-end justify-center 
+                        gap-4 p-6 lg:text-end text-white">
+                <p 
+                class="font-heading text-5xl lg:text-8xl font-black leading-11 lg:leading-22 tracking-tighter">
+                    {title}
+                </p>
+                <h2>
+                    {desc}
+                </h2>
+            </div>
+
+            <!-- formulario -->
+            <div class="flex flex-col w-auto max-w-80 lg:max-w-full h-full bg-white 
+                        items-center justify-center text-center
+                        p-10 lg:py-20 gap-4">
+                <h1 class="text-nowrap">Rellénalo aquí:</h1>
+                <Button size='lg'>{formButton}</Button>
+            </div>
+        </div>
+    </div>
+</section>

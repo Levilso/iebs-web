@@ -1,10 +1,33 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Intro from '../../components/ui/Intro.astro';
+import ContentContainerText from '../../components/sections/ContentContainerText.astro';
+import ContentContainerTextFull from '../../components/sections/ContentContainerTextFull.astro';
+import ContentContainerImgBG from '../../components/sections/ContentContainerImgBG.astro';
 
 const pageTitle = "Participa de un PGM";
 export const navTitle = "Participar";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-	<h1>{pageTitle}</h1>
+	<Intro h1={pageTitle} />
+	<ContentContainerImgBG imgSrc="/iebs-conversacion-1.jpg" bgColor="black" txtColor="white">
+		<h2 slot="title">Tu grupo te está esperando</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer facilisis libero in justo tincidunt, nec molestie sapien imperdiet. Donec eu sem sed felis porttitor pellentesque. Mauris interdum lacus vitae orci consequat.</p>
+	</ContentContainerImgBG>
+
+	<ContentContainerText imgSrc="/patio_interior.jpeg" bgColor="ivory" txtColor="brand-dark">
+		<h2 slot="title">Encuentra un horario</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae lacus id augue posuere commodo. Etiam luctus, urna id finibus feugiat, lacus justo consequat nunc, vel interdum libero eros sed erat.</p>
+	</ContentContainerText>
+
+	<ContentContainerTextFull imgSrc="/iebs-familia-1.jpg" align="right" bgColor="brand" txtColor="white">
+		<h2 slot="title">Comparte y escucha</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada neque sed dui eleifend, at fermentum nibh volutpat. Cras finibus lorem sed magna vestibulum, sed feugiat sapien maximus.</p>
+	</ContentContainerTextFull>
+
+	<ContentContainerText imgSrc="/abrazo.jpg" align="right" bgColor="white" txtColor="black">
+		<h2 slot="title">Participa esta semana</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec mattis, felis nec scelerisque pharetra, turpis libero tempus arcu, sit amet ornare nisl magna ac justo. Vivamus viverra arcu at dolor.</p>
+	</ContentContainerText>
 </BaseLayout>

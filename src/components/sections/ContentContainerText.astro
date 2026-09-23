@@ -1,0 +1,51 @@
+---
+type Props = {
+    imgSrc: string,
+    imgAlt?: string,
+    bgColor?: string,
+    txtColor?: string,
+    align?: "left" | "right",
+};
+
+const { imgSrc, imgAlt, 
+        bgColor = "white", 
+        txtColor = "black", 
+        align = "left"} = Astro.props;
+
+const textLeft = align === "left";
+const customColors = "bg-"+bgColor+" text-"+txtColor;
+---
+<section class=`w-full flex justify-center py-6 ${customColors}`>
+    <!-- contenido -->
+    <div class="w-full flex lg:flex-row flex-col justify-center items-center 
+                lg:max-w-[80%] p-8 gap-16 group">
+
+        {!textLeft && (
+            <!-- imagen -->
+            <img src={imgSrc} alt={imgAlt} 
+                    class="w-100 aspect-10/11 object-cover rounded-[40px] 
+                        lg:group-hover:-mt-1 lg:group-hover:mb-1 duration-300">)}
+        
+        <!-- texto -->
+        <article class="flex flex-col gap-5 max-w-[80%] h-fit">
+            
+            <div class="ease-out transition-all duration-200 
+                        lg:group-hover:-mr-1.5 lg:group-hover:ml-1.5 
+                        lg:opacity-75 lg:group-hover:opacity-100">
+                <slot name="title"/>
+            </div>
+            
+            <div class="lg:opacity-50 lg:group-hover:opacity-100
+                        ease-out transition-opacity duration-500">
+                <slot name="text"/>
+            </div>
+
+        </article>
+
+        {textLeft && (
+        <img src={imgSrc} alt={imgAlt} 
+             class="w-100 aspect-10/11 object-cover rounded-[40px] 
+                    lg:group-hover:-mt-1 lg:group-hover:mb-1 duration-300">)}
+        
+    </div>
+</section>

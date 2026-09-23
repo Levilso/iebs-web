@@ -1,13 +1,13 @@
 ---
 interface Props {
-    bg: string;
-    textColor: string;
+    bg?: string;
+    textColor?: string;
     size?: "sm" | "md" | "lg";
 }
 
 const {
-    bg,
-    textColor,
+    bg = "brand-dark",
+    textColor = "white",
     size = "md",
 } = Astro.props;
 

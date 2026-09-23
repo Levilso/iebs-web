@@ -1,5 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Intro from '../../components/ui/Intro.astro';
+import ContentContainerText from '../../components/sections/ContentContainerText.astro';
+import ContentContainerTextFull from '../../components/sections/ContentContainerTextFull.astro';
+import ContentContainerImgBG from '../../components/sections/ContentContainerImgBG.astro';
 
 const pageTitle = "Área del Líder";
 export const navTitle = "Área del Líder";
@@ -7,5 +11,24 @@ export const navTitle = "Área del Líder";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-	<h1>{pageTitle}</h1>
+	<Intro h1={pageTitle} />
+	<ContentContainerImgBG imgSrc="/iebs-alabanza-1.jpg" bgColor="black" txtColor="white">
+		<h2 slot="title">Liderar desde el cuidado</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec accumsan, arcu vitae sodales porta, lectus mauris interdum metus, sed egestas sapien neque eu lectus. Integer vitae nibh vel nisl dictum volutpat.</p>
+	</ContentContainerImgBG>
+
+	<ContentContainerText imgSrc="/templo_arriba.jpeg" bgColor="ivory" txtColor="brand-dark">
+		<h2 slot="title">Herramientas para acompañar</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris lacinia, velit sed dignissim posuere, eros tortor efficitur ipsum, sed blandit magna augue ut erat. Aenean in nibh non augue mattis.</p>
+	</ContentContainerText>
+
+	<ContentContainerTextFull imgSrc="/pasillo.jpeg" align="right" bgColor="brand" txtColor="white">
+		<h2 slot="title">Una visión que se multiplica</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis purus vel magna porttitor suscipit. Praesent commodo, mi sed bibendum consequat, erat neque finibus eros, a semper libero purus non lorem.</p>
+	</ContentContainerTextFull>
+
+	<ContentContainerText imgSrc="/iebs-conversacion-1.jpg" align="right" bgColor="white" txtColor="black">
+		<h2 slot="title">Caminamos acompañados</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porttitor lacus id mi porta, non malesuada nunc pharetra. Nulla euismod lectus et tellus ullamcorper, eget faucibus justo posuere.</p>
+	</ContentContainerText>
 </BaseLayout>

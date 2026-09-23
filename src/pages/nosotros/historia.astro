@@ -1,10 +1,34 @@
 ---
+import Intro from '../../components/ui/Intro.astro';
 import BaseLayout from  '../../layouts/BaseLayout.astro';
+import ContentContainerText from '../../components/sections/ContentContainerText.astro';
+import ContentContainerTextFull from '../../components/sections/ContentContainerTextFull.astro';
+import ContentContainerImgBG from '../../components/sections/ContentContainerImgBG.astro';
 
 const pageTitle = "Nuestra Historia"
 export const navTitle = "Historia"
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-	<h1>{pageTitle}</h1>
+	<Intro h1={pageTitle} />
+
+	<ContentContainerText imgSrc="/templo_campo.jpeg" bgColor="ivory" txtColor="brand-dark">
+		<h2 slot="title">Conoce nuestra historia</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec posuere, mauris vitae viverra tincidunt, enim sem consequat justo, vel consectetur orci urna ut justo. Integer euismod, nibh non sodales faucibus, justo sem dapibus arcu, vitae ultrices sapien magna non nisl.</p>
+	</ContentContainerText>
+
+	<ContentContainerTextFull imgSrc="/cristalera-edit.jpg" align="right" bgColor="brand-dark" txtColor="white">
+		<h2 slot="title">Un camino compartido</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Praesent ac mi vel libero aliquet vulputate. Pellentesque tincidunt quam at erat lacinia, sit amet volutpat ligula convallis.</p>
+	</ContentContainerTextFull>
+
+	<ContentContainerImgBG imgSrc="/pasillo.jpeg" bgColor="white" txtColor="black">
+		<h2 slot="title">Memoria y propósito</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget dui vel arcu dignissim feugiat. Nulla facilisi. Aliquam erat volutpat, sed pretium ipsum non odio pharetra, a interdum lectus egestas.</p>
+	</ContentContainerImgBG>
+
+	<ContentContainerText imgSrc="/iebs-alabanza-1.jpg" align="right" bgColor="contrast" txtColor="black">
+		<h2 slot="title">Seguimos avanzando</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices, sapien at pretium pretium, sem quam ullamcorper odio, non sodales libero eros vel lectus. Cras gravida erat eget purus volutpat, quis commodo velit bibendum.</p>
+	</ContentContainerText>
 </BaseLayout>

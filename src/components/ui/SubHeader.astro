@@ -38,16 +38,16 @@ const navItems = indexItem ?
 ---
 
 {navItems.length > 0 && (
-    <nav class="w-full bg-white border-b border-gray-200">
-        <div class="max-w-5xl mx-auto px-6 flex gap-6 overflow-x-auto">
+    <nav class="w-full  bg-black border-b">
+        <div class="w-full px-6 flex gap-6 overflow-x-auto items-center justify-center">
             {navItems.map(({ href, label }) => (
                 <a
                     href={href}
                     class:list={[
-                        'py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors',
+                        'py-3 nav-text whitespace-nowrap border-b-2 transition-colors',
                         pathname === href
-                            ? 'border-[#0E889E] text-[#0E889E]'
-                            : 'border-transparent text-gray-500 hover:text-gray-800'
+                            ? 'border-brand text-brand'
+                            : 'border-transparent text-white/80 hover:text-white'
                     ]}
                 >
                     {label}

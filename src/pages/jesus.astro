@@ -1,6 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Intro from '../components/ui/Intro.astro';
+import ContentContainerText from '../components/sections/ContentContainerText.astro';
+import ContentContainerTextFull from '../components/sections/ContentContainerTextFull.astro';
+import ContentContainerImgBG from '../components/sections/ContentContainerImgBG.astro';
 
 const pageTitle = "¿Quién es Jesús?"
 ---
@@ -14,7 +17,25 @@ const pageTitle = "¿Quién es Jesús?"
 
 	<div id="container"
 	class="min-h-80">
+		<ContentContainerText imgSrc="/iebs-biblia-1.jpg" bgColor="ivory" txtColor="brand-dark">
+			<h2 slot="title">Una historia que transforma</h2>
+			<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae sem sed neque porta tincidunt. Curabitur feugiat, sapien at luctus viverra, justo nisl aliquam ipsum, vitae consequat nibh urna sed erat.</p>
+		</ContentContainerText>
 
+		<ContentContainerTextFull imgSrc="/templo_campo.jpeg" align="right" bgColor="brand-dark" txtColor="white">
+			<h2 slot="title">Esperanza para cada persona</h2>
+			<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ullamcorper, magna sed consequat posuere, arcu nibh interdum velit, vitae congue erat sem non lorem. Donec at sapien in justo posuere volutpat.</p>
+		</ContentContainerTextFull>
+
+		<ContentContainerImgBG imgSrc="/cristalera.jpg" bgColor="white" txtColor="black">
+			<h2 slot="title">Conocer, seguir y compartir</h2>
+			<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed posuere, erat eget aliquam luctus, justo odio cursus metus, nec posuere sem lacus vitae lectus. Aenean commodo velit sed neque cursus, at blandit dolor consequat.</p>
+		</ContentContainerImgBG>
+
+		<ContentContainerText imgSrc="/iebs-conversacion-1.jpg" align="right" bgColor="contrast" txtColor="black">
+			<h2 slot="title">Una vida con propósito</h2>
+			<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc facilisis, ligula non congue porta, lectus augue tristique justo, a eleifend erat nisl vel nunc. Phasellus vitae sem at ipsum porttitor bibendum.</p>
+		</ContentContainerText>
 	</div>
 
 </BaseLayout>

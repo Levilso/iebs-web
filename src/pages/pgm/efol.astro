@@ -1,10 +1,33 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Intro from '../../components/ui/Intro.astro';
+import ContentContainerText from '../../components/sections/ContentContainerText.astro';
+import ContentContainerTextFull from '../../components/sections/ContentContainerTextFull.astro';
+import ContentContainerImgBG from '../../components/sections/ContentContainerImgBG.astro';
 
 const pageTitle = "Nuestra Escuela de Formación de Líderes";
 export const navTitle = "EFOL"
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-	<h1>{pageTitle}</h1>
+	<Intro h1={pageTitle} />
+	<ContentContainerText imgSrc="/iebs-biblia-1.jpg" bgColor="ivory" txtColor="brand-dark">
+		<h2 slot="title">Formación para servir mejor</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque habitant morbi tristique senectus et netus et malesuada fames.</p>
+	</ContentContainerText>
+
+	<ContentContainerTextFull imgSrc="/salon_principal.jpg" align="right" bgColor="brand-dark" txtColor="white">
+		<h2 slot="title">Aprender en comunidad</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu lectus vel orci lacinia egestas. Donec tincidunt, purus sed luctus maximus, quam augue molestie libero, nec faucibus ipsum urna at nibh.</p>
+	</ContentContainerTextFull>
+
+	<ContentContainerImgBG imgSrc="/cristalera.jpg" bgColor="white" txtColor="black">
+		<h2 slot="title">Una escuela con propósito</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Quisque id porttitor justo. Praesent finibus elit in sem tempor, non vulputate neque facilisis. Sed sed sapien nec justo porttitor auctor.</p>
+	</ContentContainerImgBG>
+
+	<ContentContainerText imgSrc="/cantante.jpg" align="right" bgColor="contrast" txtColor="black">
+		<h2 slot="title">Tu proceso comienza hoy</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin finibus mauris non enim facilisis, at porta magna rhoncus. Donec volutpat, urna vitae aliquet feugiat, sem ipsum consequat turpis, in suscipit.</p>
+	</ContentContainerText>
 </BaseLayout>

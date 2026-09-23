@@ -1,5 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Intro from '../../components/ui/Intro.astro';
+import ContentContainerText from '../../components/sections/ContentContainerText.astro';
+import ContentContainerTextFull from '../../components/sections/ContentContainerTextFull.astro';
+import ContentContainerImgBG from '../../components/sections/ContentContainerImgBG.astro';
 
 const pageTitle = "Nuestro Ministerios";
 export const navTitle = "Ministerios";
@@ -7,5 +11,24 @@ export const navTitle = "Ministerios";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-	<h1>{pageTitle}</h1>
+	<Intro h1={pageTitle} />
+	<ContentContainerText imgSrc="/iebs-jovenes-1.jpg" bgColor="ivory" txtColor="brand-dark">
+		<h2 slot="title">Ministerios para cada etapa</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus, lacus quis dictum cursus, magna mi convallis libero, sed tempus lectus neque sed risus. Nulla facilisi.</p>
+	</ContentContainerText>
+
+	<ContentContainerTextFull imgSrc="/cantante.jpg" align="right" bgColor="brand-dark" txtColor="white">
+		<h2 slot="title">Dones que edifican</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc semper erat nec lectus suscipit, nec tristique nunc cursus. Suspendisse finibus, ipsum sit amet porttitor interdum, nisl magna dapibus elit, at posuere mi sem vel est.</p>
+	</ContentContainerTextFull>
+
+	<ContentContainerImgBG imgSrc="/salon_principal-edit.jpg" bgColor="white" txtColor="black">
+		<h2 slot="title">Una misión en común</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer bibendum arcu et nisi pellentesque, vitae ultricies nulla egestas. Vivamus sit amet purus sit amet lorem interdum consequat.</p>
+	</ContentContainerImgBG>
+
+	<ContentContainerText imgSrc="/iebs-familia-1.jpg" align="right" bgColor="contrast" txtColor="black">
+		<h2 slot="title">Encuentra tu espacio</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed neque vel eros laoreet suscipit. Quisque porttitor sem eget lectus semper, et tempor arcu tincidunt. Donec id lorem eget massa porttitor aliquam.</p>
+	</ContentContainerText>
 </BaseLayout>

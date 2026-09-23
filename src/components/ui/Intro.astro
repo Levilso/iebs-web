@@ -1,36 +1,36 @@
 ---
+import SubHeader from "./SubHeader.astro";
+
 const {background, h1} = Astro.props;
 ---
-<!-- 
-<div id="hero-section">
-    <div id="bg"
-    class=`
-        -z-10
-        w-screen h-200
-        p-5`
-    >
-        <div class="bg-linear-to-r from-[#4cd1e9] to-(--brand-color) bg-cover bg-center rounded-2xl">
-            <div id="content" class="ml-50 p-4 absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <h1 class="font-semibold text-white text-4xl p-5 text-center">
+<!-- hero-container -->
+<div class="w-full h-full lg:h-180
+            flex justify-center 
+            lg:px-8 lg:py-4
+            ">
+   
+    <!-- hero -->
+    <div class="w-full h-120 lg:h-full 
+                flex flex-col items-start justify-center
+                lg:max-w-[90%] lg:rounded-[40px] overflow-hidden
+                bg-[url(/templo_campo.jpeg)] bg-cover bg-position-[-10rem] md:bg-center bg-no-repeat
+                ">
+        <!-- efectos en el bg -->
+        <div id="bg" class="flex w-full h-full lg:p-16 group
+                            bg-black/50 lg:bg-transparent lg:bg-linear-to-t lg:from-black to-50% to-gray-700/20
+                            max-lg:hover:bg-black/30 lg:hover:pl-18 ease-out duration-700
+                            items-center justify-start lg:items-end">
+            
+            <!-- contenido -->
+            <p class="
+            flex p-5 w-[30%] lg:w-full
+            font-heading font-bold leading-14 
+            tracking-tighter text-6xl lg:text-8xl text-white">
                 {h1}
-                </h1>
-                <p class="text-white text-lg text-center px-5">
-                    <slot name="intro-text" />
-                </p>
-            </div>
+            </p>
         </div>
-    </div>
-</div> -->
 
-<div id="hero-container">
-    <div id="bg" class="bg-white p-5 md:px-25 md:py-10">
-        <div id="content" class="flex w-auto h-50 md:h-150 bg-linear-to-r from-[#4cd1e9] to-(--brand-color) bg-cover bg-center rounded-4xl">
-            <div class="flex flex-col justify-center mx-auto md:mt-40 md:ml-10">
-                <h1 class="flex font-semibold text-white text-4xl p-5 md:text-4xl">
-                {h1}
-                </h1>
-            </div>
-        </div>    
-    </div>
+        <SubHeader />
 
+    </div>
 </div>

@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Intro from '../components/ui/Intro.astro';
+import ContentContainerText from '../components/sections/ContentContainerText.astro';
+import ContentContainerTextFull from '../components/sections/ContentContainerTextFull.astro';
+import ContentContainerImgBG from '../components/sections/ContentContainerImgBG.astro';
+
+const pageTitle = "Visítanos";
+---
+
+<BaseLayout pageTitle={pageTitle} description="Conoce nuestra iglesia en Sevilla y encuentra tu lugar.">
+	<Intro h1={pageTitle} />
+
+	<ContentContainerImgBG imgSrc="/salon_principal.jpg" bgColor="black" txtColor="white">
+		<h2 slot="title">Un lugar para encontrarnos</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent non orci sed lectus elementum vestibulum. Aliquam erat volutpat. Donec sit amet sem at ipsum tempus dictum.</p>
+	</ContentContainerImgBG>
+
+	<ContentContainerText imgSrc="/patio_interior.jpeg" bgColor="ivory" txtColor="brand-dark">
+		<h2 slot="title">Ven tal como eres</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Integer auctor lacus non eros ullamcorper, vitae vulputate nibh aliquet.</p>
+	</ContentContainerText>
+
+	<ContentContainerTextFull imgSrc="/pasillo.jpeg" align="right" bgColor="brand" txtColor="white">
+		<h2 slot="title">Una comunidad cercana</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tincidunt, lectus sed aliquet ultrices, libero nibh tincidunt sem, sed facilisis neque magna a lorem. Suspendisse potenti.</p>
+	</ContentContainerTextFull>
+
+	<ContentContainerText imgSrc="/abrazo.jpg" align="right" bgColor="white" txtColor="black">
+		<h2 slot="title">Tu próxima visita</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque euismod ipsum nec mi blandit, non finibus erat gravida. Donec bibendum, metus at consequat commodo, mauris neque laoreet nisl, vitae porta erat lectus sed nunc.</p>
+	</ContentContainerText>
+</BaseLayout>

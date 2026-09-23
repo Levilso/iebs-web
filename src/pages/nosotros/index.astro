@@ -1,6 +1,10 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Intro from '../../components/ui/Intro.astro';
+import ContentContainerText from '../../components/sections/ContentContainerText.astro';
+import ContentContainerTextFull from '../../components/sections/ContentContainerTextFull.astro';
+import ContentContainerImgBG from '../../components/sections/ContentContainerImgBG.astro';
+import FormSection from '../../components/sections/FormSection.astro';
 
 const pageTitle = "Sobre Nosotros";
 export const navTitle = "La Iglesia"
@@ -12,9 +16,33 @@ export const navTitle = "La Iglesia"
 >
 	<Intro h1={pageTitle} />
 
-	<div id="container"
-	class="min-h-80">
+	<h1 class="p-6">¿Quiénes somos?</h1>
+	
+	<ContentContainerText imgSrc='/iebs-alabanza-1.jpg'>
+		<h1 slot="title">Título de sección</h1>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pretium scelerisque tincidunt. Pellentesque in semper velit. Aenean sodales nisl nec convallis ullamcorper. Phasellus tristique, massa nec iaculis euismod, nisl erat pharetra metus, ut ornare lorem eros ac turpis. Vestibulum pellentesque odio ut justo gravida, vitae blandit eros molestie. Suspendisse potenti. </p>
+	</ContentContainerText>
+	
+	<ContentContainerTextFull imgSrc='/pasillo.jpeg' align='right'>
+		<h1 slot="title">Título de sección</h1>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pretium scelerisque tincidunt. Pellentesque in semper velit. Aenean sodales nisl nec convallis ullamcorper. Phasellus tristique, massa nec iaculis euismod, nisl erat pharetra metus, ut ornare lorem eros ac turpis. Vestibulum pellentesque odio ut justo gravida, vitae blandit eros molestie. Suspendisse potenti. </p>
+	</ContentContainerTextFull>
 
-	</div>
+	<ContentContainerImgBG imgSrc='/templo_arriba.jpeg'>
+		<h1 slot="title">Título de sección</h1>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pretium scelerisque tincidunt. Pellentesque in semper velit. Aenean sodales nisl nec convallis ullamcorper. Phasellus tristique, massa nec iaculis euismod, nisl erat pharetra metus, ut ornare lorem eros ac turpis. Vestibulum pellentesque odio ut justo gravida, vitae blandit eros molestie. Suspendisse potenti. </p>
+	</ContentContainerImgBG>
+
+	<ContentContainerText imgSrc='/iebs-alabanza-1.jpg' align='right'>
+		<h1 slot="title">Título de sección</h1>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pretium scelerisque tincidunt. Pellentesque in semper velit. Aenean sodales nisl nec convallis ullamcorper. Phasellus tristique, massa nec iaculis euismod, nisl erat pharetra metus, ut ornare lorem eros ac turpis. Vestibulum pellentesque odio ut justo gravida, vitae blandit eros molestie. Suspendisse potenti. </p>
+	</ContentContainerText>
+	
+	<ContentContainerTextFull imgSrc='/pasillo.jpeg' align='right'>
+		<h1 slot="title">Título de sección</h1>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pretium scelerisque tincidunt. Pellentesque in semper velit. Aenean sodales nisl nec convallis ullamcorper. Phasellus tristique, massa nec iaculis euismod, nisl erat pharetra metus, ut ornare lorem eros ac turpis. Vestibulum pellentesque odio ut justo gravida, vitae blandit eros molestie. Suspendisse potenti. </p>
+	</ContentContainerTextFull>
+
+	<FormSection href="" formButton='Formulario' title='Hazte miembro' desc='¡Rellena el formulario si quieres hacerte miembro de la iglesia!'/>
 
 </BaseLayout>

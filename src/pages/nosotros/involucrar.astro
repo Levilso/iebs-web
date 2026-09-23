@@ -1,5 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Intro from '../../components/ui/Intro.astro';
+import ContentContainerText from '../../components/sections/ContentContainerText.astro';
+import ContentContainerTextFull from '../../components/sections/ContentContainerTextFull.astro';
+import ContentContainerImgBG from '../../components/sections/ContentContainerImgBG.astro';
 
 const pageTitle = "Involúcrate"
 export const navTitle = "Involúcrate"
@@ -7,5 +11,24 @@ export const navTitle = "Involúcrate"
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-	<h1>{pageTitle}</h1>
+	<Intro h1={pageTitle} />
+	<ContentContainerImgBG imgSrc="/iebs-conversacion-1.jpg" bgColor="black" txtColor="white">
+		<h2 slot="title">Tu lugar está aquí</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sed justo vitae erat pulvinar vulputate. Donec luctus eros at mauris facilisis, non suscipit ipsum porttitor. Duis finibus dolor sed enim molestie consequat.</p>
+	</ContentContainerImgBG>
+
+	<ContentContainerText imgSrc="/abrazo.jpg" bgColor="ivory" txtColor="brand-dark">
+		<h2 slot="title">Crecer junto a otros</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet, velit quis rhoncus commodo, odio sapien pretium sapien, quis consectetur lacus nisl a erat. Integer finibus nunc eget justo commodo.</p>
+	</ContentContainerText>
+
+	<ContentContainerTextFull imgSrc="/bautismos.jpg" align="right" bgColor="brand" txtColor="white">
+		<h2 slot="title">Servir con alegría</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet arcu et magna scelerisque feugiat. Nam vitae libero at augue pretium tristique, sed bibendum sem aliquam.</p>
+	</ContentContainerTextFull>
+
+	<ContentContainerText imgSrc="/iebs-jovenes-1.jpg" align="right" bgColor="white" txtColor="black">
+		<h2 slot="title">Da el siguiente paso</h2>
+		<p slot="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus suscipit, nulla eu pellentesque cursus, sapien nisi aliquam mauris, vitae laoreet purus sapien vel arcu. Donec faucibus dolor id felis.</p>
+	</ContentContainerText>
 </BaseLayout>
