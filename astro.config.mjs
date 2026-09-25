@@ -16,9 +16,6 @@ export default defineConfig({
     resolve: {
       dedupe: ["preact"] // Evita múltiples instancias de Preact
     },
-    optimizeDeps: {
-      exclude: ["preact", "preact/hooks"]
-    }
   },
 
   integrations: [db(), preact()],
