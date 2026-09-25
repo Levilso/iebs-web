@@ -38,7 +38,7 @@ const navItems = indexItem ?
 ---
 
 {navItems.length > 0 && (
-    <nav class="w-full  bg-black border-b">
+    <nav class="w-full  bg-black border-b hidden lg:block max-lg:inert">
         <div class="w-full px-6 flex gap-6 overflow-x-auto items-center justify-center">
             {navItems.map(({ href, label }) => (
                 <a

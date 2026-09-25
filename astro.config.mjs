@@ -17,7 +17,7 @@ export default defineConfig({
       dedupe: ["preact"] // Evita múltiples instancias de Preact
     },
     optimizeDeps: {
-      include: ["preact", "preact/hooks"] // Asegura que Preact se optimice correctamente
+      exclude: ["preact", "preact/hooks"]
     }
   },
 
