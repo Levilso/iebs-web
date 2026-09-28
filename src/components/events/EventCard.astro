@@ -23,8 +23,8 @@ import Edit from '../../assets/svg/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.s
 
     <div class="p-6">
       <h2 class="font-extrabold text-2xl">{event.title}</h2>
-      <time class="text-sm" datetime={event.date.toISOString()}>
-        <small>{event.date.toLocaleDateString(undefined, {dateStyle: 'medium', timeZone: 'UTC'})}</small>
+      <time class="text-sm" datetime={new Date(event.date).toISOString()}>
+        <small>{new Date(event.date).toLocaleDateString(undefined, {dateStyle: 'medium', timeZone: 'UTC'})}</small>
       </time>
       <p class="mt-1">{event.description}</p>
     </div>

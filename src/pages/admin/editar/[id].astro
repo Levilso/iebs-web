@@ -1,7 +1,10 @@
 ---
 export const prerender = false;
 
-import { db, EventEntry, Registration, eq } from 'astro:db';
+import { eventEntry, registrationEntry } from "../../../db/schema";
+import { db } from "../../../db/client";
+import { eq } from "drizzle-orm";
+
 import EventForm from '../../../components/events/EventForm.astro';
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 import RegistrationTable from '../../../components/events/RegistrationTable.astro';
@@ -10,8 +13,8 @@ const { id } = Astro.params;
 if (!id || isNaN(Number(id))) return Astro.redirect('/admin');
 
 const [event, registrations] = await Promise.all([
-    db.select().from(EventEntry).where(eq(EventEntry.id, Number(id))),
-    db.select().from(Registration).where(eq(Registration.eventId, Number(id))),
+    db.select().from(eventEntry).where(eq(eventEntry.id, Number(id))),
+    db.select().from(registrationEntry).where(eq(registrationEntry.eventId, Number(id))),
 ]);
 
 const totalPersonas = registrations.reduce((sum, r) => sum + r.num, 0);

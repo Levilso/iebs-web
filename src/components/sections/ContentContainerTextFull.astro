@@ -20,7 +20,7 @@ const customColors = "bg-"+bgColor+" text-"+txtColor;
                 ${customColors} group`>
     <!-- contenido -->
         {!textLeft && (
-            <!-- imagen -->
+            // <!-- imagen -->
             <img src={imgSrc} alt={imgAlt}
                 class="h-80 w-full lg:h-full lg:w-100 lg:aspect-8/11 
                     object-center object-cover 
@@ -28,7 +28,6 @@ const customColors = "bg-"+bgColor+" text-"+txtColor;
                     lg:opacity-80 lg:group-hover:opacity-100"
             >)}
 
-        <!-- texto -->
         <article class="flex flex-col w-full h-fit items-center gap-5 p-16">
             
             <div class="w-full ease-out transition-all duration-200 
@@ -44,7 +43,7 @@ const customColors = "bg-"+bgColor+" text-"+txtColor;
     </article>
 
     {textLeft && (
-        <!-- imagen -->
+        // <!-- imagen -->
         <img src={imgSrc} alt={imgAlt}
             class="h-80 w-full lg:h-full lg:w-100 lg:aspect-8/11 
                 object-center object-cover 

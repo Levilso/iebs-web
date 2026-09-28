@@ -3,7 +3,7 @@ export type EventEntryType = {
   title: string;
   description: string;
   info: string;
-  date: Date;
+  date: string;
   hidden: boolean;
   location: string;
   price: number;
@@ -18,5 +18,5 @@ export type RegistrationType = {
   email: string;
   name: string;
   num: number;
-  createdAt: Date;
+  createdAt: string;
 }

@@ -5,17 +5,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Intro from '../components/ui/Intro.astro';
 import EventsFilter from '../components/events/EventsFilter.tsx';
 
-import { db, eq, EventEntry } from 'astro:db';
+import { eventEntry, registrationEntry } from "../db/schema";
+import { db } from "../db/client";
+import { eq } from "drizzle-orm";
 
-const dbEvents = await db.select().from(EventEntry)
-    .where(/* hidden = false */ eq(EventEntry.hidden, false));
+const dbEvents = await db.select().from(eventEntry)
+    .where(/* hidden = false */ eq(eventEntry.hidden, false));
 
-// hay que serializar la fecha
-const events = dbEvents.map(e => ({
-    ...e,
-    date: e.date.toISOString(),
-}));
-
+const events = dbEvents;
 const pageTitle = "Próximos Eventos";
 ---
 

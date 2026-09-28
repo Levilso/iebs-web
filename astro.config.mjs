@@ -3,8 +3,6 @@ import { defineConfig, fontProviders } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
-import db from '@astrojs/db';
-
 import netlify from '@astrojs/netlify';
 
 import preact from "@astrojs/preact";
@@ -18,7 +16,7 @@ export default defineConfig({
     },
   },
 
-  integrations: [db(), preact()],
+  integrations: [preact()],
 
   adapter: netlify(),
 

@@ -1,10 +1,11 @@
 ---
-import { EventEntry, db } from 'astro:db';
+import { eventEntry } from '../../db/schema';
+import { db } from '../../db/client';
 import EventCard from './EventCard.astro';
 
 export const prerender = false;
 
-const events = await db.select().from(EventEntry);
+const events = await db.select().from(eventEntry);
 ---
 
 <section id="container"

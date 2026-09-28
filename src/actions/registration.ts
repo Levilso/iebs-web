@@ -1,8 +1,9 @@
 // src/actions/registration.ts
 import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'zod';
-import { db, eq, and, sql, EventEntry, Registration } from 'astro:db';
-import { success } from 'astro:schema';
+import { db } from '../db/client';
+import { eventEntry, registrationEntry } from '../db/schema';
+import { eq, and, sql } from 'drizzle-orm';import { success } from 'astro:schema';
 
 export const registration = {
 
@@ -20,8 +21,8 @@ export const registration = {
         handler: async (input) => {
 
             // Obtener el evento
-            const events = await db.select().from(EventEntry)
-                .where(eq(EventEntry.id, input.eventId));
+            const events = await db.select().from(eventEntry)
+                .where(eq(eventEntry.id, input.eventId));
 
             if (events.length === 0) {
                 throw new ActionError({
@@ -32,10 +33,10 @@ export const registration = {
             const event = events[0];
 
             // Comprobar duplicado
-            const existing = await db.select().from(Registration)
+            const existing = await db.select().from(registrationEntry)
                 .where(and(
-                    eq(Registration.eventId, input.eventId),
-                    eq(Registration.email, input.email),
+                    eq(registrationEntry.eventId, input.eventId),
+                    eq(registrationEntry.email, input.email),
                 ));
 
             if (existing.length > 0) {
@@ -47,7 +48,7 @@ export const registration = {
 
             // Comprobar cupo (si capacity no es null)
             if (event.capacity !== null) {
-                const countResult = await db.select({total: sql<number>`sum(${Registration.num})`}).from(Registration).where(eq(Registration.eventId, input.eventId));                
+                const countResult = await db.select({total: sql<number>`sum(${registrationEntry.num})`}).from(registrationEntry).where(eq(registrationEntry.eventId, input.eventId));                
 
                 const ocupados = countResult[0]?.total ?? 0;
                 const disponibles = event.capacity - ocupados;
@@ -63,12 +64,12 @@ export const registration = {
             }
 
             // Crear inscripción
-            const result = await db.insert(Registration).values({
+            const result = await db.insert(registrationEntry).values({
                 eventId: input.eventId,
                 name: input.name,
                 email: input.email,
                 num: input.num,
-                createdAt: input.createdAt,
+                createdAt: input.createdAt.toISOString(),
             }).returning();
 
             return {
@@ -88,8 +89,8 @@ export const registration = {
         handler: async (input) => {
             try {
                 const del = await db
-                    .delete(Registration)
-                    .where(eq(Registration.id, input.id))
+                    .delete(registrationEntry)
+                    .where(eq(registrationEntry.id, input.id))
                     .returning();
                 
                 if (del.length == 0) {

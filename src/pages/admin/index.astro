@@ -8,8 +8,10 @@ import EventTable from "../../components/events/EventTable.astro"
 
 import Plus from "../../assets/svg/plus-white.svg"
 
-import { db, EventEntry, desc } from "astro:db";
-const nextEvents = await db.select().from(EventEntry).orderBy(desc(EventEntry.date));
+import { db } from "../../db/client";
+import { eventEntry } from "../../db/schema";
+import { desc } from "drizzle-orm";
+const nextEvents = await db.select().from(eventEntry).orderBy(desc(eventEntry.date));
 
 ---
 <AdminLayout pageTitle="Panel de Administración">

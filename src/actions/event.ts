@@ -1,7 +1,11 @@
 import { defineAction, ActionError } from 'astro:actions';
 
 import { z } from 'zod';
-import { db, eq, EventEntry } from 'astro:db'
+
+import { db } from '../db/client';
+import { eventEntry } from '../db/schema';
+import { eq } from 'drizzle-orm';
+
 import { uploadImage } from '../lib/cloudinary';
 import { EVENT_CATEGORIES } from '../lib/constants';
 
@@ -16,7 +20,7 @@ const eventEntrySchema = z.object({
     title: z.string().min(2, "El título debe tener al menos 2 caracteres"),
     description: z.string(),
     info: z.string(),
-    date: z.string().transform((str) => new Date(str)),
+    date: z.string().transform((str) => new Date(str).toISOString()),
     hidden: z.boolean().optional().default(false),
     location: z.string(),
     price: z.coerce.number().min(0, "El precio no puede ser negativo"),
@@ -35,7 +39,7 @@ export const event = {
 
         handler: async (input) => {
                 const updatedEvents = await db
-                .insert(EventEntry)
+                .insert(eventEntry)
                 .values(input)
                 .returning();
 
@@ -58,9 +62,9 @@ export const event = {
 
             try {
                 const updatedEvents = await db
-                    .update(EventEntry)
+                    .update(eventEntry)
                     .set(input)
-                    .where(eq(EventEntry.id, input.id))
+                    .where(eq(eventEntry.id, input.id))
                     .returning();
                     
                 // NOT FOUND
@@ -99,7 +103,7 @@ export const event = {
         }),
         handler: async (input) => {
             try {
-                const del = await db.delete(EventEntry).where(eq(EventEntry.id, input.id)).returning();
+                const del = await db.delete(eventEntry).where(eq(eventEntry.id, input.id)).returning();
             
                 if (del.length === 0) {
                     throw new ActionError({

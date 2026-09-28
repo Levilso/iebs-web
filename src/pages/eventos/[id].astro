@@ -1,8 +1,12 @@
 ---
 export const prerender = false;
 
-import { db, EventEntry, Registration, eq } from 'astro:db';
+import { eventEntry, registrationEntry } from '../../db/schema';
+import { db } from '../../db/client';
+import { eq } from "drizzle-orm";
+
 import { marked } from 'marked';
+
 import EventLayout from '../../layouts/EventLayout.astro';
 import type { EventEntryType } from '../../types';
 import RegistrationForm from '../../components/events/RegistrationForm.astro';
@@ -16,8 +20,8 @@ if (!id || isNaN(Number(id))) {
 
 const results = await db
     .select()
-    .from(EventEntry)
-    .where(eq(EventEntry.id, Number(id)));
+    .from(eventEntry)
+    .where(eq(eventEntry.id, Number(id)));
 
 const event = results[0] as EventEntryType;
 
@@ -28,8 +32,8 @@ if (!event || event.hidden) {
     return new Response(null, { status: 404 });
 }
 
-const registrations = await db.select().from(Registration)
-    .where(eq(Registration.eventId, Number(id)));
+const registrations = await db.select().from(registrationEntry)
+    .where(eq(registrationEntry.eventId, Number(id)));
 
 const ocupados = registrations.reduce((sum, r) => sum + r.num, 0);
 
