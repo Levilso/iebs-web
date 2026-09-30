@@ -1,0 +1,21 @@
+---
+export const prerender = false;
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import EventTable from '../../components/events/EventTable.astro';
+import Plus from '../../assets/svg/plus-white.svg';
+---
+
+<AdminLayout pageTitle="Eventos">
+    <section class="border-l-4 border-alternative bg-white p-6 shadow-sm">
+        <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-800">Todos los eventos</h2>
+                <p class="mt-1 text-sm text-gray-500">Gestiona la agenda y el contenido de cada evento.</p>
+            </div>
+            <a href="/admin/crearEvento" class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-700">
+                <Plus class="mr-2 h-5 w-5" /> Crear evento
+            </a>
+        </div>
+        <EventTable />
+    </section>
+</AdminLayout>

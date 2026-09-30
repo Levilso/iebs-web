@@ -29,6 +29,12 @@ const eventEntrySchema = z.object({
     category: z.enum(EVENT_CATEGORIES).optional(),
 });
 
+const requireAdmin = (context: { locals: { user: { role: string } | null } }) => {
+    if (context.locals.user?.role !== 'admin') {
+        throw new ActionError({ code: 'UNAUTHORIZED', message: 'Solo un administrador puede gestionar eventos.' });
+    }
+};
+
 export const event = {
 
     // CREAR
@@ -37,7 +43,8 @@ export const event = {
         accept: 'form',         // indica que recibiremos los datos desde un formulario
         input: eventEntrySchema,
 
-        handler: async (input) => {
+        handler: async (input, context) => {
+            requireAdmin(context);
                 const updatedEvents = await db
                 .insert(eventEntry)
                 .values(input)
@@ -50,7 +57,8 @@ export const event = {
     updateEventEntry: defineAction({
         accept: 'form',
         input: eventEntrySchema,
-        handler: async (input) => {
+        handler: async (input, context) => {
+            requireAdmin(context);
 
             // BAD REQUEST: confirmando que el ID está presente, ya que es opcional en el esquema
             if (!input.id) {
@@ -101,7 +109,8 @@ export const event = {
         input: z.object({
             id: z.coerce.number(),
         }),
-        handler: async (input) => {
+        handler: async (input, context) => {
+            requireAdmin(context);
             try {
                 const del = await db.delete(eventEntry).where(eq(eventEntry.id, input.id)).returning();
             

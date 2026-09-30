@@ -2,39 +2,25 @@
 export const prerender = false;
 
 import AdminLayout from "../../layouts/AdminLayout.astro"
-
-import EventGallery from "../../components/events/EventGallery.astro"
 import EventTable from "../../components/events/EventTable.astro"
-
-import Plus from "../../assets/svg/plus-white.svg"
-
-import { db } from "../../db/client";
-import { eventEntry } from "../../db/schema";
-import { desc } from "drizzle-orm";
-const nextEvents = await db.select().from(eventEntry).orderBy(desc(eventEntry.date));
+import UserTable from "../../components/admin/UserTable.astro"
 
 ---
 <AdminLayout pageTitle="Panel de Administración">
-
-    <section class="bg-white rounded-xl shadow-lg">
-        <div class="px-5 py-10 mb-4 flex justify-between items-start">
-            <h1 class="text-3xl font-bold text-gray-800">Agenda de Actividades</h1>
-
-            <a href="/admin/crearEvento" 
-            class="rounded-lg px-4 py-2 flex flex-nowrap items-center
-            bg-blue-600 text-white font-semibold shadow-
-            hover:bg-blue-700 hover:font-bold transition-colors">
-                <Plus class="w-5 h-5 mr-1" stroke-width="2.5"/>
-                Crear evento
-            </a>
-        </div>
-
-        <div class="p-4">
-            <EventTable />
-        </div>
-    </section>
-
-    <EventGallery />
-
-
+    <div class="space-y-8">
+        <section class="border-l-4 border-alternative bg-white p-6 shadow-sm">
+            <div class="mb-5 flex items-center justify-between gap-4">
+                <h2 class="text-2xl font-semibold text-gray-800">Eventos</h2>
+                <a href="/admin/eventos" class="font-semibold text-blue-700 hover:text-blue-900">Ver más <span aria-hidden="true">&rarr;</span></a>
+            </div>
+            <EventTable limit={5} />
+        </section>
+        <section class="border-l-4 border-alternative bg-white p-6 shadow-sm">
+            <div class="mb-5 flex items-center justify-between gap-4">
+                <h2 class="text-2xl font-semibold text-gray-800">Usuarios</h2>
+                <a href="/admin/usuarios" class="font-semibold text-blue-700 hover:text-blue-900">Ver más <span aria-hidden="true">&rarr;</span></a>
+            </div>
+            <UserTable limit={5} currentUserId={Astro.locals.user?.id} />
+        </section>
+    </div>
 </AdminLayout>

@@ -1,0 +1,78 @@
+---
+export const prerender = false;
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import UserTable from '../../../components/admin/UserTable.astro';
+
+const currentUserId = Astro.locals.user?.id;
+---
+
+<AdminLayout pageTitle="Usuarios">
+    <div class="space-y-8">
+        <section class="border-l-4 border-alternative bg-white p-6 shadow-sm">
+            <h2 class="mb-5 text-2xl font-semibold text-gray-800">Dar de alta usuario</h2>
+            <form id="create-user-form" class="grid gap-4 md:grid-cols-2">
+                <label class="grid gap-1 text-sm font-medium text-gray-700">
+                    Nombre
+                    <input name="name" required minlength="2" autocomplete="name" class="rounded border border-gray-300 px-3 py-2 font-normal" />
+                </label>
+                <label class="grid gap-1 text-sm font-medium text-gray-700">
+                    Correo electrónico
+                    <input name="email" type="email" required autocomplete="email" class="rounded border border-gray-300 px-3 py-2 font-normal" />
+                </label>
+                <label class="grid gap-1 text-sm font-medium text-gray-700">
+                    Rol
+                    <select name="role" class="rounded border border-gray-300 px-3 py-2 font-normal">
+                        <option value="miembro">Miembro</option>
+                        <option value="lider_pgm">Líder PGM</option>
+                        <option value="pastor">Pastor</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </label>
+                <div class="flex items-end">
+                    <button type="submit" class="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-700">Crear invitación</button>
+                </div>
+                <p id="create-user-message" class="text-sm md:col-span-2" role="status"></p>
+                <a id="invite-link" class="hidden break-all text-sm text-blue-700 underline md:col-span-2" target="_blank" rel="noreferrer"></a>
+            </form>
+        </section>
+
+        <section class="border-l-4 border-alternative bg-white p-6 shadow-sm">
+            <h2 class="mb-5 text-2xl font-semibold text-gray-800">Todos los usuarios</h2>
+            <UserTable currentUserId={currentUserId} />
+        </section>
+    </div>
+</AdminLayout>
+
+<script>
+    import { actions } from 'astro:actions';
+
+    const form = document.querySelector<HTMLFormElement>('#create-user-form');
+    const message = document.querySelector<HTMLElement>('#create-user-message');
+    const inviteLink = document.querySelector<HTMLAnchorElement>('#invite-link');
+
+    form?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (!form || !message || !inviteLink) return;
+
+        const formData = new FormData(form);
+        const { data, error } = await actions.admin.createUserByAdmin({
+            name: String(formData.get('name')),
+            email: String(formData.get('email')),
+            role: formData.get('role') as 'miembro' | 'lider_pgm' | 'pastor' | 'admin',
+        });
+
+        if (error) {
+            message.textContent = error.message;
+            message.className = 'text-sm text-red-600 md:col-span-2';
+            inviteLink.classList.add('hidden');
+            return;
+        }
+
+        message.textContent = 'Usuario creado. Comparte este enlace para que establezca su contraseña:';
+        message.className = 'text-sm text-green-700 md:col-span-2';
+        inviteLink.href = data.inviteLink;
+        inviteLink.textContent = data.inviteLink;
+        inviteLink.classList.remove('hidden');
+        form.reset();
+    });
+</script>

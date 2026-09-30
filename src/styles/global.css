@@ -59,6 +59,10 @@
     font-size: 16px;
   }
 
+  .admin-layout {
+    font-family: var(--font-admin), sans-serif;
+  }
+
   .nav-text {
     font-family: var(--font-heading);
     font-weight: bold;

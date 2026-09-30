@@ -7,7 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "db:seed": "tsx src/db/seed.ts"
+    "db:seed": "tsx src/db/seed.ts",
+    "db:seed-admin": "tsx src/db/seed-admin.ts"
   },
   "dependencies": {
     "@astrojs/netlify": "^8.2.6",

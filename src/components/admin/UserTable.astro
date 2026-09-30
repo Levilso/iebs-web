@@ -1,0 +1,92 @@
+---
+import { asc } from 'drizzle-orm';
+import { db } from '../../db/client';
+import { users } from '../../db/schema';
+import Delete from '../../assets/svg/delete.svg';
+import Edit from '../../assets/svg/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg';
+
+interface Props {
+    limit?: number;
+    currentUserId?: string;
+}
+
+const { limit, currentUserId } = Astro.props;
+const userRows = limit
+    ? await db.select().from(users).orderBy(asc(users.name)).limit(limit)
+    : await db.select().from(users).orderBy(asc(users.name));
+const roleLabels = {
+    miembro: 'Miembro',
+    lider_pgm: 'Líder PGM',
+    pastor: 'Pastor',
+    admin: 'Administrador',
+};
+const statusLabels = {
+    pending_password: 'Pendiente',
+    active: 'Activo',
+    disabled: 'Desactivado',
+};
+---
+<div class="overflow-x-auto rounded-xl bg-white">
+    <table class="w-full border-collapse text-left">
+        <thead>
+            <tr class="border-b border-gray-200 bg-gray-50">
+                <th class="px-6 py-3 text-sm font-medium uppercase tracking-wider text-gray-500">Nombre</th>
+                <th class="px-6 py-3 text-sm font-medium uppercase tracking-wider text-gray-500">Correo</th>
+                <th class="px-6 py-3 text-center text-sm font-medium uppercase tracking-wider text-gray-500">Rol</th>
+                <th class="px-6 py-3 text-center text-sm font-medium uppercase tracking-wider text-gray-500">Estado</th>
+                <th class="px-6 py-3 text-center text-sm font-medium text-gray-500"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {userRows.map((user) => (
+                <tr class="border-b border-gray-200 transition-colors hover:bg-gray-50">
+                    <td class="px-6 py-4 text-sm font-medium text-gray-800">{user.name}</td>
+                    <td class="px-6 py-4 text-sm text-gray-600">{user.email}</td>
+                    <td class="px-6 py-4 text-center text-sm text-gray-600">{roleLabels[user.role]}</td>
+                    <td class="px-6 py-4 text-center">
+                        <span class:list={[
+                            'rounded-full px-2 py-1 text-xs',
+                            user.status === 'active' ? 'bg-green-100 text-green-700' :
+                            user.status === 'disabled' ? 'bg-gray-200 text-gray-700' : 'bg-yellow-100 text-yellow-700',
+                        ]}>{statusLabels[user.status]}</span>
+                    </td>
+                    <td class="flex justify-center gap-3 p-4">
+                        <a href={`/admin/usuarios/editar/${user.id}`} aria-label={`Editar ${user.name}`}
+                            class="text-blue-600 transition-colors hover:text-blue-800">
+                            <Edit />
+                        </a>
+                        {user.id !== currentUserId && (
+                            <button type="button" data-id={user.id} data-name={user.name}
+                                class="btn-eliminar cursor-pointer text-red-500 transition-colors hover:text-red-700"
+                                aria-label={`Eliminar ${user.name}`}>
+                                <Delete />
+                            </button>
+                        )}
+                    </td>
+                </tr>
+            ))}
+        </tbody>
+    </table>
+    {userRows.length === 0 && (
+        <div class="p-6 text-center text-gray-500">No hay usuarios registrados.</div>
+    )}
+</div>
+
+<script>
+    import { actions } from 'astro:actions';
+
+    document.querySelectorAll<HTMLButtonElement>('.btn-eliminar').forEach((button) => {
+        button.addEventListener('click', async () => {
+            const userId = button.dataset.id;
+            const userName = button.dataset.name;
+            if (!userId || !confirm(`¿Eliminar a ${userName}? Esta acción no se puede deshacer.`)) return;
+
+            const { error } = await actions.admin.deleteUser({ id: userId });
+            if (error) {
+                alert(`No se pudo eliminar el usuario: ${error.message}`);
+                return;
+            }
+            window.location.reload();
+        });
+    });
+</script>

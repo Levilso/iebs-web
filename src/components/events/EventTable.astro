@@ -8,9 +8,16 @@ import Edit from '../../assets/svg/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.s
 
 export const prerender = false;
 
-const events = await db.select().from(eventEntry).orderBy(desc(eventEntry.date));
+interface Props {
+    limit?: number;
+}
+
+const { limit } = Astro.props;
+const events = limit
+    ? await db.select().from(eventEntry).orderBy(desc(eventEntry.date)).limit(limit)
+    : await db.select().from(eventEntry).orderBy(desc(eventEntry.date));
 ---
-<div class="bg-white rounded-xl overflow-hidden">
+<div class="overflow-x-auto bg-white rounded-xl">
     <table class="w-full text-left border-collapse">
         <thead>
             <tr class="bg-gray-50 border-b border-gray-200">

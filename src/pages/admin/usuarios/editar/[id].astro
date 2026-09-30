@@ -1,0 +1,87 @@
+---
+export const prerender = false;
+import { eq } from 'drizzle-orm';
+import AdminLayout from '../../../../layouts/AdminLayout.astro';
+import { db } from '../../../../db/client';
+import { users } from '../../../../db/schema';
+
+const user = await db.select().from(users).where(eq(users.id, Astro.params.id ?? '')).get();
+if (!user) Astro.response.status = 404;
+const roleOptions = [
+    ['miembro', 'Miembro'],
+    ['lider_pgm', 'Líder PGM'],
+    ['pastor', 'Pastor'],
+    ['admin', 'Administrador'],
+] as const;
+const statusOptions = [
+    ['pending_password', 'Pendiente de contraseña'],
+    ['active', 'Activo'],
+    ['disabled', 'Desactivado'],
+] as const;
+---
+
+<AdminLayout pageTitle="Editar usuario">
+    <nav class="mb-6">
+        <a href="/admin/usuarios" class="font-medium text-blue-700 hover:text-blue-900">&larr; Volver a usuarios</a>
+    </nav>
+    {user ? (
+        <section class="max-w-2xl border-l-4 border-alternative bg-white p-6 shadow-sm">
+            <h2 class="mb-6 text-2xl font-semibold text-gray-800">Editar usuario</h2>
+            <form id="edit-user-form" data-user-id={user.id} class="grid gap-5">
+                <label class="grid gap-1 text-sm font-medium text-gray-700">
+                    Nombre
+                    <input name="name" required minlength="2" value={user.name} class="rounded border border-gray-300 px-3 py-2 font-normal" />
+                </label>
+                <label class="grid gap-1 text-sm font-medium text-gray-700">
+                    Correo electrónico
+                    <input value={user.email} disabled class="rounded border border-gray-200 bg-gray-100 px-3 py-2 font-normal text-gray-500" />
+                </label>
+                <label class="grid gap-1 text-sm font-medium text-gray-700">
+                    Rol
+                    <select name="role" class="rounded border border-gray-300 px-3 py-2 font-normal">
+                        {roleOptions.map(([value, label]) => <option value={value} selected={user.role === value}>{label}</option>)}
+                    </select>
+                </label>
+                <label class="grid gap-1 text-sm font-medium text-gray-700">
+                    Estado
+                    <select name="status" class="rounded border border-gray-300 px-3 py-2 font-normal">
+                        {statusOptions.map(([value, label]) => <option value={value} selected={user.status === value}>{label}</option>)}
+                    </select>
+                </label>
+                <p id="edit-user-message" class="text-sm" role="status"></p>
+                <div class="flex gap-3">
+                    <button type="submit" class="rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-700">Guardar cambios</button>
+                    <a href="/admin/usuarios" class="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50">Cancelar</a>
+                </div>
+            </form>
+        </section>
+    ) : (
+        <p class="rounded bg-white p-6 text-gray-600">No se encontró el usuario solicitado.</p>
+    )}
+</AdminLayout>
+
+<script>
+    import { actions } from 'astro:actions';
+
+    const form = document.querySelector<HTMLFormElement>('#edit-user-form');
+    const message = document.querySelector<HTMLElement>('#edit-user-message');
+    form?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (!form || !message) return;
+
+        const formData = new FormData(form);
+        const { error } = await actions.admin.updateUser({
+            id: form.dataset.userId ?? '',
+            name: String(formData.get('name')),
+            role: formData.get('role') as 'miembro' | 'lider_pgm' | 'pastor' | 'admin',
+            status: formData.get('status') as 'pending_password' | 'active' | 'disabled',
+        });
+
+        if (error) {
+            message.textContent = error.message;
+            message.className = 'text-sm text-red-600';
+            return;
+        }
+        window.location.href = '/admin/usuarios';
+    });
+</script>
