@@ -30,12 +30,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
         .get();
 
     if (!result || result.session.expiresAt < new Date() || result.user.status !== 'active'){
-        context.cookies.delete('session_id', { path: '/' });
+        await db.delete(sessions).where(eq(sessions.id, sessionId));
         context.locals.user = null;
         return isAdminRoute ? context.redirect('/login') : next();
     }
 
-    if (isAdminRoute && result.user.role !== 'admin') {
+    if (isAdminRoute && result.user.role !== 'Admin') {
         return context.redirect('/');
     }
 

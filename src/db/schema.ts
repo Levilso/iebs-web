@@ -1,4 +1,5 @@
 import { sqliteTable, text, integer, real, uniqueIndex } from 'drizzle-orm/sqlite-core';
+import { USER_ROLES } from '../lib/constants';
 
 // Tabla de Eventos
 export const eventEntry = sqliteTable('event_entry', {
@@ -41,7 +42,7 @@ export const users = sqliteTable('user', {
   id: text('id').primaryKey(),
   email: text('email').notNull().unique(),
   name: text('name').notNull(),
-  role: text('role').$type<Role>().notNull().default('miembro'),
+  role: text({enum: USER_ROLES}).notNull().default('Miembro'),
   passwordHash: text('password_hash'), // Nulo hasta que el usuario la establezca
   status: text('status', { enum: ['pending_password', 'active', 'disabled'] })
     .notNull()

@@ -5,16 +5,17 @@ import { users, invitationTokens, sessions } from '../db/schema';
 import { generateToken } from '../lib/auth';
 import crypto from 'node:crypto';
 import { and, eq } from 'drizzle-orm';
+import { USER_ROLES } from '../lib/constants';
 
-const requireAdmin = (context: { locals: { user: { role: string } | null } }) => {
-  if (context.locals.user?.role !== 'admin') {
-    throw new ActionError({ code: 'UNAUTHORIZED', message: 'Solo un administrador puede gestionar usuarios.' });
+export const requireAdmin = (context: { locals: { user: { role: string } | null } }) => {
+  if (context.locals.user?.role !== 'Admin') {
+    throw new ActionError({ code: 'UNAUTHORIZED', message: 'Necesitas ser un administrador para ejecutar esta acción.' });
   }
 };
 
 const activeAdminCount = async () => {
   const admins = await db.select({ id: users.id }).from(users)
-    .where(and(eq(users.role, 'admin'), eq(users.status, 'active')));
+    .where(and(eq(users.role, 'Admin'), eq(users.status, 'active')));
   return admins.length;
 };
 
@@ -23,7 +24,7 @@ export const admin = {
     input: z.object({
       email: z.email(),
       name: z.string().min(2),
-      role: z.enum(['miembro', 'lider_pgm', 'pastor', 'admin']),
+      role: z.enum(USER_ROLES),
     }),
     handler: async (input, context) => {
       const normalizedEmail = input.email.toLowerCase().trim();
@@ -66,7 +67,7 @@ export const admin = {
     input: z.object({
       id: z.string().min(1),
       name: z.string().min(2),
-      role: z.enum(['miembro', 'lider_pgm', 'pastor', 'admin']),
+      role: z.enum(USER_ROLES),
       status: z.enum(['pending_password', 'active', 'disabled']),
     }),
     handler: async (input, context) => {
@@ -76,8 +77,8 @@ export const admin = {
         throw new ActionError({ code: 'NOT_FOUND', message: 'El usuario no existe.' });
       }
 
-      const remainsActiveAdmin = input.role === 'admin' && input.status === 'active';
-      if (existing.role === 'admin' && existing.status === 'active' && !remainsActiveAdmin && await activeAdminCount() <= 1) {
+      const remainsActiveAdmin = input.role === 'Admin' && input.status === 'active';
+      if (existing.role === 'Admin' && existing.status === 'active' && !remainsActiveAdmin && await activeAdminCount() <= 1) {
         throw new ActionError({ code: 'BAD_REQUEST', message: 'Debe quedar al menos un administrador activo.' });
       }
 
@@ -102,7 +103,7 @@ export const admin = {
       if (!existing) {
         throw new ActionError({ code: 'NOT_FOUND', message: 'El usuario no existe.' });
       }
-      if (existing.role === 'admin' && existing.status === 'active' && await activeAdminCount() <= 1) {
+      if (existing.role === 'Admin' && existing.status === 'active' && await activeAdminCount() <= 1) {
         throw new ActionError({ code: 'BAD_REQUEST', message: 'Debe quedar al menos un administrador activo.' });
       }
 

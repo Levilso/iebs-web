@@ -1,4 +1,4 @@
-import type { Role } from './db/schema';
+import { USER_ROLES } from "./lib/constants";
 
 declare global {
   namespace App {
@@ -7,7 +7,7 @@ declare global {
         id: string;
         email: string;
         name: string;
-        role: Role;
+        role: typeof USER_ROLES[number];
       } | null;
     }
   }

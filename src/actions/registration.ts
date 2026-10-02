@@ -3,7 +3,8 @@ import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'zod';
 import { db } from '../db/client';
 import { eventEntry, registrationEntry } from '../db/schema';
-import { eq, and, sql } from 'drizzle-orm';import { success } from 'astro:schema';
+import { eq, and, sql } from 'drizzle-orm';
+import { requireAdmin } from './admin';
 
 export const registration = {
 
@@ -86,7 +87,8 @@ export const registration = {
         input: z.object({
             id: z.coerce.number(),
         }),
-        handler: async (input) => {
+        handler: async (input, context) => {
+            requireAdmin(context);
             try {
                 const del = await db
                     .delete(registrationEntry)

@@ -9,6 +9,8 @@ import { eq } from 'drizzle-orm';
 import { uploadImage } from '../lib/cloudinary';
 import { EVENT_CATEGORIES } from '../lib/constants';
 
+import { requireAdmin } from './admin';
+
 const eventEntrySchema = z.object({    
     // coerce: forzar la conversión de tipos (los formularios envían todo como string)
 
@@ -28,12 +30,6 @@ const eventEntrySchema = z.object({
     capacity: z.coerce.number().min(1).optional().nullable(),
     category: z.enum(EVENT_CATEGORIES).optional(),
 });
-
-const requireAdmin = (context: { locals: { user: { role: string } | null } }) => {
-    if (context.locals.user?.role !== 'admin') {
-        throw new ActionError({ code: 'UNAUTHORIZED', message: 'Solo un administrador puede gestionar eventos.' });
-    }
-};
 
 export const event = {
 

@@ -7,7 +7,6 @@ import { db } from '../db/client';
 import { users, invitationTokens, sessions } from '../db/schema';
 import { verifyPassword, hashPassword, hashToken } from '../lib/auth';
 
-
 export const auth = {
     // LOGIN
     login: defineAction({
@@ -92,6 +91,7 @@ export const auth = {
             token: z.string(),
             password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
         }),
+        accept: 'form',
         handler: async (input, context) => {
             const hashed = hashToken(input.token);
 
@@ -141,7 +141,7 @@ export const auth = {
                 sameSite: 'lax',
                 expires: expiresAt,
             });
-
+            return { success: true, message: 'Contraseña establecida correctamente. Bienvenido/a!' };
         }
     })
 };
