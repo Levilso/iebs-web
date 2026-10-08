@@ -1,11 +1,11 @@
 import { defineAction, ActionError } from 'astro:actions';
 import { z } from 'zod';
-import { eq } from 'drizzle-orm';
+import { and, eq, gt } from 'drizzle-orm';
 
 import crypto from 'node:crypto';
 import { db } from '../db/client';
 import { users, invitationTokens, sessions } from '../db/schema';
-import { verifyPassword, hashPassword, hashToken } from '../lib/auth';
+import { verifyPassword, hashPassword, hashToken, fakeVerifyPassword } from '../lib/auth';
 
 export const auth = {
     // LOGIN
@@ -14,7 +14,7 @@ export const auth = {
         accept: 'form',
         input: z.object({
             email: z.email(),
-            password: z.string().min(8),
+            password: z.string().min(8).max(128),
         }),
 
         handler: async (input, context) => {
@@ -30,6 +30,7 @@ export const auth = {
                 
             // comprobación de estado: pending_password o disabled
             if (!user || !user.passwordHash || user.status !== 'active') {
+                fakeVerifyPassword(input.password); // para evitar ataques de timing
                 throw new ActionError({
                     code: 'UNAUTHORIZED',
                     message: 'Credenciales incorrectas.'
@@ -39,6 +40,7 @@ export const auth = {
             // verificar la contraseña con crypto.scrypt
             const isValidPassword = await verifyPassword(input.password, user.passwordHash);
             if (!isValidPassword) {
+                fakeVerifyPassword(input.password); // para evitar ataques de timing
                 throw new ActionError({
                     code: 'UNAUTHORIZED',
                     message: 'Credenciales incorrectas.',
@@ -89,51 +91,51 @@ export const auth = {
     setInitialPassword: defineAction({
         input: z.object({
             token: z.string(),
-            password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
+            password: z.string().min(8).max(128),
         }),
         accept: 'form',
         handler: async (input, context) => {
             const hashed = hashToken(input.token);
-
-            // 1. Buscar token en la BD
-            const tokenRecord = await db
-            .select()
-            .from(invitationTokens)
-            .where(eq(invitationTokens.tokenHash, hashed))
-            .get();
-
-            if (!tokenRecord || tokenRecord.expiresAt < new Date()) {
-            throw new ActionError({
-                code: 'BAD_REQUEST',
-                message: 'El enlace es inválido o ha caducado. Solicita uno nuevo al administrador.',
-            });
-            }
-
-            // 2. Hash de la nueva contraseña
-            const passwordHash = await hashPassword(input.password);
-
-            // 3. Actualizar usuario a activo
-            await db
-                .update(users)
-                .set({
-                    passwordHash,
-                    status: 'active',
-                })
-                .where(eq(users.id, tokenRecord.userId));
-
-            // 4. Eliminar el token consumido
-            await db.delete(invitationTokens).where(eq(invitationTokens.id, tokenRecord.id));
-
-            // 5. Iniciar sesión automáticamente (crear sesión y cookie)
+            
             const sessionId = crypto.randomUUID();
             const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // expira en 30 días
 
-            await db.insert(sessions).values({
-                id: sessionId,
-                userId: tokenRecord.userId, 
-                expiresAt,
-              });
+            // Hash de la nueva contraseña. 
+            // Se hace antes para evitar ataques de timing y no dar pistas sobre la validez del token.
+            const passwordHash = await hashPassword(input.password);
 
+            // Atomización de la operación para evitar inconsistencias en caso de error
+            // 1) Verificar token y eliminarlo -> 2) Activar contraseña del usuario -> 3) Crear sesión automáticamente
+            await db.transaction(async (tx) => {
+
+                // Verificar token en la BD y eliminarlo.
+                // Un token consumido o caducado no puede volver a ser encontrado.
+                const [consumed] = await tx
+                    .delete(invitationTokens)
+                    .where(and(
+                        eq(invitationTokens.tokenHash, hashed),
+                        gt(invitationTokens.expiresAt, new Date())
+                    ))
+                    .returning();
+
+                if (!consumed) {
+                    throw new ActionError({
+                        code: 'BAD_REQUEST',
+                        message: 'El enlace es inválido o ha caducado. Solicita uno nuevo al administrador.',
+                    });
+                }
+
+                // Activar contraseña del usuario
+                await tx
+                    .update(users)
+                    .set({ passwordHash, status: 'active', })
+                    .where(eq(users.id, consumed.userId));
+
+                // Crear sesión automáticamente
+                await tx.insert(sessions).values({ id: sessionId, userId: consumed.userId, expiresAt });
+            })
+
+            // Crear cookie, después del éxito en la transacción.
             context.cookies.set('session_id', sessionId, {
                 path: '/',
                 httpOnly: true,
@@ -141,6 +143,7 @@ export const auth = {
                 sameSite: 'lax',
                 expires: expiresAt,
             });
+
             return { success: true, message: 'Contraseña establecida correctamente. Bienvenido/a!' };
         }
     })

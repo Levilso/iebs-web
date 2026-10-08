@@ -62,6 +62,12 @@ const statusLabels = {
                                 <Delete />
                             </button>
                         )}
+                        {user.status === 'pending_password' && (
+                            <button type="button" data-resend={user.id}
+                                class="btn-reenviar cursor-pointer text-sm text-blue-600 hover:text-blue-800">
+                                Reenviar invitación
+                            </button>
+                        )}
                     </td>
                 </tr>
             ))}
@@ -87,6 +93,14 @@ const statusLabels = {
                 return;
             }
             window.location.reload();
+        });
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('.btn-reenviar').forEach((button) => {
+        button.addEventListener('click', async () => {
+            const { data, error } = await actions.admin.resendInvitation({ id: button.dataset.resend! });
+            if (error) return alert(error.message);
+            window.prompt('Copia este enlace:', data.inviteLink);
         });
     });
 </script>

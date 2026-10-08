@@ -35,14 +35,12 @@ export const registrationEntry = sqliteTable('registration', {
   uniqueIndex('unique_email_per_event').on(table.eventId, table.email),
 ]);
 
-// Roles disponibles
-export type Role = 'miembro' | 'lider_pgm' | 'pastor' | 'admin';
-
+// Tabla de Usuarios
 export const users = sqliteTable('user', {
   id: text('id').primaryKey(),
   email: text('email').notNull().unique(),
   name: text('name').notNull(),
-  role: text({enum: USER_ROLES}).notNull().default('Miembro'),
+  role: text({enum: USER_ROLES}).notNull().default('miembro'),
   passwordHash: text('password_hash'), // Nulo hasta que el usuario la establezca
   status: text('status', { enum: ['pending_password', 'active', 'disabled'] })
     .notNull()
@@ -50,12 +48,14 @@ export const users = sqliteTable('user', {
   createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
 });
 
+// Tabla de Sesiones
 export const sessions = sqliteTable('session', {
   id: text('id').primaryKey(),
   userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
   expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
 })
 
+// Tabla de Tokens de Invitación
 export const invitationTokens = sqliteTable('invitation_token', {
   id: text('id').primaryKey(),
   userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),

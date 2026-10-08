@@ -35,9 +35,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
         return isAdminRoute ? context.redirect('/login') : next();
     }
 
-    if (isAdminRoute && result.user.role !== 'Admin') {
-        return context.redirect('/');
-    }
+    // if (isAdminRoute && result.user.role !== 'admin') {
+    //     return context.redirect('/');
+    // }
 
     // exponer usuario autenticado
     context.locals.user = {

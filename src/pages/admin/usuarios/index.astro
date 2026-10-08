@@ -58,7 +58,7 @@ const currentUserId = Astro.locals.user?.id;
         const { data, error } = await actions.admin.createUserByAdmin({
             name: String(formData.get('name')),
             email: String(formData.get('email')),
-            role: formData.get('role') as 'miembro' | 'lider_pgm' | 'pastor' | 'admin',
+            role: formData.get('role') as 'admin' | 'miembro' | 'lider_pgm' | 'pastor',
         });
 
         if (error) {
@@ -67,6 +67,9 @@ const currentUserId = Astro.locals.user?.id;
             inviteLink.classList.add('hidden');
             return;
         }
+
+        const text = `Hola ${String(formData.get('name'))}, activa tu cuenta de la web de la IEBS con este enlace (válido 48 h): ${inviteLink}`;
+        const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
 
         message.textContent = 'Usuario creado. Comparte este enlace para que establezca su contraseña:';
         message.className = 'text-sm text-green-700 md:col-span-2';
